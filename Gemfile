@@ -43,3 +43,7 @@ gem "bcrypt", "~> 3.1.2"
 
 # Use debugger
 # gem "debugger", group: [:development, :test]
+
+# Bootstrap utilities
+gem "bootstrap-sass", "~> 3.1.1.1"
+gem "rails_bootstrap_navbar", "~> 2.0.1"
