@@ -1,4 +1,6 @@
 WlAssassins::Application.routes.draw do
+  resources :users
+
   resources :pages
 
   resources :games

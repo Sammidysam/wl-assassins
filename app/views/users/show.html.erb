@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Password digest:</strong>
+  <%= @user.password_digest %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @user.phone_number %>
+</p>
+
+<p>
+  <strong>Phone number public:</strong>
+  <%= @user.phone_number_public %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @user.address %>
+</p>
+
+<p>
+  <strong>Address public:</strong>
+  <%= @user.address_public %>
+</p>
+
+<p>
+  <strong>Graduation year:</strong>
+  <%= @user.graduation_year %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @user.description %>
+</p>
+
+<p>
+  <strong>Profile picture url:</strong>
+  <%= @user.profile_picture_url %>
+</p>
+
+<p>
+  <strong>Admin:</strong>
+  <%= @user.admin %>
+</p>
+
+<p>
+  <strong>Out of town:</strong>
+  <%= @user.out_of_town %>
+</p>
+
+<p>
+  <strong>Willing to pay amount:</strong>
+  <%= @user.willing_to_pay_amount %>
+</p>
+
+<p>
+  <strong>Paid amount:</strong>
+  <%= @user.paid_amount %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
