@@ -9,5 +9,6 @@ To run:
 
 ```
 bundle install
+rake db:migrate
 rails server
 ```
