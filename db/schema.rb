@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531235235) do
+ActiveRecord::Schema.define(version: 20140601225604) do
 
   create_table "contracts", force: true do |t|
     t.boolean  "completed"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20140531235235) do
     t.boolean  "in_progress"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "started_at"
+    t.datetime "ended_at"
   end
 
   create_table "kills", force: true do |t|
