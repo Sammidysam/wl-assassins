@@ -1,4 +1,5 @@
 WlAssassins::Application.routes.draw do
+  get "dashboard/index"
   resources :teams
 
   resources :users
