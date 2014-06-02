@@ -1,7 +1,9 @@
 WlAssassins::Application.routes.draw do
 	get "session/new"
-	get "session/create"
 	get "session/destroy"
+	post "session/create" => "session#create"
+	post "session/new"
+	
 	get "dashboard" => "dashboard#index"
 	
 	resources :teams
