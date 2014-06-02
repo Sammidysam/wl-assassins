@@ -1,73 +1,73 @@
 <%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+	<% if @user.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+			<ul>
+				<% @user.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password_digest %><br>
-    <%= f.text_field :password_digest %>
-  </div>
-  <div class="field">
-    <%= f.label :phone_number %><br>
-    <%= f.text_field :phone_number %>
-  </div>
-  <div class="field">
-    <%= f.label :phone_number_public %><br>
-    <%= f.check_box :phone_number_public %>
-  </div>
-  <div class="field">
-    <%= f.label :address %><br>
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :address_public %><br>
-    <%= f.check_box :address_public %>
-  </div>
-  <div class="field">
-    <%= f.label :graduation_year %><br>
-    <%= f.number_field :graduation_year %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :profile_picture_url %><br>
-    <%= f.text_field :profile_picture_url %>
-  </div>
-  <div class="field">
-    <%= f.label :admin %><br>
-    <%= f.check_box :admin %>
-  </div>
-  <div class="field">
-    <%= f.label :out_of_town %><br>
-    <%= f.check_box :out_of_town %>
-  </div>
-  <div class="field">
-    <%= f.label :willing_to_pay_amount %><br>
-    <%= f.text_field :willing_to_pay_amount %>
-  </div>
-  <div class="field">
-    <%= f.label :paid_amount %><br>
-    <%= f.text_field :paid_amount %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<div class="field">
+		<%= f.label :name %><br>
+		<%= f.text_field :name %>
+	</div>
+	<div class="field">
+		<%= f.label :email %><br>
+		<%= f.text_field :email %>
+	</div>
+	<div class="field">
+		<%= f.label :password_digest %><br>
+		<%= f.text_field :password_digest %>
+	</div>
+	<div class="field">
+		<%= f.label :phone_number %><br>
+		<%= f.text_field :phone_number %>
+	</div>
+	<div class="field">
+		<%= f.label :phone_number_public %><br>
+		<%= f.check_box :phone_number_public %>
+	</div>
+	<div class="field">
+		<%= f.label :address %><br>
+		<%= f.text_field :address %>
+	</div>
+	<div class="field">
+		<%= f.label :address_public %><br>
+		<%= f.check_box :address_public %>
+	</div>
+	<div class="field">
+		<%= f.label :graduation_year %><br>
+		<%= f.number_field :graduation_year %>
+	</div>
+	<div class="field">
+		<%= f.label :description %><br>
+		<%= f.text_area :description %>
+	</div>
+	<div class="field">
+		<%= f.label :profile_picture_url %><br>
+		<%= f.text_field :profile_picture_url %>
+	</div>
+	<div class="field">
+		<%= f.label :admin %><br>
+		<%= f.check_box :admin %>
+	</div>
+	<div class="field">
+		<%= f.label :out_of_town %><br>
+		<%= f.check_box :out_of_town %>
+	</div>
+	<div class="field">
+		<%= f.label :willing_to_pay_amount %><br>
+		<%= f.text_field :willing_to_pay_amount %>
+	</div>
+	<div class="field">
+		<%= f.label :paid_amount %><br>
+		<%= f.text_field :paid_amount %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
 <% end %>
