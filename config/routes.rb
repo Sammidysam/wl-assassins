@@ -1,5 +1,5 @@
 WlAssassins::Application.routes.draw do
-  get "welcome/index"
+	get "welcome/index"
 	get "session/new"
 	get "session/destroy"
 	post "session/create" => "session#create"
