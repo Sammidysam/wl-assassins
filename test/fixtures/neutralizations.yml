@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  confirmed: false
+  start: 2014-06-02 10:43:17
+  killer_id: 1
+  target_id: 1
+  game_id: 1
+
+two:
+  confirmed: false
+  start: 2014-06-02 10:43:17
+  killer_id: 1
+  target_id: 1
+  game_id: 1
