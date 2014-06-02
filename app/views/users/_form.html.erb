@@ -37,7 +37,7 @@
 	</div>
 	
 	<div class="field">
-		<%= f.label :phone_number_public %><br>
+		<%= f.label :phone_number_public, "Would you like your phone number to be displayed to the team that is contracted to kill you?" %><br>
 		<%= f.check_box :phone_number_public %>
 	</div>
 	
@@ -47,44 +47,37 @@
 	</div>
 	
 	<div class="field">
-		<%= f.label :address_public %><br>
+		<%= f.label :address_public, "Would you like your address to be displayed to the team that is contracted to kill you?" %><br>
 		<%= f.check_box :address_public %>
 	</div>
 	
 	<div class="field">
 		<%= f.label :graduation_year %><br>
-		<%= f.number_field :graduation_year %>
+		<%= f.number_field :graduation_year, value: Date.today.year %>
 	</div>
 	
 	<div class="field">
-		<%= f.label :description %><br>
+		<%= f.label :description, "Describe yourself" %><br>
 		<%= f.text_area :description %>
 	</div>
 	
 	<div class="field">
-		<%= f.label :profile_picture_url %><br>
+		<%= f.label :profile_picture_url, "Direct link (URL) to your profile picture" %><br>
 		<%= f.text_field :profile_picture_url %>
 	</div>
 	
 	<div class="field">
-		<%= f.label :admin %><br>
-		<%= f.check_box :admin %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :out_of_town %><br>
+		<%= f.label :out_of_town, "Are you currently out-of-town?" %><br>
 		<%= f.check_box :out_of_town %>
 	</div>
 	
 	<div class="field">
-		<%= f.label :willing_to_pay_amount %><br>
-		<%= f.text_field :willing_to_pay_amount %>
+		<%= f.label :willing_to_pay_amount, "Are you willing to pay any money for a more extravagant prize for the winners?  If so, how much are you willing to pay?" %><br>
+		<%= f.text_field :willing_to_pay_amount, value: 0.0 %>
 	</div>
-	
-	<div class="field">
-		<%= f.label :paid_amount %><br>
-		<%= f.text_field :paid_amount %>
-	</div>
+
+	<%= f.hidden_field :admin, value: false %>
+	<%= f.hidden_field :paid_amount, value: 0.0 %>
 	
 	<div class="actions">
 		<%= f.submit %>
