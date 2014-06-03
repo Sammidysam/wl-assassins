@@ -4,4 +4,6 @@ class Team < ActiveRecord::Base
 	
 	has_many :games, through: :participations
 	has_many :users, through: :memberships
+
+	validates :name, presence: true
 end
