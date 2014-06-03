@@ -4,20 +4,14 @@ class SessionController < ApplicationController
 	end
 
 	def create
-		fail_message = "Failed to log in!"
-
 		@user = User.find_by email: params["email"]
+		
+		if @user && @user.authenticate(params["password"])
+			session["current_user_id"] = @user.id
 
-		if @user
-			if @user.authenticate params["password"]
-				session["current_user_id"] = @user.id
-
-				redirect_to root_path
-			else
-				redirect_to session_new_path, :alert => fail_message
-			end
+			redirect_to root_path
 		else
-			redirect_to session_new_path, :alert => fail_message
+			redirect_to session_new_path, :alert => "Failed to log in!"
 		end
 	end
 
