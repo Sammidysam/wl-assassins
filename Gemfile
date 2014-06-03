@@ -47,3 +47,6 @@ gem "bcrypt-ruby", "~> 3.1.2"
 # Bootstrap utilities
 gem "bootstrap-sass", "~> 3.1.1.1"
 gem "rails_bootstrap_navbar", "~> 2.0.1"
+
+# Email format
+gem "validates_email_format_of", "~> 1.5.3"
