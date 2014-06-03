@@ -50,3 +50,6 @@ gem "rails_bootstrap_navbar", "~> 2.0.1"
 
 # Email format
 gem "validates_email_format_of", "~> 1.5.3"
+
+# Markdown compiling
+gem "redcarpet", "~> 3.1.2"
