@@ -6,11 +6,9 @@ class SessionController < ApplicationController
 	def create
 		fail_message = "Failed to log in!"
 
-		users = User.where :email => params["email"]
+		@user = User.find_by email: params["email"]
 
-		if users.count > 0
-			@user = users.first
-
+		if @user
 			if @user.authenticate params["password"]
 				session["current_user_id"] = @user.id
 
