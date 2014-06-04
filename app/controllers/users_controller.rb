@@ -54,8 +54,8 @@ class UsersController < ApplicationController
 	# DELETE /users/1
 	# DELETE /users/1.json
 	def destroy
-		# Log out before destroying the current user.
-		session["current_user_id"] = nil
+		# Log out before destroying the user if the user is logged in.
+		session["current_user_id"] = nil if session["current_user_id"] == @user.id
 		
 		@user.destroy
 		
