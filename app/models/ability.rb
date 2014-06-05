@@ -14,7 +14,6 @@ class Ability
 
 		if logged_in
 			can :manage, user
-			cannot :destroy, user
 		end
 
 		can :manage, :all if user.admin?
