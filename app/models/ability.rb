@@ -14,6 +14,7 @@ class Ability
 
 		if logged_in
 			can :manage, user
+			can :manage, Team, users.include?(user)
 		end
 
 		can :manage, :all if user.admin?
