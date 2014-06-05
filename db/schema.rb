@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605161820) do
+ActiveRecord::Schema.define(version: 20140605160047) do
 
   create_table "contracts", force: true do |t|
     t.boolean  "completed"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20140605161820) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sort_index"
+    t.string   "render"
   end
 
   create_table "participations", force: true do |t|
