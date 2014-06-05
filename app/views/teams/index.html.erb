@@ -4,7 +4,6 @@
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th>Description</th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -15,10 +14,9 @@
 		<% @teams.each do |team| %>
 			<tr>
 				<td><%= team.name %></td>
-				<td><%= team.description %></td>
-				<td><%= link_to "Show", team %></td>
-				<td><%= link_to "Edit", edit_team_path(team) %></td>
-				<td><%= link_to "Destroy", team, method: :delete, data: { confirm: "Are you sure?" } %></td>
+				<td><%= link_to "Show", team if can?(:read, team) %></td>
+				<td><%= link_to "Edit", edit_team_path(team) if can?(:update, team) %></td>
+				<td><%= link_to "Destroy", team, method: :delete, data: { confirm: "Are you sure?" } if can?(:destroy, team) %></td>
 			</tr>
 		<% end %>
 	</tbody>
