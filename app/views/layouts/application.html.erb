@@ -15,6 +15,17 @@
 	</head>
 
 	<body>
+		<%= navbar inverse: true do %>
+			<%= navbar_header brand: (current_user ? "Dashboard" : "WL Assassins"), brand_link: root_url %>
+			<%= navbar_collapse do %>
+				<%= navbar_group class: "foo", id: "menu" do %>
+					<% Page.where("sort_index > ?", SortIndex::WELCOME).order(:sort_index).find_each do |page| %>
+						<%= navbar_item page.name, page_path(page) %>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+		
 		<div class="container">
 			<%= yield %>
 		</div>
