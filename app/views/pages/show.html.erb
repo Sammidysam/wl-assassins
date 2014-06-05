@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <% if @page.render %>
-	<%= render @page.render %>
+	<%= render template: @page.render %>
 <% else %>
 	<%= markdown @page.content %>
 <% end %>
