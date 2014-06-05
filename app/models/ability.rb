@@ -13,7 +13,10 @@ class Ability
 		can :read, Page
 
 		if logged_in
-			can :manage, Team, users.include?(user)
+			can :manage, Team.all do |team|
+				team.users.include? user
+			end
+			
 			can :manage, user
 		end
 
