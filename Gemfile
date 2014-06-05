@@ -53,3 +53,6 @@ gem "validates_email_format_of", "~> 1.5.3"
 
 # Markdown compiling
 gem "redcarpet", "~> 3.1.2"
+
+# Permissions
+gem "cancan", "~> 1.6.10"
