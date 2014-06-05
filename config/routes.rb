@@ -1,5 +1,7 @@
 WlAssassins::Application.routes.draw do
+	get "calendar" => "pages#index"
 	get "dashboard" => "dashboard#index"
+	get "history" => "games#index"
 	get "session/destroy"
 	get "session/new"
 	get "welcome/index"
