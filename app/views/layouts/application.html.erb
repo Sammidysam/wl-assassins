@@ -23,6 +23,9 @@
 						<%= navbar_item page.name, page.link || page_path(page) %>
 					<% end %>
 				<% end %>
+				<%= navbar_group align: "right" do %>
+					<%= navbar_item (current_user ? "Log Out" : "Log In"), (current_user ? log_out_path : log_in_path) %>
+				<% end %>
 			<% end %>
 		<% end %>
 		
