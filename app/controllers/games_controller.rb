@@ -3,8 +3,10 @@ class GamesController < ApplicationController
 
 	# GET /games
 	# GET /games.json
+	# Only return games that are completed; the on-going games will be
+	# in the dashboard.
 	def index
-		@games = Game.all
+		@games = Game.where(in_progress: false).not(ended_at: nil)
 	end
 
 	# GET /games/1
