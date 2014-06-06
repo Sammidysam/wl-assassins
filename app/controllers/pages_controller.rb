@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 	# GET /pages
 	# GET /pages.json
 	def index
-		@pages = Page.all
+		@pages = Page.order(:sort_index)
 	end
 
 	# GET /pages/1
