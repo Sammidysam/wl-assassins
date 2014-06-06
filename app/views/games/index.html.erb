@@ -1,10 +1,9 @@
-<h1>Listing games</h1>
+<h1>History</h1>
 
 <table>
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th>In progress</th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -15,10 +14,9 @@
 		<% @games.each do |game| %>
 			<tr>
 				<td><%= game.name %></td>
-				<td><%= game.in_progress %></td>
-				<td><%= link_to "Show", game %></td>
-				<td><%= link_to "Edit", edit_game_path(game) %></td>
-				<td><%= link_to "Destroy", game, method: :delete, data: { confirm: "Are you sure?" } %></td>
+				<td><%= link_to "Show", game if can?(:read, game) %></td>
+				<td><%= link_to "Edit", edit_game_path(game) if can?(:update, game) %></td>
+				<td><%= link_to "Destroy", game, method: :delete, data: { confirm: "Are you sure?" } if can?(:destroy, game) %></td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -26,4 +24,4 @@
 
 <br>
 
-<%= link_to "New Game", new_game_path %>
+<%= link_to "New Game", new_game_path if can?(:create, Game) %>
