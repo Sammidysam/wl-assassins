@@ -11,75 +11,85 @@
 		</div>
 	<% end %>
 
-	<div class="field">
-		<%= f.label :name %><br>
-		<%= f.text_field :name %>
+	<div class="form-group">
+		<%= f.label :name %>
+		<br>
+		<%= f.text_field :name, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :email %><br>
-		<%= f.text_field :email %>
+	<div class="form-group">
+		<%= f.label :email %>
+		<br>
+		<%= f.text_field :email, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :password %><br>
-		<%= f.password_field :password %>
+	<div class="form-group">
+		<%= f.label :password %>
+		<br>
+		<%= f.password_field :password, class: "form-control" %>
 	</div>
 
-	<div class="field">
-		<%= f.label :password_confirmation %><br>
-		<%= f.password_field :password_confirmation %>
+	<div class="form-group">
+		<%= f.label :password_confirmation %>
+		<br>
+		<%= f.password_field :password_confirmation, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :phone_number %><br>
-		<%= f.text_field :phone_number %>
+	<div class="form-group">
+		<%= f.label :phone_number %>
+		<br>
+		<%= f.text_field :phone_number, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :phone_number_public, "Would you like your phone number to be displayed to the team that is contracted to kill you?" %><br>
+	<div class="form-group">
+		<%= f.label :phone_number_public, "Would you like your phone number to be displayed to the team that is contracted to kill you?" %>
 		<%= f.check_box :phone_number_public %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :address %><br>
-		<%= f.text_field :address %>
+	<div class="form-group">
+		<%= f.label :address %>
+		<br>
+		<%= f.text_field :address, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :address_public, "Would you like your address to be displayed to the team that is contracted to kill you?" %><br>
+	<div class="form-group">
+		<%= f.label :address_public, "Would you like your address to be displayed to the team that is contracted to kill you?" %>
 		<%= f.check_box :address_public %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :graduation_year %><br>
-		<%= f.number_field :graduation_year, value: Date.today.year %>
+	<div class="form-group">
+		<%= f.label :graduation_year %>
+		<br>
+		<%= f.number_field :graduation_year, value: Date.today.year, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :description, "Describe yourself (optional)" %><br>
-		<%= f.text_area :description %>
+	<div class="form-group">
+		<%= f.label :description, "Describe yourself (optional)" %>
+		<br>
+		<%= f.text_area :description, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :profile_picture_url, "Direct link (URL) to your profile picture" %><br>
-		<%= f.text_field :profile_picture_url %>
+	<div class="form-group">
+		<%= f.label :profile_picture_url, "Direct link (URL) to your profile picture" %>
+		<br>
+		<%= f.text_field :profile_picture_url, class: "form-control" %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :out_of_town, "Are you currently out-of-town?" %><br>
+	<div class="form-group">
+		<%= f.label :out_of_town, "Are you currently out-of-town?" %>
 		<%= f.check_box :out_of_town %>
 	</div>
 	
-	<div class="field">
-		<%= f.label :willing_to_pay_amount, "Are you willing to pay any money for a more extravagant prize for the winners?  If so, how much are you willing to pay?" %><br>
-		<%= f.text_field :willing_to_pay_amount, value: 0.0 %>
+	<div class="form-group">
+		<%= f.label :willing_to_pay_amount, "Are you willing to pay any money for a more extravagant prize for the winners?  If so, how much are you willing to pay?" %>
+		<br>
+		<%= f.text_field :willing_to_pay_amount, value: 0.0, class: "form-control" %>
 	</div>
 
 	<%= f.hidden_field :admin, value: false %>
 	<%= f.hidden_field :paid_amount, value: 0.0 %>
 	
 	<div class="actions">
-		<%= f.submit %>
+		<%= f.submit class: "btn btn-success" %>
 	</div>
 <% end %>
