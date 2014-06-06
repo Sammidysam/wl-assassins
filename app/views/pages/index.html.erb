@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Content</th>
       <th></th>
       <th></th>
       <th></th>
@@ -15,10 +14,9 @@
     <% @pages.each do |page| %>
       <tr>
         <td><%= page.name %></td>
-        <td><%= page.content %></td>
-        <td><%= link_to 'Show', page %></td>
-        <td><%= link_to 'Edit', edit_page_path(page) %></td>
-        <td><%= link_to 'Destroy', page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Show", page if can?(:read, page) %></td>
+        <td><%= link_to "Edit", edit_page_path(page) if can?(:update, page) %></td>
+        <td><%= link_to "Destroy", page, method: :delete, data: { confirm: "Are you sure?" } if can?(:destroy, page) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +24,4 @@
 
 <br>
 
-<%= link_to 'New Page', new_page_path %>
+<%= link_to "New Page", new_page_path if can?(:create, Page) %>
