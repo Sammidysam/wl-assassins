@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140606190058) do
+ActiveRecord::Schema.define(version: 20140607151457) do
 
   create_table "contracts", force: true do |t|
     t.boolean  "completed"
@@ -102,7 +102,6 @@ ActiveRecord::Schema.define(version: 20140606190058) do
     t.boolean  "admin"
     t.boolean  "out_of_town"
     t.float    "willing_to_pay_amount"
-    t.float    "paid_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
