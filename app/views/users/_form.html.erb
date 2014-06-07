@@ -83,7 +83,10 @@
 	<div class="form-group">
 		<%= f.label :willing_to_pay_amount, "Are you willing to pay any money for a more extravagant prize for the winners?  If so, how much are you willing to pay?" %>
 		<br>
-		<%= f.text_field :willing_to_pay_amount, value: 0.0, class: "form-control" %>
+		<div class="input-group">
+			<span class="input-group-addon">$</span>
+			<%= f.text_field :willing_to_pay_amount, value: "0.00", class: "form-control" %>
+		</div>
 	</div>
 
 	<%= f.hidden_field :admin, value: false %>
