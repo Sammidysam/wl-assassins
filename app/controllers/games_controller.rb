@@ -6,7 +6,7 @@ class GamesController < ApplicationController
 	# Only return games that are completed; the on-going games will be
 	# in the dashboard.
 	def index
-		@games = Game.where("ended_at IS NOT NULL", in_progress: false)
+		@games = Game.where.not(ended_at: nil).where(in_progress: false)
 	end
 
 	# GET /games/1
