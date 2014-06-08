@@ -18,8 +18,8 @@
 			<tr>
 				<td><%= user.name %></td>
 				<td><%= user.email %></td>
-				<td><%= user.phone_number_public || (current_user && current_user.admin) ? user.phone_number : "Hidden" %></td>
-				<td><%= user.address_public || (current_user && current_user.admin) ? user.address : "Hidden" %></td>
+				<td><%= (user.phone_number_public || (current_user && current_user.admin)) ? user.phone_number : "Hidden" %></td>
+				<td><%= (user.address_public || (current_user && current_user.admin)) ? user.address : "Hidden" %></td>
 				<td><%= user.graduation_year %></td>
 				<td><%= user.out_of_town %></td>
 				<td>
