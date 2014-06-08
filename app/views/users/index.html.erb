@@ -5,20 +5,10 @@
 		<tr>
 			<th>Name</th>
 			<th>Email</th>
-			<th>Password digest</th>
-			<th>Phone number</th>
-			<th>Phone number public</th>
+			<th>Phone Number</th>
 			<th>Address</th>
-			<th>Address public</th>
-			<th>Graduation year</th>
-			<th>Description</th>
-			<th>Profile picture url</th>
-			<th>Admin</th>
-			<th>Out of town</th>
-			<th>Willing to pay amount</th>
-			<th>Paid amount</th>
-			<th></th>
-			<th></th>
+			<th>Graduation Class</th>
+			<th>Out of Town</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -28,20 +18,17 @@
 			<tr>
 				<td><%= user.name %></td>
 				<td><%= user.email %></td>
-				<td><%= user.password_digest %></td>
-				<td><%= user.phone_number %></td>
-				<td><%= user.phone_number_public %></td>
-				<td><%= user.address %></td>
-				<td><%= user.address_public %></td>
+				<td><%= user.phone_number_public || (current_user && current_user.admin) ? user.phone_number : "Hidden" %></td>
+				<td><%= user.address_public || (current_user && current_user.admin) ? user.address : "Hidden" %></td>
 				<td><%= user.graduation_year %></td>
-				<td><%= user.description %></td>
-				<td><%= user.profile_picture_url %></td>
-				<td><%= user.admin %></td>
 				<td><%= user.out_of_town %></td>
-				<td><%= user.willing_to_pay_amount %></td>
-				<td><%= link_to 'Show', user %></td>
-				<td><%= link_to 'Edit', edit_user_path(user) %></td>
-				<td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td>
+					<div class="btn-group btn-group-xs">
+						<%= link_to "Show", user, class: "btn btn-default btn-xs" if can?(:read, user) %>
+						<%= link_to "Edit", edit_user_path(user), class: "btn btn-default btn-xs" if can?(:update, user) %>
+						<%= link_to "Destroy", user, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, user) %>
+					</div>
+				</td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -49,4 +36,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to "New User", new_user_path, class: "btn btn-default" if can?(:create, User) %>
