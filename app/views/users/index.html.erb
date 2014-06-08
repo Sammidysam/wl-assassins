@@ -1,50 +1,50 @@
-<h1>Listing users</h1>
+<h1>Users</h1>
 
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Password digest</th>
-      <th>Phone number</th>
-      <th>Phone number public</th>
-      <th>Address</th>
-      <th>Address public</th>
-      <th>Graduation year</th>
-      <th>Description</th>
-      <th>Profile picture url</th>
-      <th>Admin</th>
-      <th>Out of town</th>
-      <th>Willing to pay amount</th>
-      <th>Paid amount</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Password digest</th>
+			<th>Phone number</th>
+			<th>Phone number public</th>
+			<th>Address</th>
+			<th>Address public</th>
+			<th>Graduation year</th>
+			<th>Description</th>
+			<th>Profile picture url</th>
+			<th>Admin</th>
+			<th>Out of town</th>
+			<th>Willing to pay amount</th>
+			<th>Paid amount</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.password_digest %></td>
-        <td><%= user.phone_number %></td>
-        <td><%= user.phone_number_public %></td>
-        <td><%= user.address %></td>
-        <td><%= user.address_public %></td>
-        <td><%= user.graduation_year %></td>
-        <td><%= user.description %></td>
-        <td><%= user.profile_picture_url %></td>
-        <td><%= user.admin %></td>
-        <td><%= user.out_of_town %></td>
-        <td><%= user.willing_to_pay_amount %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+	<tbody>
+		<% @users.each do |user| %>
+			<tr>
+				<td><%= user.name %></td>
+				<td><%= user.email %></td>
+				<td><%= user.password_digest %></td>
+				<td><%= user.phone_number %></td>
+				<td><%= user.phone_number_public %></td>
+				<td><%= user.address %></td>
+				<td><%= user.address_public %></td>
+				<td><%= user.graduation_year %></td>
+				<td><%= user.description %></td>
+				<td><%= user.profile_picture_url %></td>
+				<td><%= user.admin %></td>
+				<td><%= user.out_of_town %></td>
+				<td><%= user.willing_to_pay_amount %></td>
+				<td><%= link_to 'Show', user %></td>
+				<td><%= link_to 'Edit', edit_user_path(user) %></td>
+				<td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
 </table>
 
 <br>
