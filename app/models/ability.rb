@@ -25,6 +25,10 @@ class Ability
 					user.team.contract.target_id == team.id
 				end
 			end
+			
+			can :create, Team
+
+			can :index, Team if user.team
 
 			if user.team
 				can :read, User.all do |can_user|
@@ -40,8 +44,6 @@ class Ability
 			
 			can :manage, user
 			cannot :destroy, user
-			
-			can [:create, :index], Team
 		end
 
 		can :manage, :all if user.admin?
