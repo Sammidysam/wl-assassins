@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :set_team, only: [:show, :edit, :update, :destroy]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove]
 
 	# GET /teams
 	# GET /teams.json
@@ -59,6 +59,30 @@ class TeamsController < ApplicationController
 			format.html { redirect_to teams_url }
 			format.json { head :no_content }
 		end
+	end
+
+	# POST /teams/1/add
+	# POST /teams/1/add.json
+	def add
+		unless user = User.find_by(email: params[:email])
+			redirect_to @team, alert: "#{params[:email]} does not have an account!"
+		else
+			membership = Membership.new
+			membership.active = true
+			membership.user_id = user.id
+			membership.team_id = @team.id
+
+			redirect_to @team, alert: (membership.save ? nil : "Could not join team!")
+		end
+	end
+
+	# POST /teams/1/remove
+	# POST /teams/1/remove.json
+	def remove
+		membership = @team.memberships.find { |membership| membership.user.email == params[:email] && membership.active }
+		membership.active = false
+
+		redirect_to @team, alert: (membership.save ? nil : "Could not remove from team!")
 	end
 
 	private
