@@ -27,7 +27,7 @@
 
 	<br>
 <% else %>
-	No teams viewable.
+	<p>No teams viewable.</p>
 <% end %>
 
 <%= link_to "New Team", new_team_path, class: "btn btn-default" if can?(:create, Team) %>

@@ -1,39 +1,43 @@
 <h1>Users</h1>
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Phone Number</th>
-			<th>Address</th>
-			<th>Graduation Class</th>
-			<th>Out of Town</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<% @users.each do |user| %>
+<% if @users.count > 0 %>
+	<table>
+		<thead>
 			<tr>
-				<td><%= user.name %></td>
-				<td><%= user.email %></td>
-				<td><%= (user.phone_number_public || (current_user && current_user.admin)) ? user.phone_number : "Hidden" %></td>
-				<td><%= (user.address_public || (current_user && current_user.admin)) ? user.address : "Hidden" %></td>
-				<td><%= user.graduation_year %></td>
-				<td><%= user.out_of_town %></td>
-				<td>
-					<div class="btn-group btn-group-xs">
-						<%= link_to "Show", user, class: "btn btn-default btn-xs" if can?(:read, user) %>
-						<%= link_to "Edit", edit_user_path(user), class: "btn btn-default btn-xs" if can?(:update, user) %>
-						<%= link_to "Destroy", user, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, user) %>
-					</div>
-				</td>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone Number</th>
+				<th>Address</th>
+				<th>Graduation Class</th>
+				<th>Out of Town</th>
+				<th>Actions</th>
 			</tr>
-		<% end %>
-	</tbody>
-</table>
+		</thead>
 
-<br>
+		<tbody>
+			<% @users.each do |user| %>
+				<tr>
+					<td><%= user.name %></td>
+					<td><%= user.email %></td>
+					<td><%= (user.phone_number_public || (current_user && current_user.admin)) ? user.phone_number : "Hidden" %></td>
+					<td><%= (user.address_public || (current_user && current_user.admin)) ? user.address : "Hidden" %></td>
+					<td><%= user.graduation_year %></td>
+					<td><%= user.out_of_town %></td>
+					<td>
+						<div class="btn-group btn-group-xs">
+							<%= link_to "Show", user, class: "btn btn-default btn-xs" if can?(:read, user) %>
+							<%= link_to "Edit", edit_user_path(user), class: "btn btn-default btn-xs" if can?(:update, user) %>
+							<%= link_to "Destroy", user, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, user) %>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+
+	<br>
+<% else %>
+	<p>No users viewable.</p>
+<% end %>
 
 <%= link_to "New User", new_user_path, class: "btn btn-default" if can?(:create, User) %>
