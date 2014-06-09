@@ -1,27 +1,33 @@
-<h1>Listing teams</h1>
+<h1>Teams</h1>
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<% @teams.each do |team| %>
+<% if @teams.size > 0 %>
+	<table>
+		<thead>
 			<tr>
-				<td><%= team.name %></td>
-				<td><%= link_to "Show", team if can?(:read, team) %></td>
-				<td><%= link_to "Edit", edit_team_path(team) if can?(:update, team) %></td>
-				<td><%= link_to "Destroy", team, method: :delete, data: { confirm: "Are you sure?" } if can?(:destroy, team) %></td>
+				<th>Name</th>
+				<th>Actions</th>
 			</tr>
-		<% end %>
-	</tbody>
-</table>
+		</thead>
 
-<br>
+		<tbody>
+			<% @teams.each do |team| %>
+				<tr>
+					<td><%= team.name %></td>
+					<td>
+						<div class="btn-group btn-group-xs">
+							<%= link_to "Show", team, class: "btn btn-default btn-xs" if can?(:read, team) %>
+							<%= link_to "Edit", edit_team_path(team), class: "btn btn-default btn-xs" if can?(:update, team) %>
+							<%= link_to "Destroy", team, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, team) %>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
 
-<%= link_to "New Team", new_team_path %>
+	<br>
+<% else %>
+	No teams viewable.
+<% end %>
+
+<%= link_to "New Team", new_team_path if can?(:create, Team) %>
