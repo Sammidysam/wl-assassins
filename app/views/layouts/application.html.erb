@@ -30,6 +30,13 @@
 		<% end %>
 		
 		<div class="container">
+			<% flash.each do |type, message| %>
+				<div class="alert alert-<%= type == "notice" ? "success" : "danger" %>">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<%= content_tag :div, message, id: "flash_#{type}" %>
+				</div>
+			<% end %>
+			
 			<%= yield %>
 		</div>
 	</body>
