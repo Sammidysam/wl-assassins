@@ -11,7 +11,7 @@ class SessionController < ApplicationController
 
 			redirect_to root_path
 		else
-			redirect_to session_new_path, alert: "Failed to log in!"
+			redirect_to log_in_path, alert: "Failed to log in!"
 		end
 	end
 
