@@ -62,7 +62,6 @@ class TeamsController < ApplicationController
 	end
 
 	# POST /teams/1/add
-	# POST /teams/1/add.json
 	def add
 		unless user = User.find_by(email: params[:email])
 			redirect_to @team, alert: "#{params[:email]} does not have an account!"
@@ -77,9 +76,8 @@ class TeamsController < ApplicationController
 	end
 
 	# POST /teams/1/remove
-	# POST /teams/1/remove.json
 	def remove
-		membership = @team.memberships.find { |membership| membership.user.email == params[:email] && membership.active }
+		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active }
 		membership.active = false
 
 		redirect_to @team, alert: (membership.save ? nil : "Could not remove from team!")
