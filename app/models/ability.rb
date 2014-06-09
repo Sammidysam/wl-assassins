@@ -8,13 +8,22 @@ class Ability
 		user ||= User.new
 
 		can :create, User
-
-		can :read, Game
+		
 		can :read, Page
+
+		can :read, Game.all do |game|
+			game.completed?
+		end
 
 		if logged_in
 			can :manage, Team.all do |team|
-				team.users.include? user
+				team.members.include? user
+			end
+
+			if user.team && user.team.contract.target
+				can :read, Team.all do |team|
+					user.team.contract.target_id == team.id
+				end
 			end
 
 			if user.team
