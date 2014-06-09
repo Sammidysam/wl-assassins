@@ -40,6 +40,8 @@ class Ability
 			
 			can :manage, user
 			cannot :destroy, user
+
+			can :create, Team
 		end
 
 		can :manage, :all if user.admin?
