@@ -10,9 +10,7 @@ class Team < ActiveRecord::Base
 	validates :name, presence: true
 
 	def member_count_cannot_be_greater_than_four
-		if members.count > 4
-			errors.add :users, "cannot have a count greater than four"
-		end
+		errors.add :users, "cannot have a count greater than four" if members.count > 4
 	end
 
 	# Returns only the user who are current members of team.
