@@ -1,14 +1,59 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-	<strong>Name:</strong>
-	<%= @team.name %>
-</p>
+<table style="max-width: inherit">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
 
-<p>
-	<strong>Description:</strong>
-	<%= @team.description %>
-</p>
+	<tbody>
+		<tr>
+			<td>
+				<%= image_tag @team.logo_url, size: "200" if @team.logo_url %>
 
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Back', teams_path %>
+				<h1><%= @team.name %></h1>
+			</td>
+			<% @team.members.each do |member| %>
+				<td>
+					<%= image_tag member.profile_picture_url, size: "150" %>
+
+					<h2><%= member.name %></h2>
+
+					<%= form_tag remove_team_path(@team) do %>
+						<%= hidden_field_tag :email, member.email %>
+						
+						<%= submit_tag "Remove", class: "btn btn-danger" %>
+					<% end %>
+				</td>
+			<% end %>
+			<% (4 - @team.members.count).times do %>
+				<td>
+					<% if can? :update, @team %>
+						<%= form_tag add_team_path(@team) do %>
+							<h2>Add Member</h2>
+							
+							<%= text_field_tag :email, nil, placeholder: "Email" %>
+							
+							<%= submit_tag "Go", class: "btn btn-success" %>
+						<% end %>
+					<% else %>
+						<h2>No Member</h2>
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+	</tbody>
+</table>
+
+<% if @team.description %>
+	<p>
+		<%= markdown @team.description %>
+	</p>
+<% end %>
+
+<%= link_to "Edit", edit_team_path(@team) if can?(:update, @team) %>
