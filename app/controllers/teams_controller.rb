@@ -82,7 +82,7 @@ class TeamsController < ApplicationController
 		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active }
 		membership.active = false
 
-		redirect_to @team, alert: (membership.save ? nil : "Could not remove from team!")
+		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
 	end
 
 	private
