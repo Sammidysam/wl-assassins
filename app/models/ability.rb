@@ -15,6 +15,8 @@ class Ability
 			game.completed?
 		end
 
+		can :index, Game
+
 		if logged_in
 			can :manage, Team.all do |team|
 				team.members.include? user
@@ -27,7 +29,6 @@ class Ability
 			end
 			
 			can :create, Team
-
 			can :index, Team if user.team
 
 			if user.team
