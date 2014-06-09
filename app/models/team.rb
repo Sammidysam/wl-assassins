@@ -11,4 +11,14 @@ class Team < ActiveRecord::Base
 	def members
 		self.memberships.map { |membership| membership.user if membership.active }
 	end
+
+	# Returns the current participation for the team.
+	def participation
+		self.participations.find { |participation| participation.game.in_progress }
+	end
+
+	# Returns the current contract for the team.
+	def contract
+		participation.contracts.find { |contract| !contract.completed }
+	end
 end
