@@ -34,7 +34,7 @@ class Ability
 
 			if user.team && user.team.contract && user.team.contract.target
 				can :read, User.all do |can_user|
-					user.team.target.members.include? can_user
+					user.team.contract.target.members.include? can_user
 				end
 			end
 			
