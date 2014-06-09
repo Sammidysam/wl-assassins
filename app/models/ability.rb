@@ -16,8 +16,21 @@ class Ability
 			can :manage, Team.all do |team|
 				team.users.include? user
 			end
+
+			if user.team
+				can :read, User.all do |can_user|
+					user.team.members.include? can_user
+				end
+			end
+
+			if user.team && user.team.contract.target
+				can :read, User.all do |can_user|
+					user.team.contract.target.members.include? can_user
+				end
+			end
 			
 			can :manage, user
+			cannot :destroy, user
 		end
 
 		can :manage, :all if user.admin?
