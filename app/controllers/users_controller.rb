@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: [:show, :edit, :update, :destroy]
+	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town]
 
 	# GET /users
 	# GET /users.json
@@ -63,6 +63,14 @@ class UsersController < ApplicationController
 			format.html { redirect_to users_url }
 			format.json { head :no_content }
 		end
+	end
+
+	# POST /users/1/out_of_town
+	# Toggles the out_of_town boolean in @user.
+	def out_of_town
+		@user.toggle :out_of_town
+
+		redirect_to @user, alert: (@user.save ? nil : "Could not toggle out-of-town!")
 	end
 
 	private
