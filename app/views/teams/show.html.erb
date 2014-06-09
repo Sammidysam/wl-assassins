@@ -27,7 +27,7 @@
 				<%= form_tag add_team_path(@team) do %>
 					<h2>Add Member</h2>
 					
-					<%= text_field_tag :email, nil, placeholder: "Email" %>
+					<%= text_field_tag :email, nil, placeholder: "Email", class: "form-control" %>
 					
 					<%= submit_tag "Go", class: "btn btn-success" %>
 				<% end %>
