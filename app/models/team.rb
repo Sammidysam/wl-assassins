@@ -17,7 +17,7 @@ class Team < ActiveRecord::Base
 
 	# Returns only the user who are current members of team.
 	def members
-		self.memberships.map { |membership| membership.user if membership.active }
+		self.memberships.where(active: true).map { |membership| membership.user }
 	end
 
 	# Returns the current participation for the team.
