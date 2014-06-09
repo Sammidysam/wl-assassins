@@ -20,7 +20,7 @@ class Ability
 				team.members.include? user
 			end
 
-			if user.team && user.team.contract.target
+			if user.team && user.team.contract && user.team.contract.target
 				can :read, Team.all do |team|
 					user.team.contract.target_id == team.id
 				end
@@ -32,7 +32,7 @@ class Ability
 				end
 			end
 
-			if user.team && user.team.contract.target
+			if user.team && user.team.contract && user.team.contract.target
 				can :read, User.all do |can_user|
 					user.team.contract.target.members.include? can_user
 				end
