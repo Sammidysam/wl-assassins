@@ -41,6 +41,8 @@ class Ability
 					user.team.contract.target.members.include? can_user
 				end
 			end
+
+			can :index, User
 			
 			can :manage, user
 			cannot :destroy, user
