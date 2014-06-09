@@ -1,2 +1,37 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<h1>Dashboard</h1>
+
+<% if current_user.admin %>
+	<% if @pregames.count > 0 %>
+		<h2>Games To Be Started</h2>
+
+		<% @pregames.each do |game| %>
+			<p><%= link_to game.name, game %></p>
+		<% end %>
+	<% end %>
+
+	<% if @ongoing_games.count > 0 %>
+		<h2>Current Games</h2>
+
+		<% @ongoing_games.each do |game| %>
+			<p><%= link_to game.name, game %></p>
+		<% end %>
+	<% end %>
+<% else %>
+	<p>
+		You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
+
+		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
+	</p>
+
+	<p>
+		<% if @team %>
+			You are a member of <%= link_to @team.name, @team %>.
+		<% else %>
+			You are not a member of any team.
+			A friend may add you to their team via your email.
+			Otherwise, you should create your own team.
+
+			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
+		<% end %>
+	</p>
+<% end %>

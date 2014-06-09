@@ -35,8 +35,6 @@
 			<%= @user.out_of_town %>
 		</p>
 
-		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(@user), method: :post, class: "btn btn-default" if can?(:update, @user) %>
-
 		<% if @user.description %>
 			<p><%= markdown @user.description %></p>
 		<% end %>

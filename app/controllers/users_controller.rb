@@ -70,7 +70,7 @@ class UsersController < ApplicationController
 	def out_of_town
 		@user.toggle :out_of_town
 
-		redirect_to @user, alert: (@user.save ? nil : "Could not toggle out-of-town!")
+		redirect_to dashboard_path, alert: (@user.save ? nil : "Could not toggle out-of-town!")
 	end
 
 	private
