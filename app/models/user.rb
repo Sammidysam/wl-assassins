@@ -12,4 +12,11 @@ class User < ActiveRecord::Base
 	validates :email, uniqueness: true, email_format: { message: "is not valid" }
 	validates :graduation_year, numericality: { greater_than_or_equal_to: Date.today.year, less_than_or_equal_to: Date.today.year + 4 }
 	validates :phone_number, format: { with: /\d{3}-\d{3}-\d{4}|\d{3}-\d{4}/, message: "has an incorrect format" }
+
+	# Returns the current team for the user.
+	def team
+		membership = self.memberships.find_by active: true
+
+		membership.team if membership
+	end
 end
