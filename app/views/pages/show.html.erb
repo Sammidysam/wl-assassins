@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <%= markdown @page.content %>
 
 <%= link_to "Edit", edit_page_path(@page) if can?(:update, @page) %>
