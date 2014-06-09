@@ -1,69 +1,46 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+	<div class="col-md-4">
+		<%= image_tag @user.profile_picture_url, width: "100%" %>
 
-<p>
-	<strong>Name:</strong>
-	<%= @user.name %>
-</p>
+		<h1><%= @user.name %></h1>
+	</div>
+	
+	<div class="col-md-8">
+		<p>
+			<strong>Email:</strong>
+			<%= @user.email %>
+		</p>
 
-<p>
-	<strong>Email:</strong>
-	<%= @user.email %>
-</p>
+		<% if @user.phone_number_public %>
+			<p>
+				<strong>Phone number:</strong>
+				<%= @user.phone_number %>
+			</p>
+		<% end %>
 
-<p>
-	<strong>Password digest:</strong>
-	<%= @user.password_digest %>
-</p>
+		<% if @user.address_public %>
+			<p>
+				<strong>Address:</strong>
+				<%= @user.address %>
+			</p>
+		<% end %>
 
-<p>
-	<strong>Phone number:</strong>
-	<%= @user.phone_number %>
-</p>
+		<p>
+			<strong>Graduation year:</strong>
+			<%= @user.graduation_year %>
+		</p>
 
-<p>
-	<strong>Phone number public:</strong>
-	<%= @user.phone_number_public %>
-</p>
+		<p>
+			<strong>Out of town:</strong>
+			<%= @user.out_of_town %>
+		</p>
 
-<p>
-	<strong>Address:</strong>
-	<%= @user.address %>
-</p>
+		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(@user), method: :post, class: "btn btn-default" if can?(:update, @user) %>
 
-<p>
-	<strong>Address public:</strong>
-	<%= @user.address_public %>
-</p>
+		<% if @user.description %>
+			<p><%= markdown @user.description %></p>
+		<% end %>
+	</div>
+</div>
 
-<p>
-	<strong>Graduation year:</strong>
-	<%= @user.graduation_year %>
-</p>
-
-<p>
-	<strong>Description:</strong>
-	<%= @user.description %>
-</p>
-
-<p>
-	<strong>Profile picture url:</strong>
-	<%= @user.profile_picture_url %>
-</p>
-
-<p>
-	<strong>Admin:</strong>
-	<%= @user.admin %>
-</p>
-
-<p>
-	<strong>Out of town:</strong>
-	<%= @user.out_of_town %>
-</p>
-
-<p>
-	<strong>Willing to pay amount:</strong>
-	<%= @user.willing_to_pay_amount %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to "Edit", edit_user_path(@user), class: "btn btn-default" if can?(:update, @user) %>
