@@ -5,7 +5,15 @@ class Team < ActiveRecord::Base
 	has_many :games, through: :participations
 	has_many :users, through: :memberships
 
+	validate :member_count_cannot_be_greater_than_four
+	
 	validates :name, presence: true
+
+	def member_count_cannot_be_greater_than_four
+		if members.count > 4
+			errors.add :users, "cannot have a count greater than four"
+		end
+	end
 
 	# Returns only the user who are current members of team.
 	def members
