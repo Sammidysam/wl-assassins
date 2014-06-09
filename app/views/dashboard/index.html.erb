@@ -28,7 +28,7 @@
 			You are a member of <%= link_to @team.name, @team %>.
 		<% else %>
 			You are not a member of any team.
-			A friend may add you to their team via your email.
+			A friend may add you to their team; they simply need to know your email address.
 			Otherwise, you should create your own team.
 
 			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
