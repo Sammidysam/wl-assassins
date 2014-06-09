@@ -8,8 +8,7 @@ class Ability
 		user ||= User.new
 
 		can :create, User
-
-		can :index, Page
+		
 		can :read, Page
 
 		can :read, Game.all do |game|
