@@ -4,7 +4,7 @@ class TeamsController < ApplicationController
 	# GET /teams
 	# GET /teams.json
 	def index
-		@teams = Team.all
+		@teams = Team.select { |team| can? :read, team }
 	end
 
 	# GET /teams/1
