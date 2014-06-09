@@ -27,4 +27,9 @@ class Team < ActiveRecord::Base
 	def contract
 		participation.contracts.find { |contract| !contract.completed } if participation
 	end
+
+	# Returns the current target for the team.
+	def target
+		contract.target if contract
+	end
 end
