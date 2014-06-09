@@ -30,4 +30,4 @@
 	No teams viewable.
 <% end %>
 
-<%= link_to "New Team", new_team_path if can?(:create, Team) %>
+<%= link_to "New Team", new_team_path, class: "btn btn-default" if can?(:create, Team) %>

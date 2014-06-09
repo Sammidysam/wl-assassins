@@ -56,4 +56,4 @@
 	</p>
 <% end %>
 
-<%= link_to "Edit", edit_team_path(@team) if can?(:update, @team) %>
+<%= link_to "Edit", edit_team_path(@team), class: "btn btn-default" if can?(:update, @team) %>
