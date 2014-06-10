@@ -11,14 +11,14 @@
 			<%= @user.email %>
 		</p>
 
-		<% if @user.phone_number_public %>
+		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
 			<p>
 				<strong>Phone number:</strong>
 				<%= @user.phone_number %>
 			</p>
 		<% end %>
 
-		<% if @user.address_public %>
+		<% if @user.address_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
 			<p>
 				<strong>Address:</strong>
 				<%= @user.address %>
