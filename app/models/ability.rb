@@ -28,7 +28,7 @@ class Ability
 				end
 			end
 			
-			can :create, Team
+			can :create, Team if !user.team
 			can :index, Team if user.team
 
 			if user.team

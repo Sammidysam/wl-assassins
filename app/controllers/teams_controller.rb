@@ -30,10 +30,18 @@ class TeamsController < ApplicationController
 
 		respond_to do |format|
 			if @team.save
-				format.html { redirect_to @team, notice: 'Team was successfully created.' }
-				format.json { render action: 'show', status: :created, location: @team }
+				format.html do
+					# Add current user to team.
+					membership = Membership.new
+					membership.active = true
+					membership.user_id = current_user.id
+					membership.team_id = @team.id
+					
+					redirect_to @team, notice: "Team was successfully created.", alert: (membership.save ? nil : "Could not join created team.")
+				end
+				format.json { render action: "show", status: :created, location: @team }
 			else
-				format.html { render action: 'new' }
+				format.html { render action: "new" }
 				format.json { render json: @team.errors, status: :unprocessable_entity }
 			end
 		end
@@ -44,10 +52,10 @@ class TeamsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @team.update(team_params)
-				format.html { redirect_to @team, notice: 'Team was successfully updated.' }
+				format.html { redirect_to @team, notice: "Team was successfully updated." }
 				format.json { head :no_content }
 			else
-				format.html { render action: 'edit' }
+				format.html { render action: "edit" }
 				format.json { render json: @team.errors, status: :unprocessable_entity }
 			end
 		end
