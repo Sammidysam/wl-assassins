@@ -6,10 +6,12 @@
 	</div>
 	
 	<div class="col-md-8">
-		<p>
-			<strong>Email:</strong>
-			<%= @user.email %>
-		</p>
+		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
+			<p>
+				<strong>Email:</strong>
+				<%= @user.email %>
+			</p>
+		<% end %>
 
 		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
 			<p>

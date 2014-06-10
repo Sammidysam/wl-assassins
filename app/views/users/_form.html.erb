@@ -22,6 +22,12 @@
 		<br>
 		<%= f.text_field :email, class: "form-control" %>
 	</div>
+
+	<div class="form-group">
+		<%= f.label :email_public, "Would you like your email to be displayed to the team that is contracted to kill you?" %>
+		It will be visible to members of your team, yourself, and admins, regardless of this option.
+		<%= f.check_box :email_public %>
+	</div>
 	
 	<div class="form-group">
 		<%= f.label :password %>
