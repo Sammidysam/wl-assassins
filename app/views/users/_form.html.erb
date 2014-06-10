@@ -95,7 +95,7 @@
 		<br>
 		<div class="input-group">
 			<span class="input-group-addon">$</span>
-			<%= f.text_field :willing_to_pay_amount, value: @user.willing_to_pay_amount || "0.00", class: "form-control" %>
+			<%= f.text_field :willing_to_pay_amount, value: @user.willing_to_pay_amount ? number_with_precision(@user.willing_to_pay_amount, precision: 2) : "0.00", class: "form-control" %>
 		</div>
 	</div>
 	
