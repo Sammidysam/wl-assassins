@@ -56,3 +56,6 @@ gem "redcarpet", "~> 3.1.2"
 
 # Permissions
 gem "cancan", "~> 1.6.10"
+
+# Heroku compatibility
+gem "rails_12factor", group: :production
