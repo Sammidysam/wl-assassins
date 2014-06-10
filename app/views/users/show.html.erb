@@ -6,21 +6,21 @@
 	</div>
 	
 	<div class="col-md-8">
-		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
+		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include?(current_user)) %>
 			<p>
 				<strong>Email:</strong>
 				<%= @user.email %>
 			</p>
 		<% end %>
 
-		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
+		<% if @user.phone_number_public || current_user.admin || (@user.team && @user.team.members.include?(current_user)) %>
 			<p>
 				<strong>Phone number:</strong>
 				<%= @user.phone_number %>
 			</p>
 		<% end %>
 
-		<% if @user.address_public || current_user.admin || (@user.team && @user.team.members.include? current_user) %>
+		<% if @user.address_public || current_user.admin || (@user.team && @user.team.members.include?(current_user)) %>
 			<p>
 				<strong>Address:</strong>
 				<%= @user.address %>
