@@ -5,9 +5,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th></th>
-				<th></th>
-				<th></th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 
@@ -15,9 +13,13 @@
 			<% @games.each do |game| %>
 				<tr>
 					<td><%= game.name %></td>
-					<td><%= link_to "Show", game if can?(:read, game) %></td>
-					<td><%= link_to "Edit", edit_game_path(game) if can?(:update, game) %></td>
-					<td><%= link_to "Destroy", game, method: :delete, data: { confirm: "Are you sure?" } if can?(:destroy, game) %></td>
+					<td>
+						<div class="btn-group btn-group-xs">
+							<%= link_to "Show", game, class: "btn btn-default btn-xs" if can?(:read, game) %>
+							<%= link_to "Edit", edit_game_path(game), class: "btn btn-default btn-xs" if can?(:update, game) %>
+							<%= link_to "Destroy", game, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, game) %>
+						</div>
+					</td>
 				</tr>
 			<% end %>
 		</tbody>
@@ -28,4 +30,4 @@
 	<p>No history yet!</p>
 <% end %>
 
-<%= link_to "New Game", new_game_path if can?(:create, Game) %>
+<%= link_to "New Game", new_game_path, class: "btn btn-default" if can?(:create, Game) %>

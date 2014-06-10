@@ -1,12 +1,11 @@
 <p>
-  <strong>Name:</strong>
-  <%= @game.name %>
+	<strong>Name:</strong>
+	<%= @game.name %>
 </p>
 
 <p>
-  <strong>In progress:</strong>
-  <%= @game.in_progress %>
+	<strong>In progress:</strong>
+	<%= @game.in_progress %>
 </p>
 
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>
+<%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
