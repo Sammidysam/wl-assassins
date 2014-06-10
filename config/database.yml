@@ -14,9 +14,17 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
+development:
   adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 5
+  host: localhost
+  database: wl-assassins-development
+
+test:
+  adapter: postgresql
+  host: localhost
+  database: wl-assassins-test
+
+production:
+  adapter: postgresql
+  host: localhost
+  database: wl-assassins-production
