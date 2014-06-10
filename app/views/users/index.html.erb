@@ -17,9 +17,9 @@
 		<% @users.each do |user| %>
 			<tr>
 				<td><%= user.name %></td>
-				<td><%= (user.email_public || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.email : "Hidden" %></td>
-				<td><%= (user.phone_number_public || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.phone_number : "Hidden" %></td>
-				<td><%= (user.address_public || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.address : "Hidden" %></td>
+				<td><%= (user.email_public || user.id == current_user.id || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.email : "Hidden" %></td>
+				<td><%= (user.phone_number_public || user.id == current_user.id || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.phone_number : "Hidden" %></td>
+				<td><%= (user.address_public || user.id == current_user.id || current_user.admin || (user.team && user.team.members.include?(current_user))) ? user.address : "Hidden" %></td>
 				<td><%= user.graduation_year %></td>
 				<td><%= user.out_of_town %></td>
 				<td>
