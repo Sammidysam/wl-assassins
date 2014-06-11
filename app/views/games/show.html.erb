@@ -1,4 +1,7 @@
 <h1><%= @game.name %></h1>
 
+<% unless @game.completed? %>
+	
+<% end %>
 
 <%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
