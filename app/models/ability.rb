@@ -13,7 +13,8 @@ class Ability
 		can :read, User.all do |inner_user|
 			inner_user.admin
 		end
-		
+
+		can :day, Page
 		can :read, Page
 
 		can :read, Game.all do |game|
