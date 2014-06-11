@@ -42,7 +42,7 @@
 		</p>
 
 		<% if @user.description %>
-			<p><%= markdown @user.description %></p>
+			<p><%= simple_format @user.description %></p>
 		<% end %>
 	</div>
 </div>
