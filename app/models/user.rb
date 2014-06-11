@@ -19,4 +19,9 @@ class User < ActiveRecord::Base
 
 		membership.team if membership
 	end
+
+	# Returns true if the user is on the given team.
+	def on_team?(team)
+		self.team.id == team.id
+	end
 end
