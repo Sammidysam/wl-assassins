@@ -21,7 +21,7 @@
 				<td><%= (user.phone_number_public || (current_user && (user.id == current_user.id || current_user.admin || (user.team && user.team.members.include?(current_user))))) ? user.phone_number : "Hidden" %></td>
 				<td><%= (user.address_public || (current_user && (user.id == current_user.id || current_user.admin || (user.team && user.team.members.include?(current_user))))) ? user.address : "Hidden" %></td>
 				<td><%= user.graduation_year %></td>
-				<td><%= user.out_of_town %></td>
+				<td><%= user.out_of_town.humanize %></td>
 				<td>
 					<div class="btn-group btn-group-xs">
 						<%= link_to "Show", user, class: "btn btn-default btn-xs" if can?(:read, user) %>
