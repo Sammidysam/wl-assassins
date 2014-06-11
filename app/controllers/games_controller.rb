@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove]
 
 	load_and_authorize_resource
 
@@ -61,6 +61,16 @@ class GamesController < ApplicationController
 			format.html { redirect_to games_url }
 			format.json { head :no_content }
 		end
+	end
+
+	# POST /games/1/add
+	def add
+		
+	end
+
+	# POST /games/1/remove
+	def remove
+		
 	end
 
 	private
