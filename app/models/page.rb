@@ -1,7 +1,5 @@
 class Page < ActiveRecord::Base
-	before_validation do
-		self.link = nil if self.link && self.link.empty?
-	end
+	nilify_blanks
 	
 	validates :name, presence: true
 	validates :name, :sort_index, uniqueness: true
