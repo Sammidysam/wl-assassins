@@ -8,6 +8,11 @@ class Ability
 		user ||= User.new
 
 		can :create, User
+		can :index, User
+
+		can :read, User.all do |inner_user|
+			inner_user.admin
+		end
 		
 		can :read, Page
 
