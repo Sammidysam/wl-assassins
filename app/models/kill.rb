@@ -2,4 +2,15 @@ class Kill < ActiveRecord::Base
 	belongs_to :participation
 	
 	belongs_to :target, class_name: "User"
+
+	# Returns when this is an event.
+	# date is a pointless argument to maintain compatibility with Neutralization.
+	def event_time(date)
+		self.occurred_at
+	end
+
+	# Returns the team that conducted the kill.
+	def team
+		self.participation.team
+	end
 end
