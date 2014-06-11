@@ -15,6 +15,8 @@ WlAssassins::Application.routes.draw do
 	resources :teams do
 		post "add", on: :member
 		post "remove", on: :member
+		post "kill", on: :member
+		post "neutralize", on: :member
 	end
 	
 	resources :users do
