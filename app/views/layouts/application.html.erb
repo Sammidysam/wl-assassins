@@ -19,7 +19,7 @@
 			<%= navbar_header brand: (current_user ? "Dashboard" : "WL Assassins"), brand_link: root_url %>
 			<%= navbar_collapse do %>
 				<%= navbar_group class: "foo", id: "menu" do %>
-					<% Page.where("sort_index > ?", SortIndex::WELCOME).order(:sort_index).find_each do |page| %>
+					<% Page.where("sort_index > ?", SortIndex::WELCOME).order(:sort_index).each do |page| %>
 						<%= navbar_item page.name, page.link || page_path(page) %>
 					<% end %>
 				<% end %>
