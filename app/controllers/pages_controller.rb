@@ -63,6 +63,14 @@ class PagesController < ApplicationController
 		end
 	end
 
+	# GET /pages/days/:year/:month/:day
+	def day
+		@argument_day = DateTime.new params[:year].to_i, params[:month].to_i, params[:day].to_i
+		
+		@events = Kill.where(confirmed: true, occurred_at: @argument_day.beginning_of_day..@argument_day.end_of_day) + Neutralization.where(confirmed: true, start: (@argument_day - 1.day).beginning_of_day..@argument_day.end_of_day)
+		@events.sort_by! { |event| event.event_time @argument_day }
+	end
+
 	private
 	# Use callbacks to share common setup or constraints between actions.
 	def set_page

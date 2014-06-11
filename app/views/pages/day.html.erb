@@ -1,0 +1,27 @@
+<h2><%= @argument_day.strftime "%B %-d, %Y" %></h2>
+
+<% if @events.count == 0 %>
+	<p>No events occurred today.</p>
+<% else %>
+	<% @events.each do |event| %>
+		<p>
+			<strong><%= event.event_time.strftime "%l:%M %p" %></strong>
+
+			<% if event.is_a? Kill %>
+				<%= event.target.name %> was killed by <%= event.team %>.
+			<% else %>
+				<%# If the neutralization occurred on this day. %>
+				<% if event.event_time(@argument_day) == event.start %>
+					<%= event.killer.name %> was neutralized by <%= event.target.name %> until <%= event.end_time(@argument_day).strftime("%B %-d at %l:%M %p") %>.
+				<% else %>
+					<%= event.killer.name %> is no longer neutralized by <%= event.target.name %>.
+				<% end %>
+			<% end %>
+		</p>
+
+		<% if event.how %>
+			<%# Never give normal users full Markdown control. %>
+			<%= simple_format event.how %>
+		<% end %>
+	<% end %>
+<% end %>
