@@ -62,6 +62,9 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.10.1)
+    nilify_blanks (1.0.3)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     pg (0.17.1)
     polyglot (0.3.4)
     rack (1.5.2)
@@ -135,6 +138,7 @@ DEPENDENCIES
   humanize_boolean (~> 0.0.1)
   jbuilder (~> 1.2)
   jquery-rails
+  nilify_blanks (~> 1.0.3)
   pg
   rails (= 4.0.2)
   rails_12factor

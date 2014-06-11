@@ -64,3 +64,6 @@ gem "rails_12factor", group: :production
 
 # Yes no booleans.
 gem "humanize_boolean", "~> 0.0.1"
+
+# Nilify blank strings easily.
+gem "nilify_blanks", "~> 1.0.3"
