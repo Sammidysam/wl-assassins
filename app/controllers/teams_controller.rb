@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :kill, :neutralize]
 
 	load_and_authorize_resource
 
@@ -91,6 +91,16 @@ class TeamsController < ApplicationController
 		membership.active = false
 
 		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
+	end
+
+	# POST /teams/1/kill
+	def kill
+		
+	end
+
+	# POST /teams/1/neutralize
+	def neutralize
+		
 	end
 
 	private
