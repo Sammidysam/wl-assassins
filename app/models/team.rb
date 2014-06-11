@@ -1,4 +1,8 @@
 class Team < ActiveRecord::Base
+	before_validation do
+		self.logo_url = nil if self.logo_url && self.logo_url.empty?
+	end
+	
 	has_many :memberships
 	has_many :participations
 	
