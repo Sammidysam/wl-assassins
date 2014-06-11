@@ -9,8 +9,12 @@ WlAssassins::Application.routes.draw do
 	post "session/create" => "session#create"
 	post "session/new"
 	
-	resources :games
 	resources :pages
+	
+	resources :games do
+		post "add", on: :member
+		post "remove", on: :member
+	end
 
 	resources :teams do
 		post "add", on: :member
