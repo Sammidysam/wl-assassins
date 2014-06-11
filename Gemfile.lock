@@ -46,6 +46,8 @@ GEM
     execjs (2.0.2)
     gem_config (0.3.1)
     hike (1.2.3)
+    humanize_boolean (0.0.1)
+      i18n
     i18n (0.6.9)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
@@ -130,6 +132,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.1.1.1)
   cancan (~> 1.6.10)
   coffee-rails (~> 4.0.0)
+  humanize_boolean (~> 0.0.1)
   jbuilder (~> 1.2)
   jquery-rails
   pg
