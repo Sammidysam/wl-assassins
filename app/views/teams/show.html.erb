@@ -7,7 +7,7 @@
 
 	<% @team.members.each do |member| %>
 		<div class="col-md-2">
-			<%= image_tag member.profile_picture_url, width: "100%" %>
+			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
 			<h2><%= member.name %></h2>
 
