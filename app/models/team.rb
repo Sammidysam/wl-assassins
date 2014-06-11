@@ -1,4 +1,6 @@
 class Team < ActiveRecord::Base
+	nilify_blanks
+	
 	has_many :memberships
 	has_many :participations
 	

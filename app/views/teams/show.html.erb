@@ -43,7 +43,7 @@
 </div>
 
 <% if @team.description %>
-	<p><%= markdown @team.description %></p>
+	<p><%= simple_format @team.description %></p>
 <% end %>
 
 <%= link_to "Edit", edit_team_path(@team), class: "btn btn-default" if can?(:update, @team) %>

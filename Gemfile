@@ -61,3 +61,9 @@ gem "cancan", "~> 1.6.10"
 
 # Heroku compatibility
 gem "rails_12factor", group: :production
+
+# Yes no booleans.
+gem "humanize_boolean", "~> 0.0.1"
+
+# Nilify blank strings easily.
+gem "nilify_blanks", "~> 1.0.3"
