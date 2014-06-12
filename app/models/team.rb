@@ -4,7 +4,7 @@ class Team < ActiveRecord::Base
 	
 	has_many :games, through: :participations
 	has_many :users, through: :memberships
-
+	
 	validate :member_count_cannot_be_greater_than_four
 	
 	validates :name, presence: true, uniqueness: true

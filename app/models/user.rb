@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	has_many :teams, through: :memberships
 
 	has_secure_password
-
+	
 	validates :password, confirmation: true, presence: true, on: :create
 	validates :email, :name, :phone_number, :address, :graduation_year, :profile_picture_url, :willing_to_pay_amount, :description, presence: true
 	validates :email, uniqueness: true, email_format: { message: "is not valid" }
