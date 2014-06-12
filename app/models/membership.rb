@@ -20,9 +20,9 @@ class Membership < ActiveRecord::Base
 	end
 
 	# Ensure that a user is not actively on the same team twice.
-	# Retrieves all of the memberships matching these conditions, then checks how many besides this membership exist.
-	# If that count is greater than 0, then the user should not be added to the team.
+	# Retrieves all of the active memberships that are the same as this one sans id,
+	# and ensures that none exist.
 	def user_cannot_be_on_team_twice
-		errors.add :user_id, "cannot be on team twice" unless Membership.where(active: true, user_id: self.user_id, team_id: self.team_id).select { |membership| membership.id != self.id }.empty?
+		errors.add :user_id, "cannot be on team twice" unless Membership.where(active: true, user_id: self.user_id, team_id: self.team_id).empty?
 	end
 end
