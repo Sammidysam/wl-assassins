@@ -4,6 +4,8 @@ class Membership < ActiveRecord::Base
 
 	validate :user_cannot_be_on_team_twice
 
+	validates :team_id, :user_id, presence: true
+
 	# Ensure that a user is not actively on the same team twice.
 	# Retrieves all of the memberships matching these conditions, then checks how many besides this membership exist.
 	# If that count is greater than 0, then the user should not be added to the team.
