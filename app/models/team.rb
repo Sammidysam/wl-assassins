@@ -1,6 +1,4 @@
 class Team < ActiveRecord::Base
-	nilify_blanks
-	
 	has_many :memberships
 	has_many :participations
 	
@@ -10,6 +8,8 @@ class Team < ActiveRecord::Base
 	validate :member_count_cannot_be_greater_than_four
 	
 	validates :name, presence: true, uniqueness: true
+
+	nilify_blanks
 
 	def member_count_cannot_be_greater_than_four
 		errors.add :users, "cannot have a count greater than four" if members.count > 4
