@@ -3,7 +3,8 @@ class Membership < ActiveRecord::Base
 	belongs_to :user
 
 	validate :admin_cannot_be_on_team
-	validate :user_cannot_be_on_team_twice
+	validate :team_cannot_have_more_than_four_members, on: :create
+	validate :user_cannot_be_on_team_twice, on: :create
 
 	validates :team_id, :user_id, presence: true
 
@@ -12,10 +13,16 @@ class Membership < ActiveRecord::Base
 		errors.add :user_id, "cannot be an admin" if User.find(user_id).admin?
 	end
 
+	# A team cannot have four or more members before a new membership is added.
+	# If it does, the member count will exceed the maximum, four.
+	def team_cannot_have_more_than_four_members
+		errors.add :team, "cannot have four members" if Team.find(team_id).members.count >= 4
+	end
+
 	# Ensure that a user is not actively on the same team twice.
 	# Retrieves all of the memberships matching these conditions, then checks how many besides this membership exist.
 	# If that count is greater than 0, then the user should not be added to the team.
 	def user_cannot_be_on_team_twice
-		errors.add :user_id, "cannot be on team twice" if Membership.where(active: true, user_id: self.user_id, team_id: self.team_id).select { |membership| membership.id != self.id }.count > 0
+		errors.add :user_id, "cannot be on team twice" unless Membership.where(active: true, user_id: self.user_id, team_id: self.team_id).select { |membership| membership.id != self.id }.empty?
 	end
 end
