@@ -1,6 +1,6 @@
 <h1>Dashboard</h1>
 
-<% if current_user.admin %>
+<% if current_user.admin? %>
 	<% if @pregames.count > 0 %>
 		<h2>Games To Be Started</h2>
 

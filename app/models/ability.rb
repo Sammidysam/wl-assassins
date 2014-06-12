@@ -11,7 +11,7 @@ class Ability
 		can :index, User
 
 		can :read, User.all do |inner_user|
-			inner_user.admin
+			inner_user.public_admin?
 		end
 		
 		can :read, Page
@@ -33,7 +33,7 @@ class Ability
 				end
 			end
 			
-			can :create, Team if !user.team
+			can :create, Team unless user.team
 			can :index, Team if user.team
 
 			if user.team

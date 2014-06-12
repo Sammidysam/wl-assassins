@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	enum role: [ :normal, :public_admin, :private_admin ]
+	
 	has_many :kills
 	has_many :memberships
 	has_many :neutralizations
@@ -12,6 +14,11 @@ class User < ActiveRecord::Base
 	validates :email, uniqueness: true, email_format: { message: "is not valid" }
 	validates :graduation_year, numericality: { greater_than_or_equal_to: Date.today.year, less_than_or_equal_to: Date.today.year + 4 }
 	validates :phone_number, format: { with: /\d{3}-\d{3}-\d{4}|\d{3}-\d{4}/, message: "has an incorrect format" }
+
+	# Returns if the user is an admin.
+	def admin?
+		self.public_admin? || self.private_admin?
+	end
 
 	# Returns the current team for the user.
 	def team
