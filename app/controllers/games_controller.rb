@@ -127,7 +127,24 @@ class GamesController < ApplicationController
 				@game.started_at = DateTime.now
 				@game.team_fee = params[:team_fee]
 
-				redirect_to @game, alert: (@game.save ? nil : "Could not start game!")
+				if @game.save
+					# Set contracts.
+					contract_order_teams = @game.teams.shuffle
+
+					contract_order_teams.each_with_index do |team, index|
+						contract = Contract.new
+						contract.completed = false
+						contract.participation_id = team.participation.id
+						contract.target_id = contract_order_teams[index + 1 < contract_order_teams.count ? index + 1 : 0].id
+						contract.start = DateTime.now
+
+						contract.save
+					end
+					
+					redirect_to @game
+				else
+					redirect_to @game, alert: @game.errors
+				end
 			end
 		end
 	end
