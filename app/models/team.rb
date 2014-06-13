@@ -9,6 +9,13 @@ class Team < ActiveRecord::Base
 
 	nilify_blanks
 
+	# Returns the teams that are not in game.
+	def self.not_in_game(game)
+		all.select do |team|
+			!game.teams.map { |inner_team| inner_team.id }.include? team.id
+		end
+	end
+
 	# Returns only the user who are current members of team.
 	def members
 		self.memberships.where(active: true).map { |membership| membership.user }
