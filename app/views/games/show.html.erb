@@ -29,7 +29,7 @@
 					<div class="col-md-2">
 						<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
-						<h4><%= team.name %></h4>
+						<h4><%= link_to team.name, team %></h4>
 
 						<%= form_tag remove_game_path(@game) do %>
 							<%= hidden_field_tag :name, team.name %>
@@ -61,7 +61,7 @@
 				<div class="col-md-2">
 					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
-					<h4><%= team.name %></h4>
+					<h4><%= link_to team.name, team %></h4>
 					
 					<%= form_tag add_game_path(@game) do %>
 						<%= hidden_field_tag :name, team.name %>

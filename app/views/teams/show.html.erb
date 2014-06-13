@@ -9,7 +9,7 @@
 		<div class="col-md-2">
 			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
-			<h2><%= member.name %></h2>
+			<h2><%= link_to member.name, member %></h2>
 
 			<% if can? :update, @team %>
 				<%= form_tag remove_team_path(@team) do %>
