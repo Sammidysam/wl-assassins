@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="form-group">
-		<%= f.label :email_public, "Would you like your email to be displayed #{@user.admin ? "publicly" : "to the team that is contracted to kill you"}?" %>
+		<%= f.label :email_public, "Would you like your email to be displayed to the team that is contracted to kill you?" %>
 		It will be visible to members of your team, yourself, and admins, regardless of this option.
 		<%= f.check_box :email_public %>
 	</div>
@@ -48,7 +48,7 @@
 	</div>
 	
 	<div class="form-group">
-		<%= f.label :phone_number_public, "Would you like your phone number to be displayed #{@user.admin ? "publicly" : "to the team that is contracted to kill you"}?" %>
+		<%= f.label :phone_number_public, "Would you like your phone number to be displayed to the team that is contracted to kill you?" %>
 		It will be visible to members of your team, yourself, and admins, regardless of this option.
 		<%= f.check_box :phone_number_public %>
 	</div>
@@ -60,7 +60,7 @@
 	</div>
 	
 	<div class="form-group">
-		<%= f.label :address_public, "Would you like your address to be displayed #{@user.admin ? "publicly" : "to the team that is contracted to kill you"}?" %>
+		<%= f.label :address_public, "Would you like your address to be displayed to the team that is contracted to kill you?" %>
 		It will be visible to members of your team, yourself, and admins, regardless of this option.
 		<%= f.check_box :address_public %>
 	</div>
