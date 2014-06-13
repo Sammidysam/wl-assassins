@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all, :remove_all]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all, :remove_all, :start]
 
 	load_and_authorize_resource
 
@@ -111,6 +111,25 @@ class GamesController < ApplicationController
 		end
 
 		redirect_to @game, alert: (errors.empty? ? nil : errors)
+	end
+
+	# POST /games/1/start
+	def start
+		# Check that all teams have four users.
+		unless @game.teams.all? { |team| team.members.count == 4 }
+			redirect_to @game, alert: "All teams must have four users!"
+		else
+			# Check that all team members are valid.
+			unless @game.teams.all? { |team| team.members.all? { |member| member.valid? } }
+				redirect_to @game, alert: "Not all team members are valid!"
+			else
+				@game.in_progress = true
+				@game.started_at = DateTime.now
+				@game.team_fee = params[:team_fee]
+
+				redirect_to @game, alert: (@game.save ? nil : "Could not start game!")
+			end
+		end
 	end
 
 	private

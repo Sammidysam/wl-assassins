@@ -17,6 +17,7 @@ WlAssassins::Application.routes.draw do
 		post "remove", on: :member
 		post "add_all", on: :member
 		post "remove_all", on: :member
+		post "start", on: :member
 	end
 
 	resources :teams do

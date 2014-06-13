@@ -1,7 +1,17 @@
 <h1><%= @game.name %></h1>
 
 <%# Admin view for game management. %>
-<% unless @game.completed? %>
+<% unless @game.completed? || @game.in_progress %>
+	<%= form_tag start_game_path(@game) do %>
+		<strong>Team Fee</strong>
+		<div class="input-group">
+			<span class="input-group-addon">$</span>
+			<%= text_field_tag :team_fee, nil, value: number_with_precision(@game.suggested_team_fee, precision: 2), class: "form-control" %>
+		</div>
+		
+		<%= submit_tag "Start", class: "btn btn-success btn-large" %>
+	<% end %>
+	
 	<h2>Teams</h2>
 	
 	<% if @game.teams.count == 0 %>
