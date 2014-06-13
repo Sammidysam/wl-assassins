@@ -9,6 +9,6 @@ class Game < ActiveRecord::Base
 	validates :name, presence: true
 
 	def completed?
-		!self.ended_at && !self.in_progress
+		self.ended_at && !self.in_progress
 	end
 end
