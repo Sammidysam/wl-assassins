@@ -9,7 +9,7 @@
 		<div class="col-md-2">
 			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
-			<h2><%= link_to member.name, member %></h2>
+			<h3><%= link_to member.name, member %></h3>
 
 			<% if can? :update, @team %>
 				<%= form_tag remove_team_path(@team) do %>
@@ -29,14 +29,14 @@
 		<div class="col-md-2">
 			<% if can? :update, @team %>
 				<%= form_tag add_team_path(@team) do %>
-					<h2>Add Member</h2>
+					<h3>Add Member</h3>
 					
 					<%= text_field_tag :email, nil, placeholder: "Email", class: "form-control" %>
 					
 					<%= submit_tag "Go", class: "btn btn-success" %>
 				<% end %>
 			<% else %>
-				<h2>No Member</h2>
+				<h3>No Member</h3>
 			<% end %>
 		</div>
 	<% end %>
