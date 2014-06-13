@@ -4,4 +4,6 @@ class Participation < ActiveRecord::Base
 
 	has_many :contracts
 	has_many :kills
+
+	validates :team_id, :game_id, :paid_amount, presence: true
 end
