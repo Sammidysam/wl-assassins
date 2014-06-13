@@ -65,12 +65,23 @@ class GamesController < ApplicationController
 
 	# POST /games/1/add
 	def add
-		
+		unless team = Team.find_by(name: params[:name])
+			redirect_to @game, alert: "#{params[:name]} is not a team!"
+		else
+			participation = Participation.new
+			participation.team_id = team.id
+			participation.game_id = @game.id
+			participation.paid_amount = 0.0
+
+			redirect_to @game, alert: (participation.save ? nil : "Could not add to game!")
+		end
 	end
 
 	# POST /games/1/remove
 	def remove
-		
+		participation = @game.participations.find { |inner_participation| inner_participation.team.name == params[:name] }
+
+		redirect_to @game, alert: (participation.destroy ? nil : "Could not remove from game!")
 	end
 
 	private

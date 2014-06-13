@@ -1,7 +1,55 @@
 <h1><%= @game.name %></h1>
 
+<%# Admin view for game management. %>
 <% unless @game.completed? %>
+	<h2>Teams</h2>
 	
+	<% if @game.teams.count == 0 %>
+		<p>This game does not have any teams yet.</p>
+	<% else %>
+		<% @game.teams.each_slice(6) do |team_block| %>
+			<div class="row">
+				<% team_block.each do |team| %>
+					<div class="col-md-2">
+						<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
+
+						<h4><%= team.name %></h4>
+
+						<%= form_tag remove_game_path(@game) do %>
+							<%= hidden_field_tag :name, team.name %>
+
+							<%= submit_tag "Remove", class: "btn btn-danger" %>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	<% end %>
+
+	<h3>Add Team</h3>
+
+	<p>
+		The following teams are not currently in this game.
+	</p>
+
+	<%# All of the teams that are not in this game. %>
+	<% Team.all.select { |team| !@game.teams.map { |inner_team| inner_team.id }.include? team.id }.each_slice(6) do |team_block| %>
+		<div class="row">
+			<% team_block.each do |team| %>
+				<div class="col-md-2">
+					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
+
+					<h4><%= team.name %></h4>
+					
+					<%= form_tag add_game_path(@game) do %>
+						<%= hidden_field_tag :name, team.name %>
+
+						<%= submit_tag "Add", class: "btn btn-success" %>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
 <% end %>
 
 <%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
