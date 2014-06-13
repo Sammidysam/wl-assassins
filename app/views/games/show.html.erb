@@ -7,6 +7,12 @@
 	<% if @game.teams.count == 0 %>
 		<p>This game does not have any teams yet.</p>
 	<% else %>
+		<p>
+			The following teams are in this game.
+			
+			<%= link_to "Remove All Teams", remove_all_game_path(@game), method: :post, class: "btn btn-danger" %>
+		</p>
+		
 		<% @game.teams.each_slice(6) do |team_block| %>
 			<div class="row">
 				<% team_block.each do |team| %>

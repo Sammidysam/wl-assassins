@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all, :remove_all]
 
 	load_and_authorize_resource
 
@@ -97,6 +97,17 @@ class GamesController < ApplicationController
 			participation.paid_amount = 0.0
 
 			errors << participation.errors unless participation.save
+		end
+
+		redirect_to @game, alert: (errors.empty? ? nil : errors)
+	end
+
+	# POST /games/1/remove_all
+	def remove_all
+		errors = []
+
+		@game.participations.each do |participation|
+			errors << participation.errors unless participation.destroy
 		end
 
 		redirect_to @game, alert: (errors.empty? ? nil : errors)
