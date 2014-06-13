@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140613145134) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.float    "team_fee"
+    t.integer  "terminators_id"
   end
 
   create_table "kills", force: true do |t|
