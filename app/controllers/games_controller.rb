@@ -133,7 +133,6 @@ class GamesController < ApplicationController
 
 					contract_order_teams.each_with_index do |team, index|
 						contract = Contract.new
-						contract.completed = false
 						contract.participation_id = team.participation.id
 						contract.target_id = contract_order_teams[index + 1 < contract_order_teams.count ? index + 1 : 0].id
 						contract.start = DateTime.now
