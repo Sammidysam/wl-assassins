@@ -19,7 +19,7 @@
 				<% end %>
 			<% end %>
 
-			<% if current_user.team && current_user.team.target && member.on_team? current_user.team.target %>
+			<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
 				
 			<% end %>
 		</div>
