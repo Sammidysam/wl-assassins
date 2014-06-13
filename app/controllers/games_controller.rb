@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all]
 
 	load_and_authorize_resource
 
@@ -82,6 +82,24 @@ class GamesController < ApplicationController
 		participation = @game.participations.find { |inner_participation| inner_participation.team.name == params[:name] }
 
 		redirect_to @game, alert: (participation.destroy ? nil : "Could not remove from game!")
+	end
+
+	# POST /games/1/add_all
+	def add_all
+		teams = Team.not_in_game(@game)
+
+		errors = []
+
+		teams.each do |team|
+			participation = Participation.new
+			participation.team_id = team.id
+			participation.game_id = @game.id
+			participation.paid_amount = 0.0
+
+			errors << participation.errors unless participation.save
+		end
+
+		redirect_to @game, alert: (errors.empty? ? nil : errors)
 	end
 
 	private

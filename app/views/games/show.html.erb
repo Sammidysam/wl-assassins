@@ -28,12 +28,20 @@
 
 	<h3>Add Team</h3>
 
-	<p>
-		The following teams are not currently in this game.
-	</p>
+	<% unless Team.not_in_game(@game).empty? %>
+		<p>
+			The following teams are not currently in this game.
+
+			<%= link_to "Add All Teams", add_all_game_path(@game), method: :post, class: "btn btn-success" %>
+		</p>
+	<% else %>
+		<p>
+			All teams are currently in this game.
+		</p>
+	<% end %>
 
 	<%# All of the teams that are not in this game. %>
-	<% Team.all.select { |team| !@game.teams.map { |inner_team| inner_team.id }.include? team.id }.each_slice(6) do |team_block| %>
+	<% Team.not_in_game(@game).each_slice(6) do |team_block| %>
 		<div class="row">
 			<% team_block.each do |team| %>
 				<div class="col-md-2">
