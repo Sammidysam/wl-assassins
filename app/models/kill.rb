@@ -17,9 +17,9 @@ class Kill < ActiveRecord::Base
 	end
 
 	def target_must_be_on_target_team
-		participation = Participation.find(participation_id)
+		participation = Participation.find(participation_id) if participation_id
 		
-		errors.add :target_id, "must be on target team" if !target.team || !participation || participation.team.target.id != target.team.id
+		errors.add :target_id, "must be on target team" if self.assassination? && (!target.team || participation.team.target.id != target.team.id)
 	end
 
 	# Returns when this is an event.
