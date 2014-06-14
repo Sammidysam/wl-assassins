@@ -3,8 +3,12 @@ class KillsController < ApplicationController
 	
 	def new
 		@kill = Kill.new
-		
-		@target = User.find_by(email: params[:email])
+
+		if params[:email]
+			@target = User.find_by(email: params[:email])
+		else
+			redirect_to root_path, alert: "You are not authorized to access this page."
+		end
 	end
 
 	def create

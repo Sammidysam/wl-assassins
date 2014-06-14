@@ -3,8 +3,12 @@ class NeutralizationsController < ApplicationController
 	
 	def new
 		@neutralization = Neutralization.new
-		
-		@neutralizer = User.find_by(email: params[:email])
+
+		if params[:email]
+			@neutralizer = User.find_by(email: params[:email])
+		else
+			redirect_to root_path, alert: "You are not authorized to access this page."
+		end
 	end
 
 	def create
