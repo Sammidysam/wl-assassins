@@ -21,6 +21,6 @@ class KillsController < ApplicationController
 
 	private
 	def kill_params
-		params.require(:kill).permit(:participation_id, :target_id, :picture_url, :how)
+		params.require(:kill).permit(:participation_id, :target_id, :picture_url, :how, :type)
 	end
 end

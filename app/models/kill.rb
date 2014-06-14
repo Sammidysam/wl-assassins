@@ -1,4 +1,6 @@
 class Kill < ActiveRecord::Base
+	enum type: [ :assassination, :termination, :out_of_town ]
+	
 	belongs_to :participation
 	
 	belongs_to :target, class_name: "User"
