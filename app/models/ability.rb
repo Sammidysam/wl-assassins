@@ -28,6 +28,8 @@ class Ability
 				team.members.include? user
 			end
 
+			cannot :remove, Team if user.team && user.team.in_game?
+
 			if user.team && user.team.contract && user.team.contract.target
 				can :read, Team.all do |team|
 					user.team.contract.target_id == team.id
@@ -52,8 +54,9 @@ class Ability
 			can :index, User
 			
 			can :manage, user
-			cannot :destroy, user
 		end
+
+		cannot :destroy, :all
 
 		can :manage, :all if user.admin?
 	end
