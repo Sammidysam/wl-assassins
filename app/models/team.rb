@@ -30,6 +30,10 @@ class Team < ActiveRecord::Base
 		!participation.nil?
 	end
 
+	def terminators?
+		participation.terminators
+	end
+
 	# Returns the current contract for the team.
 	def contract
 		participation.contracts.find { |contract| !contract.completed } if participation
