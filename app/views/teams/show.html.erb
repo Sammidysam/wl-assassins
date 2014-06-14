@@ -22,7 +22,7 @@
 			<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
 				<div class="btn-group btn-group-sm">
 					<%= link_to "Kill", kills_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
-					<%= link_to "Neutralize", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+					<%= link_to "Neutralized Me", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
 				</div>
 			<% end %>
 		</div>

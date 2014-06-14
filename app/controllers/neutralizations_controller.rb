@@ -4,7 +4,7 @@ class NeutralizationsController < ApplicationController
 	def new
 		@neutralization = Neutralization.new
 		
-		@target = User.find_by(email: params[:email])
+		@neutralizer = User.find_by(email: params[:email])
 	end
 
 	def create
@@ -21,6 +21,6 @@ class NeutralizationsController < ApplicationController
 
 	private
 	def neutralization_params
-		params.require(:neutralization).permit(:killer_id, :target_id, :game_id, :how)
+		params.require(:neutralization).permit(:killer_id, :target_id, :game_id, :how, :picture_url)
 	end
 end
