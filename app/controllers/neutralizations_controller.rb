@@ -1,4 +1,6 @@
 class NeutralizationsController < ApplicationController
+	load_and_authorize_resource
+	
 	def new
 	end
 
@@ -6,5 +8,8 @@ class NeutralizationsController < ApplicationController
 	end
 
 	def destroy
+		@neutralization = Neutralization.find(params[:id])
+
+		redirect_to root_path, alert: (neutralization.destroy ? nil : "Could not destroy neutralization!")
 	end
 end
