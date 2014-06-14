@@ -99,7 +99,7 @@ class GamesController < ApplicationController
 			errors = true unless participation.save
 		end
 
-		redirect_to @game, alert: (errors ? nil : "Could not add all teams!")
+		redirect_to @game, alert: (errors ? "Could not add all teams!" : nil)
 	end
 
 	# POST /games/1/remove_all
@@ -110,7 +110,7 @@ class GamesController < ApplicationController
 			errors = true unless participation.destroy
 		end
 
-		redirect_to @game, alert: (errors ? nil : "Could not remove all teams!")
+		redirect_to @game, alert: (errors ? "Could not remove all teams!" : nil)
 	end
 
 	# POST /games/1/start
@@ -144,12 +144,13 @@ class GamesController < ApplicationController
 
 					# Set the termination time.
 					@game.teams.each do |team|
-						team.termination_at = DateTime.now + 5.days
+						participation = team.participation
+						participation.termination_at = DateTime.now + (@game.teams.count > 4 ? 5 : 4).days
 
-						errors = true unless team.save
+						errors = true unless participation.save
 					end
 					
-					redirect_to @game, (errors ? nil : "Could not start game!")
+					redirect_to @game, alert: (errors ? "Could not set up game!" : nil)
 				else
 					redirect_to @game, alert: "Could not start game!"
 				end
