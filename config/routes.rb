@@ -1,12 +1,15 @@
 WlAssassins::Application.routes.draw do
 	get "calendar" => "pages#index"
 	get "dashboard" => "dashboard#index"
+	get "days/:year/:month/:day" => "pages#day"
 	get "history" => "games#index"
+	get "kills/new"
 	get "log_in" => "session#new"
 	get "log_out" => "session#destroy"
 	get "welcome/index"
-	get "days/:year/:month/:day" => "pages#day"
 	
+	post "kills/create" => "kills#create"
+	post "kills/new"
 	post "session/create" => "session#create"
 	post "session/new"
 	
@@ -23,8 +26,6 @@ WlAssassins::Application.routes.draw do
 	resources :teams do
 		post "add", on: :member
 		post "remove", on: :member
-		post "kill", on: :member
-		post "neutralize", on: :member
 	end
 	
 	resources :users do
