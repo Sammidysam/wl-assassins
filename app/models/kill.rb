@@ -5,10 +5,10 @@ class Kill < ActiveRecord::Base
 	
 	belongs_to :target, class_name: "User"
 
-	validate :target_must_be_alive
-	validate :target_must_be_on_target_team
+	validate :target_must_be_alive, on: :create
+	validate :target_must_be_on_target_team, on: :create
 
-	validates :participation_id, :target_id, presence: true
+	validates :target_id, presence: true
 
 	nilify_blanks
 
@@ -19,7 +19,7 @@ class Kill < ActiveRecord::Base
 	def target_must_be_on_target_team
 		participation = Participation.find(participation_id)
 		
-		errors.add :target_id, "must be on target team" if !target.team || participation.team.target.id != target.team.id
+		errors.add :target_id, "must be on target team" if !target.team || !participation || participation.team.target.id != target.team.id
 	end
 
 	# Returns when this is an event.
@@ -30,6 +30,6 @@ class Kill < ActiveRecord::Base
 
 	# Returns the team that conducted the kill.
 	def team
-		self.participation.team
+		self.participation.team if self.participation
 	end
 end
