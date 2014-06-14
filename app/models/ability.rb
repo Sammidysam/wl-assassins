@@ -54,6 +54,10 @@ class Ability
 			can :index, User
 			
 			can :manage, user
+
+			can :create, Kill
+
+			can :create, Neutralization
 		end
 
 		cannot :destroy, :all
