@@ -24,6 +24,7 @@
 					<% end %>
 				<% end %>
 				<%= navbar_group align: "right" do %>
+					<%= navbar_item "My Account", user_path(current_user) if current_user %>
 					<%= navbar_item (current_user ? "Log Out" : "Log In"), (current_user ? log_out_path : log_in_path) %>
 				<% end %>
 			<% end %>
