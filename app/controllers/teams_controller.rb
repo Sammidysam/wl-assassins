@@ -93,16 +93,6 @@ class TeamsController < ApplicationController
 		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
 	end
 
-	# POST /teams/1/kill
-	def kill
-		
-	end
-
-	# POST /teams/1/neutralize
-	def neutralize
-		
-	end
-
 	private
 	# Use callbacks to share common setup or constraints between actions.
 	def set_team
