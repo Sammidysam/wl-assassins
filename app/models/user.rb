@@ -19,11 +19,11 @@ class User < ActiveRecord::Base
 	end
 
 	def in_game?
-		team.in_game?
+		team.in_game? if team
 	end
 
 	def alive?
-		in_game? ? self.kills.where(participation_id: team.participation.id, confirmed: true).empty? : true
+		in_game? ? Kill.where(participation_id: team.participation.id, target_id: self.id, confirmed: true).empty? : true
 	end
 
 	def dead?
