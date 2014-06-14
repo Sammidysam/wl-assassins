@@ -2,6 +2,8 @@ class KillsController < ApplicationController
 	load_and_authorize_resource
 	
 	def new
+		@kill = Kill.new
+		
 		@target = User.find_by(email: params[:email])
 	end
 
