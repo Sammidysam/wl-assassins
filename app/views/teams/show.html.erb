@@ -11,23 +11,26 @@
 
 			<h3><%= link_to member.name, member %></h3>
 
-			<% if can? :update, @team %>
+			<% if can? :remove, @team %>
 				<%= form_tag remove_team_path(@team) do %>
 					<%= hidden_field_tag :email, member.email %>
 					
 					<%= submit_tag "Remove", class: "btn btn-danger" %>
 				<% end %>
 			<% end %>
-
+			
 			<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
-				
+				<div class="btn-group btn-group-sm">
+					<%= link_to "Kill", kills_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+					<%= link_to "Neutralize", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+				</div>
 			<% end %>
 		</div>
 	<% end %>
 
 	<% (4 - @team.members.count).times do %>
 		<div class="col-md-2">
-			<% if can? :update, @team %>
+			<% if can? :add, @team %>
 				<%= form_tag add_team_path(@team) do %>
 					<h3>Add Member</h3>
 					
