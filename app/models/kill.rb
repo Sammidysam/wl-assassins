@@ -5,11 +5,16 @@ class Kill < ActiveRecord::Base
 	
 	belongs_to :target, class_name: "User"
 
+	validate :target_must_be_alive
 	validate :target_must_be_on_target_team
 
 	validates :participation_id, :target_id, presence: true
 
 	nilify_blanks
+
+	def target_must_be_alive
+		errors.add :target_id, "must be alive" unless User.find(target_id).alive?
+	end
 
 	def target_must_be_on_target_team
 		participation = Participation.find(participation_id)
