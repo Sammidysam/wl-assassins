@@ -16,7 +16,7 @@ class Team < ActiveRecord::Base
 
 	# Returns the current participation for the team.
 	def participation
-		self.participations.find { |participation| participation.game.in_progress }
+		self.participations.find { |participation| participation.game.in_progress if participation.game }
 	end
 
 	# Returns the current contract for the team.
