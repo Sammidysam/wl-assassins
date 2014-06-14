@@ -3,6 +3,8 @@ class Kill < ActiveRecord::Base
 	
 	belongs_to :target, class_name: "User"
 
+	validates :participation_id, :target_id, presence: true
+
 	# Returns when this is an event.
 	# date is a pointless argument to maintain compatibility with Neutralization.
 	def event_time(date)

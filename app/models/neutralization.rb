@@ -4,6 +4,8 @@ class Neutralization < ActiveRecord::Base
 	belongs_to :killer, class_name: "User"
 	belongs_to :target, class_name: "User"
 
+	validates :killer_id, :target_id, :game_id, presence: true
+
 	# Returns the end of the neutralization.
 	def end_time
 		start + 1.day
