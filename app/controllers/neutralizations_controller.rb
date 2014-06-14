@@ -2,6 +2,8 @@ class NeutralizationsController < ApplicationController
 	load_and_authorize_resource
 	
 	def new
+		@neutralization = Neutralization.new
+		
 		@target = User.find_by(email: params[:email])
 	end
 
