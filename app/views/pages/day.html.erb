@@ -19,6 +19,10 @@
 			<% end %>
 		</p>
 
+		<% if event.picture_url %>
+			<%= image_tag event.picture_url, width: "40%", alt: "Invalid Image URL" %>
+		<% end %>
+
 		<% if event.how %>
 			<%# Never give normal users full Markdown control. %>
 			<%= simple_format event.how %>
