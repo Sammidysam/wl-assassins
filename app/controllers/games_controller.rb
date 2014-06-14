@@ -88,7 +88,7 @@ class GamesController < ApplicationController
 	def add_all
 		teams = Team.not_in_game(@game)
 
-		errors = []
+		errors = false
 
 		teams.each do |team|
 			participation = Participation.new
@@ -96,21 +96,21 @@ class GamesController < ApplicationController
 			participation.game_id = @game.id
 			participation.paid_amount = 0.0
 
-			errors << participation.errors unless participation.save
+			errors = true unless participation.save
 		end
 
-		redirect_to @game, alert: (errors.empty? ? nil : errors)
+		redirect_to @game, alert: (errors ? nil : "Could not add all teams!")
 	end
 
 	# POST /games/1/remove_all
 	def remove_all
-		errors = []
+		errors = false
 
 		@game.participations.each do |participation|
-			errors << participation.errors unless participation.destroy
+			errors = true unless participation.destroy
 		end
 
-		redirect_to @game, alert: (errors.empty? ? nil : errors)
+		redirect_to @game, alert: (errors ? nil : "Could not remove all teams!")
 	end
 
 	# POST /games/1/start
@@ -131,18 +131,27 @@ class GamesController < ApplicationController
 					# Set contracts.
 					contract_order_teams = @game.teams.shuffle
 
+					errors = false
+
 					contract_order_teams.each_with_index do |team, index|
 						contract = Contract.new
 						contract.participation_id = team.participation.id
 						contract.target_id = contract_order_teams[index + 1 < contract_order_teams.count ? index + 1 : 0].id
 						contract.start = DateTime.now
 
-						contract.save
+						errors = true unless contract.save
+					end
+
+					# Set the termination time.
+					@game.teams.each do |team|
+						team.termination_at = DateTime.now + 5.days
+
+						errors = true unless team.save
 					end
 					
-					redirect_to @game
+					redirect_to @game, (errors ? nil : "Could not start game!")
 				else
-					redirect_to @game, alert: @game.errors
+					redirect_to @game, alert: "Could not start game!"
 				end
 			end
 		end
