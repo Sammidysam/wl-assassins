@@ -5,9 +5,17 @@ class Kill < ActiveRecord::Base
 	
 	belongs_to :target, class_name: "User"
 
+	validate :target_must_be_on_target_team
+
 	validates :participation_id, :target_id, presence: true
 
 	nilify_blanks
+
+	def target_must_be_on_target_team
+		participation = Participation.find(participation_id)
+		
+		errors.add :target_id, "must be on target team" if !target.team || participation.team.target.id != target.team.id
+	end
 
 	# Returns when this is an event.
 	# date is a pointless argument to maintain compatibility with Neutralization.
