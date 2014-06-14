@@ -26,6 +26,10 @@ class Team < ActiveRecord::Base
 		self.participations.find { |participation| participation.game.in_progress if participation.game }
 	end
 
+	def in_game?
+		participation
+	end
+
 	# Returns the current contract for the team.
 	def contract
 		participation.contracts.find { |contract| !contract.completed } if participation
