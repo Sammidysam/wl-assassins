@@ -27,7 +27,7 @@ class Team < ActiveRecord::Base
 	end
 
 	def in_game?
-		participation
+		participation.nil?
 	end
 
 	# Returns the current contract for the team.
