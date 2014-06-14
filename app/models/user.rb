@@ -20,6 +20,18 @@ class User < ActiveRecord::Base
 		self.public_admin? || self.private_admin?
 	end
 
+	def in_game?
+		team.in_game?
+	end
+
+	def alive?
+		in_game? ? self.kills.where(participation_id: team.participation.id, confirmed: true).empty? : true
+	end
+
+	def dead?
+		!alive?
+	end
+
 	# Returns the current team for the user.
 	def team
 		membership = self.memberships.find_by active: true
