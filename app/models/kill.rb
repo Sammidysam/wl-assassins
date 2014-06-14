@@ -1,5 +1,5 @@
 class Kill < ActiveRecord::Base
-	enum type: [ :assassination, :termination, :out_of_town ]
+	enum kind: [ :assassination, :termination, :out_of_town, :quit ]
 	
 	belongs_to :participation
 	

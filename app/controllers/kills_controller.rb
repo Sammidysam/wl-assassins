@@ -9,6 +9,8 @@ class KillsController < ApplicationController
 		else
 			redirect_to root_path, alert: "You are not authorized to access this page."
 		end
+
+		@kind = params[:kind] if params[:kind]
 	end
 
 	def create
@@ -25,6 +27,6 @@ class KillsController < ApplicationController
 
 	private
 	def kill_params
-		params.require(:kill).permit(:participation_id, :target_id, :picture_url, :how, :type)
+		params.require(:kill).permit(:participation_id, :target_id, :picture_url, :how, :kind)
 	end
 end
