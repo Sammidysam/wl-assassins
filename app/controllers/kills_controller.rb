@@ -4,4 +4,7 @@ class KillsController < ApplicationController
 
   def create
   end
+
+  def destroy
+  end
 end
