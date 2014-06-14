@@ -5,6 +5,8 @@ class Kill < ActiveRecord::Base
 
 	validates :participation_id, :target_id, presence: true
 
+	nilify_blanks
+
 	# Returns when this is an event.
 	# date is a pointless argument to maintain compatibility with Neutralization.
 	def event_time(date)
