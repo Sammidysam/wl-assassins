@@ -6,6 +6,8 @@ class Neutralization < ActiveRecord::Base
 
 	validates :killer_id, :target_id, :game_id, presence: true
 
+	nilify_blanks
+
 	# Returns the end of the neutralization.
 	def end_time
 		start + 1.day
