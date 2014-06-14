@@ -10,7 +10,7 @@ class KillsController < ApplicationController
 			redirect_to root_path, alert: "You are not authorized to access this page."
 		end
 
-		@kind = params[:kind] if params[:kind]
+		@kind = params[:kind] || "assassination"
 	end
 
 	def create
