@@ -11,6 +11,10 @@ class KillsController < ApplicationController
 		end
 
 		@kind = params[:kind] || "assassination"
+
+		if @kind != "assassination" && !current_user.admin?
+			redirect_to root_path, alert: "You are not allowed to create a kill of this kind!" unless @kind == "termination" && current_user.terminator?
+		end
 	end
 
 	def create
