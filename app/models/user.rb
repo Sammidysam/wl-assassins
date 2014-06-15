@@ -30,6 +30,10 @@ class User < ActiveRecord::Base
 		!alive?
 	end
 
+	def terminator?
+		team.terminators?
+	end
+
 	# Returns the current team for the user.
 	def team
 		membership = self.memberships.find_by active: true
