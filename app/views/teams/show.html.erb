@@ -25,6 +25,10 @@
 					<%= link_to "Neutralized Me", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
 				</div>
 			<% end %>
+
+			<% if @team.in_game? && (current_user.admin? || current_user.terminator?) %>
+				<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+			<% end %>
 		</div>
 	<% end %>
 
