@@ -16,6 +16,8 @@
 			<p><%= link_to game.name, game %></p>
 		<% end %>
 	<% end %>
+
+	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
 <% else %>
 	<p>
 		You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
