@@ -43,4 +43,8 @@ class Team < ActiveRecord::Base
 	def target
 		contract.target if contract
 	end
+	
+	def remaining_kill_time
+		participation.termination_at - DateTime.now if participation
+	end
 end
