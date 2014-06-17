@@ -129,14 +129,14 @@ class GamesController < ApplicationController
 
 				if @game.save
 					# Set contracts.
-					contract_order_teams = @game.teams.shuffle
+					contract_teams = @game.teams.select { |team| !team.terminators? }.shuffle
 
 					errors = false
 
-					contract_order_teams.each_with_index do |team, index|
+					contract_teams.each_with_index do |team, index|
 						contract = Contract.new
 						contract.participation_id = team.participation.id
-						contract.target_id = contract_order_teams[index + 1 < contract_order_teams.count ? index + 1 : 0].id
+						contract.target_id = contract_teams[index + 1 < contract_teams.count ? index + 1 : 0].id
 						contract.start = DateTime.now
 
 						errors = true unless contract.save
