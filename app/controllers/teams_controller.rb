@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :kill, :neutralize]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :kill, :neutralize, :terminators]
 
 	load_and_authorize_resource
 
@@ -91,6 +91,15 @@ class TeamsController < ApplicationController
 		membership.active = false
 
 		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
+	end
+
+	# POST /teams/1/terminators
+	def terminators
+		participation = @team.participations.find_by(game_id: params[:game_id])
+		
+		participation.toggle :terminators
+
+		redirect_to game_path(params[:game_id]), alert: (participation.save ? nil : "Could not toggle terminator status!")
 	end
 
 	private
