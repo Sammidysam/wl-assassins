@@ -31,6 +31,7 @@ WlAssassins::Application.routes.draw do
 	resources :teams do
 		post "add", on: :member
 		post "remove", on: :member
+		post "terminators", on: :member
 	end
 	
 	resources :users do
