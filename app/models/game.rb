@@ -17,7 +17,11 @@ class Game < ActiveRecord::Base
 		self.teams.map { |team| team.members }.flatten
 	end
 
+	def participants
+		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |team| team.members }.flatten
+	end
+
 	def suggested_team_fee
-		users.empty? ? 0.0 : (users.map { |user| user.willing_to_pay_amount }.sum / users.size.to_f * 4.0)
+		participants.empty? ? 0.0 : (participants.map { |participant| participant.willing_to_pay_amount }.sum / participants.size.to_f * 4.0)
 	end
 end
