@@ -36,4 +36,18 @@
 			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
 		<% end %>
 	</p>
+
+	<% if current_user.in_game? %>
+		<p>
+			Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
+		</p>
+		
+		<p>
+			<% unless current_user.team.completed_contracts.empty? %>
+				Your team has successfully completed the contracts to assassinate <%= current_user.team.completed_contracts.to_sentence %>.
+			<% end %>
+			
+			You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+		</p>
+	<% end %>
 <% end %>
