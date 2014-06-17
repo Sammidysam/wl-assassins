@@ -40,8 +40,9 @@
 						<%= form_tag terminators_team_path(team) do %>
 							<%= team.participations.find_by(game_id: @game.id).terminators ? "Terminators" : "Not terminators" %>
 
+							<br>
+
 							<%= hidden_field_tag :game_id, @game.id %>
-							
 							<%= submit_tag "Toggle", class: "btn btn-default" %>
 						<% end %>
 					</div>
