@@ -31,7 +31,7 @@ class Team < ActiveRecord::Base
 	end
 
 	def terminators?
-		participation.terminators
+		participation.terminators if participation
 	end
 
 	# Returns the current contract for the team.
