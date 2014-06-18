@@ -19,35 +19,54 @@
 
 	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
 <% else %>
-	<p>
-		You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
+	<% unless current_user.terminator? %>
+		<% if current_user.in_game? %>
+			<p>
+				You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before termination.
 
-		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
-	</p>
-
-	<p>
-		<% if @team %>
-			You are a member of <%= link_to @team.name, @team %>.
-		<% else %>
-			You are not a member of any team.
-			A friend may add you to their team; they simply need to know your email address.
-			Otherwise, you should create your own team.
-
-			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
+				<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
+					Watch out!
+					Terminators have been sent out to terminate your team.
+				<% end %>
+			</p>
 		<% end %>
-	</p>
-
-	<% if current_user.in_game? %>
-		<p>
-			Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
-		</p>
 		
 		<p>
-			<% unless current_user.team.completed_contracts.empty? %>
-				Your team has successfully completed the contracts to assassinate <%= current_user.team.completed_contracts.to_sentence %>.
-			<% end %>
-			
-			You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+			You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
+
+			<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
 		</p>
+
+		<p>
+			<% if @team %>
+				You are a member of <%= link_to @team.name, @team %>.
+			<% else %>
+				You are not a member of any team.
+				A friend may add you to their team; they simply need to know your email address.
+				Otherwise, you should create your own team.
+
+				<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
+			<% end %>
+		</p>
+
+		<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
+			<p>
+				Your team is scheduled to participate in the <%= pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.to_sentence %>.
+			</p>
+		<% end %>
+
+		<% if current_user.in_game? %>
+			<p>
+				Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
+			</p>
+			
+			<p>
+				<% unless current_user.team.completed_contracts.empty? %>
+					Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.to_sentence %>.
+				<% end %>
+				
+				You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+			</p>
+		<% end %>
 	<% end %>
 <% end %>

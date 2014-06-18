@@ -49,6 +49,16 @@ class Team < ActiveRecord::Base
 	end
 	
 	def remaining_kill_time
-		participation.termination_at - DateTime.now if participation
+		TimeDifference.between(participation.termination_at, Time.now) if participation
+	end
+
+	def remaining_kill_time_format
+		components = []
+		
+		components << "#{remaining_kill_time.in_days.floor} days" if remaining_kill_time.in_days.floor > 0
+		components << "#{remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24} hours" if remaining_kill_time.in_hours.floor > 0
+		components << "#{remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60} minutes" if remaining_kill_time.in_minutes.floor > 0
+
+		components.to_sentence
 	end
 end
