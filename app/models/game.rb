@@ -12,6 +12,10 @@ class Game < ActiveRecord::Base
 		self.ended_at && !self.in_progress
 	end
 
+	def pregame?
+		!completed? && !self.in_progress
+	end
+
 	# All of the users in the game.
 	def users
 		self.teams.map { |team| team.members }.flatten
