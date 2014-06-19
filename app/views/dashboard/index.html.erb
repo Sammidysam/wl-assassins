@@ -19,9 +19,8 @@
 
 	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
 <% else %>
-	<% unless current_user.terminator? %>
-		<% if current_user.in_game? %>
-			<p>
+	<% if current_user.in_game? && !current_user.terminator? %>
+		<p>
 				You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before termination.
 
 				<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
@@ -51,7 +50,7 @@
 
 		<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
 			<p>
-				Your team is scheduled to participate in the <%= pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.to_sentence %>.
+				Your team is scheduled to participate in the <%= (pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game").sub(/d+s/, "") %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
 			</p>
 		<% end %>
 
@@ -62,11 +61,10 @@
 			
 			<p>
 				<% unless current_user.team.completed_contracts.empty? %>
-					Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.to_sentence %>.
+					Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 				<% end %>
 				
 				You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
 			</p>
 		<% end %>
-	<% end %>
 <% end %>
