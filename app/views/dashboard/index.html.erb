@@ -21,40 +21,41 @@
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>
-				You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before termination.
+			You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before termination.
 
-				<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
-					Watch out!
-					Terminators have been sent out to terminate your team.
-				<% end %>
-			</p>
-		<% end %>
-		
-		<p>
-			You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
-
-			<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
-		</p>
-
-		<p>
-			<% if @team %>
-				You are a member of <%= link_to @team.name, @team %>.
-			<% else %>
-				You are not a member of any team.
-				A friend may add you to their team; they simply need to know your email address.
-				Otherwise, you should create your own team.
-
-				<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
+			<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
+				Watch out!
+				Terminators have been sent out to terminate your team.
 			<% end %>
 		</p>
+	<% end %>
+	
+	<p>
+		You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
 
-		<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
-			<p>
-				Your team is scheduled to participate in the <%= (pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game").sub(/d+s/, "") %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
-			</p>
+		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
+	</p>
+
+	<p>
+		<% if @team %>
+			You are a member of <%= link_to @team.name, @team %>.
+		<% else %>
+			You are not a member of any team.
+			A friend may add you to their team; they simply need to know your email address.
+			Otherwise, you should create your own team.
+
+			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
 		<% end %>
+	</p>
 
-		<% if current_user.in_game? %>
+	<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
+		<p>
+			Your team is scheduled to participate in the <%= (pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game").sub(/d+s/, "") %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
+		</p>
+	<% end %>
+
+	<% if current_user.in_game? %>
+		<% unless current_user.team.participation.eliminated %>
 			<p>
 				Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
 			</p>
@@ -66,5 +67,11 @@
 				
 				You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
 			</p>
+		<% else %>
+			<p>
+				Your team has been eliminated from the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
+				Good luck next time!
+			</p>
 		<% end %>
+	<% end %>
 <% end %>
