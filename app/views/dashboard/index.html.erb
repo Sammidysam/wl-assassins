@@ -50,23 +50,50 @@
 
 	<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
 		<p>
-			Your team is scheduled to participate in the <%= (pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game").sub(/d+s/, "") %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
+			Your team is scheduled to participate in the <%= pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
 		</p>
 	<% end %>
 
 	<% if current_user.in_game? %>
 		<% unless current_user.team.participation.eliminated %>
-			<p>
-				Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
-			</p>
-			
-			<p>
-				<% unless current_user.team.completed_contracts.empty? %>
-					Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
-				<% end %>
+			<% unless current_user.terminator? %>
+				<p>
+					Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
+				</p>
 				
-				You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
-			</p>
+				<p>
+					<% unless current_user.team.completed_contracts.empty? %>
+						Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
+					<% end %>
+					
+					You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+				</p>
+			<% else %>
+				<h2>Hit List</h2>
+
+				<% unless Team.to_be_terminated(@team.participation.game).empty? %>
+					<ul>
+						<% current_user.team.participation.game.teams.select { |team| !team.terminators? && team.remaining_kill_time.in_days.floor == 0 && team.participation.termination_at > DateTime.now }.sort_by { |team| team.participation.termination_at }.each do |team| %>
+							<li>
+								<%= link_to team.name, team %>
+								(<%= team.remaining_kill_time_format %> remaining before auto-termination)
+
+								<ul>
+									<% team.members.select { |member| member.alive? }.each do |member| %>
+										<li>
+											<%= link_to member.name, member %>
+
+											<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-xs" %>
+										</li>
+									<% end %>
+								</ul>
+							</li>
+						<% end %>
+					</ul>
+				<% else %>
+					<p>Nobody should be terminated currently.</p>
+				<% end %>
+			<% end %>
 		<% else %>
 			<p>
 				Your team has been eliminated from the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
