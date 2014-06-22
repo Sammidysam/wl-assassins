@@ -16,6 +16,15 @@ class Team < ActiveRecord::Base
 		end
 	end
 
+	# Returns the teams that are to be terminated.
+	def self.to_be_terminated(game)
+		game.teams.select do |team|
+			!team.terminators? && team.remaining_kill_time.in_days.floor == 0 && team.participation.termination_at > DateTime.now
+		end.sort_by do |inner_team|
+			inner_team.participation.termination_at
+		end
+	end
+
 	# Returns only the user who are current members of team.
 	def members
 		self.memberships.where(active: true).map { |membership| membership.user }
