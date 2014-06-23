@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	enum role: [ :normal, :public_admin, :private_admin ]
 	
-	has_many :memberships
+	has_many :memberships, dependent: :destroy
 	
 	has_many :teams, through: :memberships
 
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 	end
 
 	def alive?
-		in_game? ? Kill.where(participation_id: team.participation.id, target_id: self.id, confirmed: true).empty? : true
+		in_game? ? Kill.where(game_id: team.participation.game_id, target_id: self.id, confirmed: true).empty? : true
 	end
 
 	def dead?

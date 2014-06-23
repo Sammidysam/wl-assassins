@@ -1,14 +1,16 @@
 class Kill < ActiveRecord::Base
 	enum kind: [ :assassination, :termination, :out_of_town, :disqualified, :quit ]
-	
-	belongs_to :participation
-	
-	belongs_to :target, class_name: "User"
 
+	belongs_to :game
+
+	belongs_to :killer, class_name: "Team"
+	belongs_to :target, class_name: "User"
+	
 	validate :target_must_be_alive, on: :create
 	validate :target_must_be_on_target_team, on: :create
 
-	validates :target_id, presence: true
+	validates :killer_id, presence: true, if: Proc.new { |kill| kill.kind == "assassination" }
+	validates :game_id, :target_id, presence: true
 
 	nilify_blanks
 
@@ -17,19 +19,12 @@ class Kill < ActiveRecord::Base
 	end
 
 	def target_must_be_on_target_team
-		participation = Participation.find(participation_id) if participation_id
-		
-		errors.add :target_id, "must be on target team" if self.assassination? && (!target.team || participation.team.target.id != target.team.id)
+		errors.add :target_id, "must be on target team" if self.assassination? && (!target.team || killer.target.id != target.team.id)
 	end
 
 	# Returns when this is an event.
 	# date is a pointless argument to maintain compatibility with Neutralization.
 	def event_time(date)
 		self.occurred_at
-	end
-
-	# Returns the team that conducted the kill.
-	def team
-		self.participation.team if self.participation
 	end
 end

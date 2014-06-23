@@ -1,9 +1,9 @@
 class Game < ActiveRecord::Base
-	has_many :neutralizations
-	has_many :participations
+	has_many :kills, dependent: :destroy
+	has_many :neutralizations, dependent: :destroy
+	has_many :participations, dependent: :destroy
 	
 	has_many :contracts, through: :participations
-	has_many :kills, through: :participations
 	has_many :teams, through: :participations
 
 	validates :name, presence: true
