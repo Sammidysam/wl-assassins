@@ -1,4 +1,5 @@
 class Game < ActiveRecord::Base
+	has_many :kills, dependent: :destroy
 	has_many :neutralizations, dependent: :destroy
 	has_many :participations, dependent: :destroy
 	
