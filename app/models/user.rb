@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	enum role: [ :normal, :public_admin, :private_admin ]
 	
-	has_many :memberships
+	has_many :memberships, dependent: :destroy
 	
 	has_many :teams, through: :memberships
 
