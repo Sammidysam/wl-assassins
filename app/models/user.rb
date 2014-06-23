@@ -1,8 +1,10 @@
 class User < ActiveRecord::Base
 	enum role: [ :normal, :public_admin, :private_admin ]
 	
+	has_many :kills, foreign_key: "target_id", dependent: :destroy
 	has_many :memberships, dependent: :destroy
-	
+	has_many :target_neutralizations, class_name: "Neutralization", foreign_key: "target_id", dependent: :destroy
+	has_many :killer_neutralizations, class_name: "Neutralization", foreign_key: "killer_id", dependent: :destroy
 	has_many :teams, through: :memberships
 
 	has_secure_password

@@ -1,8 +1,9 @@
 class Team < ActiveRecord::Base
+	has_many :games, through: :participations
+	has_many :kills, foreign_key: "killer_id"
 	has_many :memberships, dependent: :destroy
 	has_many :participations, dependent: :destroy
-	
-	has_many :games, through: :participations
+	has_many :target_contracts, class_name: "Contract", foreign_key: "target_id", dependent: :destroy
 	has_many :users, through: :memberships
 	
 	validates :name, presence: true, uniqueness: true
