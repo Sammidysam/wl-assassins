@@ -19,10 +19,11 @@
 		<br>
 		<%= f.text_area :how, class: "form-control" %>
 	</div>
-
-	<%= f.hidden_field :participation_id, value: default_participation_id(@kind, @target.team.participation.game.id) %>
+	
 	<%= f.hidden_field :target_id, value: @target.id %>
 	<%= f.hidden_field :kind, value: @kind if @kind %>
+	<%= f.hidden_field :game_id, value: @target.team.participation.game_id %>
+	<%= f.hidden_field :killer_id, value: default_killer_id(@kind, @target.team.participation.game_id) %>
 
 	<div class="actions">
 		<%= f.submit class: "btn btn-success" %>
