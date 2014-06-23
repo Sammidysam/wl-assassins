@@ -73,7 +73,7 @@ class TeamsController < ApplicationController
 
 	# POST /teams/1/add
 	def add
-		unless user = User.find_by(email: params[:email])
+		unless user = User.find_by("lower(email) = ?", params[:email].downcase)
 			redirect_to @team, alert: "#{params[:email]} does not have an account!"
 		else
 			membership = Membership.new
