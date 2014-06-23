@@ -5,18 +5,14 @@ class Kill < ActiveRecord::Base
 
 	belongs_to :killer, class_name: "Team"
 	belongs_to :target, class_name: "User"
-
-	validate :killer_must_not_be_nil_sometimes, on: :create
+	
 	validate :target_must_be_alive, on: :create
 	validate :target_must_be_on_target_team, on: :create
 
+	validates :killer_id, presence: true, if: Proc.new { |kill| kill.kind == "assassination" }
 	validates :game_id, :target_id, presence: true
 
 	nilify_blanks
-
-	def killer_must_not_be_nil_sometimes
-		errors.add :killer_id, "must not be nil" if self.killer_id.nil? && self.kind == "assassination"
-	end
 
 	def target_must_be_alive
 		errors.add :target_id, "must be alive" unless User.find(target_id).alive?
