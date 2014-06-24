@@ -3,7 +3,9 @@
 <%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
 
 <%# Admin view for game management. %>
-<% unless @game.completed? || @game.in_progress %>
+<% if !@game.completed? && !@game.in_progress %>
+	<p>This game has yet to be started.</p>
+	
 	<%= form_tag start_game_path(@game) do %>
 		<strong>Team Fee</strong>
 		<div class="input-group">
