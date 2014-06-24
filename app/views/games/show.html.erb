@@ -85,5 +85,50 @@
 			<% end %>
 		</div>
 	<% end %>
-<% end %>
+<% elsif @game.in_progress %>
+	<p>This game is currently in progress.</p>
 
+	<h2>Teams</h2>
+
+	<h3>Remaining</h3>
+
+	<% @game.teams.select { |team| !team.eliminated? }.sort_by { |team| team.members.select { |member| member.alive? }.count }.each_slice(6) do |team_block| %>
+		<div class="row">
+			<% team_block.each do |team| %>
+				<div class="col-md-2">
+					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
+
+					<h4><%= link_to team.name, team %></h4>
+
+					<p><%= team.members.select { |member| member.alive? }.count %> / 4 members are still alive.</p>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+
+	<h3>Eliminated</h3>
+
+	<%# To-Do: Implement time of elimination.  It will be time of last kill. %>
+	<% @game.teams.select { |team| team.eliminated? }.each_slice(6) do |team_block| %>
+		<div class="row">
+			<% team_block.each do |team| %>
+				<div class="col-md-2">
+					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
+
+					<h4><%= link_to team.name, team %></h4>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+
+	<h2>Contracts</h2>
+
+	<% contract_order_teams(@game).each_with_index do |team, index| %>
+		<%= link_to team.name, team %>
+		&rarr;
+
+		<% if index == contract_order_teams(@game).count - 1 %>
+			<%= link_to contract_order_teams(@game).first.name, contract_order_teams(@game).first %>
+		<% end %>
+	<% end %>
+<% end %>
