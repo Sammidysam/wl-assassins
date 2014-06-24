@@ -40,6 +40,10 @@ class Team < ActiveRecord::Base
 		!participation.nil?
 	end
 
+	def eliminated?
+		members.all? { |member| member.dead? }
+	end
+
 	def terminators?
 		participation.terminators if participation
 	end
