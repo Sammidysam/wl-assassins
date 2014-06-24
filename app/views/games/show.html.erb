@@ -1,5 +1,7 @@
 <h1><%= @game.name %></h1>
 
+<%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
+
 <%# Admin view for game management. %>
 <% unless @game.completed? || @game.in_progress %>
 	<%= form_tag start_game_path(@game) do %>
@@ -83,4 +85,3 @@
 	<% end %>
 <% end %>
 
-<%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
