@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :kill, :neutralize, :terminators]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators]
 
 	load_and_authorize_resource
 
