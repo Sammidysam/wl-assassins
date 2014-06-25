@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624161627) do
+ActiveRecord::Schema.define(version: 20140625170539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contracts", force: true do |t|
-    t.boolean  "completed"
+    t.boolean  "completed",        default: false
     t.integer  "participation_id"
     t.integer  "target_id"
     t.datetime "created_at"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140624161627) do
 
   create_table "games", force: true do |t|
     t.string   "name"
-    t.boolean  "in_progress"
+    t.boolean  "in_progress", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "started_at"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20140624161627) do
   end
 
   create_table "kills", force: true do |t|
-    t.boolean  "confirmed"
+    t.boolean  "confirmed",   default: false
     t.integer  "target_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -54,11 +54,11 @@ ActiveRecord::Schema.define(version: 20140624161627) do
     t.integer  "team_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active"
+    t.boolean  "active",     default: false
   end
 
   create_table "neutralizations", force: true do |t|
-    t.boolean  "confirmed"
+    t.boolean  "confirmed",   default: false
     t.datetime "start"
     t.integer  "killer_id"
     t.integer  "target_id"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20140624161627) do
     t.datetime "updated_at"
     t.datetime "termination_at"
     t.float    "paid_amount"
-    t.boolean  "terminators"
+    t.boolean  "terminators",    default: false
   end
 
   create_table "teams", force: true do |t|
@@ -101,17 +101,17 @@ ActiveRecord::Schema.define(version: 20140624161627) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "phone_number"
-    t.boolean  "phone_number_public"
+    t.boolean  "phone_number_public",   default: false
     t.string   "address"
-    t.boolean  "address_public"
+    t.boolean  "address_public",        default: false
     t.integer  "graduation_year"
     t.text     "description"
     t.string   "profile_picture_url"
-    t.boolean  "out_of_town"
+    t.boolean  "out_of_town",           default: false
     t.float    "willing_to_pay_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "email_public"
+    t.boolean  "email_public",          default: false
     t.integer  "role",                  default: 0
   end
 
