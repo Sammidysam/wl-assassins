@@ -26,7 +26,7 @@
 				</div>
 			<% end %>
 
-			<% if @team.in_game? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time < 1.day %>
+			<% if @team.in_game? && !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time < 1.day %>
 				<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
 			<% end %>
 		</div>
