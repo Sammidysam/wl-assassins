@@ -29,6 +29,11 @@
 								<% end %>
 
 								via <%= kill.kind %>.
+
+								<div class="btn-group btn-group-xs">
+									<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
+									<%= link_to "Decline", kill, method: :delete, class: "btn btn-danger btn-xs" %>
+								</div>
 							</p>
 						</li>
 					<% end %>
