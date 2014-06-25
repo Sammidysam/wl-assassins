@@ -4,7 +4,7 @@ class Neutralization < ActiveRecord::Base
 	belongs_to :killer, class_name: "User"
 	belongs_to :target, class_name: "User"
 
-	validates :confirmed, :killer_id, :target_id, :game_id, presence: true
+	validates :killer_id, :target_id, :game_id, presence: true
 
 	nilify_blanks
 

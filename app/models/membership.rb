@@ -6,7 +6,7 @@ class Membership < ActiveRecord::Base
 	validate :team_cannot_have_more_than_four_members, on: :create
 	validate :user_cannot_be_on_team_twice, on: :create
 
-	validates :team_id, :user_id, :active, presence: true
+	validates :team_id, :user_id, presence: true
 
 	# Ensures that no admins are on a team.
 	def admin_cannot_be_on_team

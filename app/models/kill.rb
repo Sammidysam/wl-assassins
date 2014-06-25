@@ -10,7 +10,7 @@ class Kill < ActiveRecord::Base
 	validate :target_must_be_on_target_team, on: :create
 
 	validates :killer_id, presence: true, if: Proc.new { |kill| kill.kind == "assassination" }
-	validates :confirmed, :game_id, :target_id, presence: true
+	validates :game_id, :target_id, presence: true
 
 	nilify_blanks
 
