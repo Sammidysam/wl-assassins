@@ -104,6 +104,14 @@
 				<p>
 					Your team is participating in the game <%= current_user.team.participation.game.name %>.
 				</p>
+
+				<% Kill.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |kill| %>
+					<p>
+						<%= kill.killer.name %> killed you.
+
+						<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
+					</p>
+				<% end %>
 				
 				<p>
 					<% unless current_user.team.completed_contracts.empty? %>
