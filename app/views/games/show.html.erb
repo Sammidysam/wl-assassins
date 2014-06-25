@@ -123,12 +123,9 @@
 
 	<h2>Contracts</h2>
 
-	<% contract_order_teams(@game).each_with_index do |team, index| %>
+	<% @contract_order_teams.each do |team| %>
 		<%= link_to team.name, team %>
 		&rarr;
-
-		<% if index == contract_order_teams(@game).count - 1 %>
-			<%= link_to contract_order_teams(@game).first.name, contract_order_teams(@game).first %>
-		<% end %>
 	<% end %>
+	<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 <% end %>

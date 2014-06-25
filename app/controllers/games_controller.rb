@@ -12,6 +12,7 @@ class GamesController < ApplicationController
 	# GET /games/1
 	# GET /games/1.json
 	def show
+		@contract_order_teams = view_context.contract_order_teams(@game)
 	end
 
 	# GET /games/new
