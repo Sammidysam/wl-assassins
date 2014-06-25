@@ -31,6 +31,10 @@ class Team < ActiveRecord::Base
 		self.memberships.where(active: true).map { |membership| membership.user }
 	end
 
+	def alive_members
+		members.select { |member| member.alive? }
+	end
+
 	# Returns the current participation for the team.
 	def participation
 		self.participations.find { |participation| participation.game.in_progress if participation.game }
