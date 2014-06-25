@@ -35,6 +35,12 @@ class Ability
 					user.team.contract.target_id == team.id
 				end
 			end
+
+			if user.terminator?
+				can :read, Team.all do |team|
+					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && team.remaining_kill_time.in_days.floor == 0
+				end
+			end
 			
 			can :create, Team unless user.team
 			can :index, Team if user.team
