@@ -48,6 +48,11 @@
 						<li>
 							<p>
 								<%= link_to neutralization.killer.name, neutralization.killer %> was neutralized by <%= link_to neutralization.target.name, neutralization.target %>.
+
+								<div class="btn-group btn-group-xs">
+									<%= link_to "Confirm", confirm_neutralization_path(neutralization), method: :post, class: "btn btn-danger btn-xs" %>
+									<%= link_to "Decline", neutralization, method: :delete, class: "btn btn-danger btn-xs" %>
+								</div>
 							</p>
 						</li>
 					<% end %>
