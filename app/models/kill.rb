@@ -1,5 +1,5 @@
 class Kill < ActiveRecord::Base
-	enum kind: [ :assassination, :termination, :out_of_town, :disqualified, :quit ]
+	enum kind: [ :assassination, :termination, :out_of_town, :disqualification, :quitting ]
 
 	belongs_to :game
 
@@ -26,5 +26,9 @@ class Kill < ActiveRecord::Base
 	# date is a pointless argument to maintain compatibility with Neutralization.
 	def event_time(date)
 		self.occurred_at
+	end
+	
+	def readable_kind
+		self.kind == "out_of_town" ? "being out-of-town at the wrong time" : self.kind
 	end
 end
