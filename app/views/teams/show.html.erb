@@ -9,7 +9,7 @@
 		<div class="col-md-2">
 			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
-			<h3><%= link_to member.name, member %></h3>
+			<h3><%= link_to (member.alive? ? member.name : content_tag(:del, member.name)), member %></h3>
 
 			<% if can? :remove, @team %>
 				<%= form_tag remove_team_path(@team) do %>
@@ -18,16 +18,18 @@
 					<%= submit_tag "Remove", class: "btn btn-danger" %>
 				<% end %>
 			<% end %>
-			
-			<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
-				<div class="btn-group btn-group-sm">
-					<%= link_to "Kill", kills_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
-					<%= link_to "Neutralized Me", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
-				</div>
-			<% end %>
 
-			<% if @team.in_game? && !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time.in_days.floor == 0 %>
-				<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+			<% if member.alive? %>
+				<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
+					<div class="btn-group btn-group-sm">
+						<%= link_to "Kill", kills_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Neutralized Me", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+					</div>
+				<% end %>
+
+				<% if @team.in_game? && !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time.in_days.floor == 0 %>
+					<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+				<% end %>
 			<% end %>
 		</div>
 	<% end %>
