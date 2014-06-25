@@ -32,6 +32,11 @@ class User < ActiveRecord::Base
 		!alive?
 	end
 
+	# Returns the kill that killed this user.
+	def kill
+		Kill.find_by game_id: team.participation.game_id, target_id: self.id, confirmed: true
+	end
+
 	def terminator?
 		team.terminators?
 	end
