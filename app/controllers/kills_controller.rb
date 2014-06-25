@@ -1,4 +1,6 @@
 class KillsController < ApplicationController
+	before_action :set_kill, only: [:destroy, :confirm]
+	
 	load_and_authorize_resource
 	
 	def new
@@ -24,12 +26,20 @@ class KillsController < ApplicationController
 	end
 
 	def destroy
-		@kill = Kill.find(params[:id])
-
 		redirect_to root_path, alert: (@kill.destroy ? nil : "Could not destroy kill!")
 	end
 
+	def confirm
+		@kill.confirmed = true
+
+		redirect_to root_path, alert: (@kill.save ? nil : "Could not confirm kill!")
+	end
+
 	private
+	def set_kill
+		@kill = Kill.find(params[:id])
+	end
+	
 	def kill_params
 		params.require(:kill).permit(:confirmed, :target_id, :picture_url, :how, :kind, :game_id, :killer_id)
 	end
