@@ -11,7 +11,10 @@ WlAssassins::Application.routes.draw do
 	post "session/new"
 	
 	resources :pages
-	resources :neutralizations, only: [:new, :create, :destroy]
+
+	resources :neutralizations, only: [:new, :create, :destroy] do
+		post "confirm", on: :member
+	end
 
 	resources :kills, only: [:new, :create, :destroy] do
 		post "confirm", on: :member

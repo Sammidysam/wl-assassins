@@ -1,4 +1,6 @@
 class NeutralizationsController < ApplicationController
+	before_action :set_neutralization, only: [:destroy, :confirm]
+	
 	load_and_authorize_resource
 	
 	def new
@@ -18,12 +20,20 @@ class NeutralizationsController < ApplicationController
 	end
 
 	def destroy
-		@neutralization = Neutralization.find(params[:id])
-
 		redirect_to root_path, alert: (neutralization.destroy ? nil : "Could not destroy neutralization!")
 	end
 
+	def confirm
+		@neutralization.confirmed = true
+
+		redirect_to root_path, alert: (@neutralization.save ? nil : "Could not confirm neutralization!")
+	end
+
 	private
+	def set_neutralization
+		@neutralization = Neutralization.find(params[:id])
+	end
+	
 	def neutralization_params
 		params.require(:neutralization).permit(:killer_id, :target_id, :game_id, :how, :picture_url)
 	end
