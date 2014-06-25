@@ -30,6 +30,8 @@
 				<% if @team.in_game? && !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time.in_days.floor == 0 %>
 					<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
 				<% end %>
+			<% else %>
+				<p>Died via <%= member.kill.readable_kind %></p>
 			<% end %>
 		</div>
 	<% end %>
