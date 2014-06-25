@@ -96,7 +96,7 @@
 			<% end %>
 		<% else %>
 			<p>
-				Your team has been eliminated from the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
+				Your team has been eliminated from the game <%= current_user.team.participation.game.name %>.
 				Good luck next time!
 			</p>
 		<% end %>
