@@ -112,6 +112,14 @@
 						<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
 					</p>
 				<% end %>
+
+				<% Neutralization.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |neutralization| %>
+					<p>
+						You neutralized <%= neutralization.target.name %>.
+
+						<%= link_to "Confirm", confirm_neutralization_path(neutralization), method: :post, class: "btn btn-danger btn-xs" %>
+					</p>
+				<% end %>
 				
 				<p>
 					<% unless current_user.team.completed_contracts.empty? %>
