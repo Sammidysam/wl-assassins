@@ -10,8 +10,8 @@ class Ability
 		can :create, User
 		can :index, User
 
-		can :read, User.all do |inner_user|
-			inner_user.public_admin?
+		can :read, User.all do |can_user|
+			can_user.public_admin?
 		end
 
 		can :day, Page
