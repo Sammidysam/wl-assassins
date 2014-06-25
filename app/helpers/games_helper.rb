@@ -4,12 +4,14 @@ module GamesHelper
 		teams = []
 		starter_team = game.teams.select { |team| !team.eliminated? }.first
 
-		teams << starter_team
+		if starter_team
+			teams << starter_team
 
-		while (next_team = next_team ? next_team.contract.target : starter_team.contract.target).id != starter_team.id
-			teams << next_team
+			while (next_team = next_team ? next_team.contract.target : starter_team.contract.target).id != starter_team.id
+				teams << next_team
+			end
+
+			teams
 		end
-
-		teams
 	end
 end
