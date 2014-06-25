@@ -20,7 +20,7 @@ class NeutralizationsController < ApplicationController
 	end
 
 	def destroy
-		redirect_to root_path, alert: (neutralization.destroy ? nil : "Could not destroy neutralization!")
+		redirect_to root_path, alert: (@neutralization.destroy ? nil : "Could not destroy neutralization!")
 	end
 
 	def confirm
