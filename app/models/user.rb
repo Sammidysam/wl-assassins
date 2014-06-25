@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 	end
 
 	def terminator?
-		team.terminators?
+		team.terminators? if team
 	end
 
 	# Returns the current team for the user.
