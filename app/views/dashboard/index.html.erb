@@ -55,7 +55,7 @@
 	<% end %>
 
 	<% if current_user.in_game? %>
-		<% unless current_user.team.participation.eliminated %>
+		<% unless current_user.team.eliminated? %>
 			<% unless current_user.terminator? %>
 				<p>
 					Your team is participating in the game <%= link_to current_user.team.participation.game.name, current_user.team.participation.game %>.
