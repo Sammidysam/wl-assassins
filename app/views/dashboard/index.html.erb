@@ -117,7 +117,7 @@
 										<li>
 											<%= link_to member.name, member %>
 
-											<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-xs" %>
+											<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-xs" %>
 										</li>
 									<% end %>
 								</ul>

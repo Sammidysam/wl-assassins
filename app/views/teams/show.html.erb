@@ -22,13 +22,13 @@
 			<% if member.alive? %>
 				<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
 					<div class="btn-group btn-group-sm">
-						<%= link_to "Kill", kills_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
-						<%= link_to "Neutralized Me", neutralizations_new_path(email: member.email), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Kill", new_kill_path(email: member.email), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Neutralized Me", new_neutralization_path(email: member.email), class: "btn btn-danger btn-sm" %>
 					</div>
 				<% end %>
 
 				<% if @team.in_game? && !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time.in_days.floor == 0 %>
-					<%= link_to "Terminate", kills_new_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+					<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
 				<% end %>
 			<% else %>
 				<p>Died via <%= member.kill.readable_kind %></p>
