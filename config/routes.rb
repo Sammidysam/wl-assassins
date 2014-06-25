@@ -3,22 +3,19 @@ WlAssassins::Application.routes.draw do
 	get "dashboard" => "dashboard#index"
 	get "days/:year/:month/:day" => "pages#day"
 	get "history" => "games#index"
-	get "kills/destroy/:id" => "kills#destroy"
-	get "kills/new"
 	get "log_in" => "session#new"
 	get "log_out" => "session#destroy"
-	get "neutralizations/destroy/:id" => "neutralizations#destroy"
-	get "neutralizations/new"
 	get "welcome/index"
 	
-	post "kills/create" => "kills#create"
-	post "kills/new"
-	post "neutralizations/create" => "neutralizations#create"
-	post "neutralizations/new"
 	post "session/create" => "session#create"
 	post "session/new"
 	
 	resources :pages
+	resources :neutralizations, only: [:new, :create, :destroy]
+
+	resources :kills, only: [:new, :create, :destroy] do
+		post "confirm", on: :member
+	end
 	
 	resources :games do
 		post "add", on: :member
