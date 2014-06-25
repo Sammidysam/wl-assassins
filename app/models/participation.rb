@@ -4,5 +4,5 @@ class Participation < ActiveRecord::Base
 
 	has_many :contracts, dependent: :destroy
 
-	validates :team_id, :game_id, :paid_amount, presence: true
+	validates :team_id, :game_id, :paid_amount, :terminators, presence: true
 end

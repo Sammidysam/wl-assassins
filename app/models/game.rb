@@ -6,7 +6,7 @@ class Game < ActiveRecord::Base
 	has_many :contracts, through: :participations
 	has_many :teams, through: :participations
 
-	validates :name, presence: true
+	validates :name, :in_progress, presence: true
 
 	def completed?
 		self.ended_at && !self.in_progress
