@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	include ActionView::Helpers::TextHelper
+	
 	enum role: [ :normal, :public_admin, :private_admin ]
 	
 	has_many :kills, foreign_key: "target_id", dependent: :destroy
@@ -25,7 +27,7 @@ class User < ActiveRecord::Base
 	end
 
 	def alive?
-		in_game? ? Kill.where(game_id: team.participation.game_id, target_id: self.id, confirmed: true).empty? : true
+		in_game? ? kill.nil? : true
 	end
 
 	def dead?
@@ -35,6 +37,23 @@ class User < ActiveRecord::Base
 	# Returns the kill that killed this user.
 	def kill
 		Kill.find_by game_id: team.participation.game_id, target_id: self.id, confirmed: true
+	end
+
+	def neutralized?
+		!self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).empty? if in_game? && alive?
+	end
+
+	def neutralized_end
+		TimeDifference.between self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).order(:start).last.end_time, Time.now
+	end
+
+	def neutralized_end_format
+		components = []
+
+		components << pluralize(neutralized_end.in_hours.floor, "hour") if neutralized_end.in_hours.floor > 0
+		components << pluralize(neutralized_end.in_minutes.floor - neutralized_end.in_hours.floor * 60, "minute") if neutralized_end.in_minutes.floor > 0
+
+		components.to_sentence
 	end
 
 	def terminator?
