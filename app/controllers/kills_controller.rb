@@ -36,7 +36,19 @@ class KillsController < ApplicationController
 	def confirm
 		@kill.confirmed = true
 
-		redirect_to root_path, alert: (@kill.save ? nil : "Could not confirm kill!")
+		if @kill.save
+			# Reset termination_at for killing team.
+			if @kill.kind == "assassination"
+				participation = @kill.killer.participation
+				
+				participation.termination_at = DateTime.now + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
+				participation.save
+			end
+
+			redirect_to root_path, notice: "Successfully confirmed kill!"
+		else
+			redirect_to root_path, alert: "Could not confirm kill!"
+		end
 	end
 
 	private
