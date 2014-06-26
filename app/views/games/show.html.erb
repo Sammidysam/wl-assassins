@@ -92,7 +92,7 @@
 
 	<h3>Remaining</h3>
 
-	<% @game.teams.select { |team| !team.terminators? && !team.eliminated? }.sort_by { |team| team.alive_members.count }.each_slice(6) do |team_block| %>
+	<% @game.remaining_teams.sort_by { |team| team.alive_members.count }.each_slice(6) do |team_block| %>
 		<div class="row">
 			<% team_block.each do |team| %>
 				<div class="col-md-2">
@@ -109,7 +109,7 @@
 	<h3>Eliminated</h3>
 
 	<%# To-Do: Implement time of elimination.  It will be time of last kill. %>
-	<% @game.teams.select { |team| !team.terminators? && team.eliminated? }.each_slice(6) do |team_block| %>
+	<% @game.eliminated_teams.each_slice(6) do |team_block| %>
 		<div class="row">
 			<% team_block.each do |team| %>
 				<div class="col-md-2">
@@ -135,5 +135,19 @@
 		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 	<% end %>
 
-	<h2>Kills</h2>
+	<% if @game.kills.where(confirmed: true).count > 0 %>
+		<h2>Kills</h2>
+
+		<% @game.kills.where(confirmed: true).each do |kill| %>
+			<p>
+				<% if kill.killer %>
+					<%= link_to kill.killer.name, kill.killer %>
+				<% else %>
+					<%= kill.readable_kind.capitalize %>
+				<% end %>
+				<%= glyphicon "arrow-right" %>
+				<%= link_to kill.target.name, kill.target %>
+			</p>
+		<% end %>
+	<% end %>
 <% end %>
