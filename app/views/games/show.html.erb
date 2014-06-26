@@ -125,7 +125,7 @@
 
 	<% @contract_order_teams.each do |team| %>
 		<%= link_to team.name, team %>
-		&rarr;
+		<span class="glyphicon glyphicon-arrow-right"></span>
 	<% end %>
 	<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 <% end %>
