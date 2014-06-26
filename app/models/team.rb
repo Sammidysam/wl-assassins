@@ -93,5 +93,5 @@ class Team < ActiveRecord::Base
 			kill.save
 		end
 	end
-	handle_asynchronously :autoterminate, run_at: participation.termination_at
+	handle_asynchronously :autoterminate, run_at: Proc.new { participation.termination_at }
 end
