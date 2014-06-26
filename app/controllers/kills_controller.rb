@@ -43,6 +43,7 @@ class KillsController < ApplicationController
 				participation = @kill.killer.participation
 				
 				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
+				
 				participation.save
 			end
 
