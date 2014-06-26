@@ -35,13 +35,14 @@ class KillsController < ApplicationController
 
 	def confirm
 		@kill.confirmed = true
+		@kill.confirmed_at = DateTime.now
 
 		if @kill.save
 			# Reset termination_at for killing team.
 			if @kill.kind == "assassination"
 				participation = @kill.killer.participation
 				
-				participation.termination_at = DateTime.now + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
+				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
 				participation.save
 			end
 
