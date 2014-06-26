@@ -105,7 +105,7 @@
 			<% end %>
 		</div>
 	<% end %>
-
+	
 	<h3>Eliminated</h3>
 
 	<%# To-Do: Implement time of elimination.  It will be time of last kill. %>
@@ -135,10 +135,10 @@
 		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 	<% end %>
 
-	<% if @game.kills.where(confirmed: true).count > 0 %>
+	<% if @confirmed_kills.count > 0 %>
 		<h2>Kills</h2>
 
-		<% @game.kills.where(confirmed: true).each do |kill| %>
+		<% @confirmed_kills.each do |kill| %>
 			<p>
 				<% if kill.killer %>
 					<%= link_to kill.killer.name, kill.killer %>
