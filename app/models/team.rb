@@ -81,4 +81,17 @@ class Team < ActiveRecord::Base
 
 		components.to_sentence
 	end
+
+	def autoterminate
+		# Terminate all members of team.
+		alive_members.each do |member|
+			kill = Kill.new
+			kill.target_id = member.id
+			kill.kind = "out_of_time"
+			kill.game_id = participation.game_id
+
+			kill.save
+		end
+	end
+	handle_asynchronously :autoterminate, run_at: participation.termination_at
 end
