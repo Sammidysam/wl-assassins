@@ -162,9 +162,9 @@
 				<%= glyphicon "arrow-right" %>
 				<%= link_to neutralization.killer.name, neutralization.killer %>
 				from
-				<%= neutralization.start.localtime.strftime "%b %-d %l:%M %p" %>
+				<%= neutralization.start.in_time_zone("Indiana (East)").strftime "%b %-d %l:%M %p" %>
 				to
-				<%= neutralization.end_time.localtime.strftime "%b %-d %l:%M %p" %>
+				<%= neutralization.end_time.in_time_zone("Indiana (East)").strftime "%b %-d %l:%M %p" %>
 			</p>
 		<% end %>
 	<% end %>
