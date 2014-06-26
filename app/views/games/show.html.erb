@@ -160,9 +160,9 @@
 				<%= glyphicon "arrow-right" %>
 				<%= link_to neutralization.killer.name, neutralization.killer %>
 				from
-				<%= neutralization.start.strftime "%b %-d %l:%M %p" %>
+				<%= neutralization.start.localtime.strftime "%b %-d %l:%M %p" %>
 				to
-				<%= neutralization.end_time.strftime "%b %-d %l:%M %p" %>
+				<%= neutralization.end_time.localtime.strftime "%b %-d %l:%M %p" %>
 			</p>
 		<% end %>
 	<% end %>
