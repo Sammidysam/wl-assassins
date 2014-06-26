@@ -28,7 +28,7 @@
 									by <%= link_to kill.killer.name, kill.killer %>
 								<% end %>
 
-								via <%= kill.kind %>.
+								via <%= kill.readable_kind %>.
 
 								<div class="btn-group btn-group-xs">
 									<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
