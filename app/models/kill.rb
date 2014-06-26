@@ -25,7 +25,7 @@ class Kill < ActiveRecord::Base
 	# Returns when this is an event.
 	# date is a pointless argument to maintain compatibility with Neutralization.
 	def event_time(date)
-		self.occurred_at
+		self.confirmed_at
 	end
 	
 	def readable_kind

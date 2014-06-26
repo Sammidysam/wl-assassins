@@ -67,7 +67,7 @@ class PagesController < ApplicationController
 	def day
 		@argument_day = DateTime.new params[:year].to_i, params[:month].to_i, params[:day].to_i
 		
-		@events = Kill.where(confirmed: true, occurred_at: @argument_day.beginning_of_day..@argument_day.end_of_day) + Neutralization.where(confirmed: true, start: (@argument_day - 1.day).beginning_of_day..@argument_day.end_of_day)
+		@events = Kill.where(confirmed: true, confirmed_at: @argument_day.beginning_of_day..@argument_day.end_of_day) + Neutralization.where(confirmed: true, start: (@argument_day - 1.day).beginning_of_day..@argument_day.end_of_day)
 		@events.sort_by! { |event| event.event_time @argument_day }
 	end
 
