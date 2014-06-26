@@ -117,8 +117,8 @@ class GamesController < ApplicationController
 	# POST /games/1/start
 	def start
 		# Check that all team members are valid.
-		unless @game.teams.all? { |team| team.members.all? { |member| member.valid? } }
-			redirect_to @game, alert: "Not all team members are valid!"
+		unless (bad_users = @game.users.select { |user| !user.valid? }.map { |user| "#{user.name} on team #{user.team.name}" }).empty?
+			redirect_to @game, alert: "Not all team members are valid!  Bad users: #{bad_users.to_sentence}."
 		else
 			@game.in_progress = true
 			@game.started_at = DateTime.now
