@@ -16,7 +16,11 @@ class NeutralizationsController < ApplicationController
 	def create
 		@neutralization = Neutralization.new(neutralization_params)
 
-		redirect_to root_path, alert: (@neutralization.save ? nil : "Could not create neutralization!")
+		if @neutralization.save
+			redirect_to root_path, notice: "Successfully created neutralization!"
+		else
+			redirect_to root_path, alert: "Could not create neutralization!"
+		end
 	end
 
 	def destroy
