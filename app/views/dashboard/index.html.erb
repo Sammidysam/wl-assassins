@@ -108,6 +108,7 @@
 				<% Kill.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |kill| %>
 					<p>
 						<%= kill.killer.name %> killed you.
+						If this did not occur, contact an admin, and they can delete it.
 
 						<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
 					</p>
@@ -116,6 +117,7 @@
 				<% Neutralization.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |neutralization| %>
 					<p>
 						You neutralized <%= neutralization.target.name %>.
+						If this did not occur, contact an admin, and they can delete it.
 
 						<%= link_to "Confirm", confirm_neutralization_path(neutralization), method: :post, class: "btn btn-danger btn-xs" %>
 					</p>
