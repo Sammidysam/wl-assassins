@@ -34,6 +34,7 @@ class KillsController < ApplicationController
 	end
 
 	def confirm
+		@killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
 		@target_contract = @kill.target.team.contract
 		
 		@kill.confirmed = true
@@ -41,7 +42,7 @@ class KillsController < ApplicationController
 
 		if @kill.save
 			# Reset termination_at for killing team.
-			if @kill.kind == "assassination"
+			if @kill.assassination?
 				participation = @kill.killer.participation
 				
 				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
@@ -52,7 +53,7 @@ class KillsController < ApplicationController
 			# Account for if the team is now eliminated.
 			if @kill.target.team.eliminated?
 				# Close current contract.
-				old_contract = @kill.killer.contract
+				old_contract = @killer_team.contract
 
 				old_contract.completed = true
 				old_contract.end = @kill.confirmed_at
@@ -61,7 +62,7 @@ class KillsController < ApplicationController
 
 				# Create and assign new contract.
 				new_contract = Contract.new
-				new_contract.participation_id = @kill.killer.participation.id
+				new_contract.participation_id = @killer_team.participation_id
 				new_contract.target_id = @target_contract.id
 				new_contract.start = @kill.confirmed_at
 
