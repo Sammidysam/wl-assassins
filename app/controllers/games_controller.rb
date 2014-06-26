@@ -142,7 +142,7 @@ class GamesController < ApplicationController
 				# Set the termination time.
 				contract_teams.each do |team|
 					participation = team.participation
-					participation.termination_at = DateTime.now + (@game.teams.count > 4 ? 5 : 4).days
+					participation.termination_at = DateTime.now + (@game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
 
 					errors = true unless participation.save
 				end
