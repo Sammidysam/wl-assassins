@@ -22,7 +22,11 @@ class KillsController < ApplicationController
 	def create
 		@kill = Kill.new(kill_params)
 
-		redirect_to root_path, alert: (@kill.save ? nil : "Could not create kill!")
+		if @kill.save
+			redirect_to root_path, notice: "Successfully created kill!"
+		else
+			redirect_to root_path, alert: "Could not create kill!"
+		end
 	end
 
 	def destroy
