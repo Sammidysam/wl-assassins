@@ -34,6 +34,8 @@ class KillsController < ApplicationController
 	end
 
 	def confirm
+		@target_contract = @kill.target.team.contract
+		
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
 
@@ -45,6 +47,25 @@ class KillsController < ApplicationController
 				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
 				
 				participation.save
+			end
+
+			# Account for if the team is now eliminated.
+			if @kill.target.team.eliminated?
+				# Close current contract.
+				old_contract = @kill.killer.contract
+
+				old_contract.completed = true
+				old_contract.end = @kill.confirmed_at
+
+				old_contract.save
+
+				# Create and assign new contract.
+				new_contract = Contract.new
+				new_contract.participation_id = @kill.killer.participation.id
+				new_contract.target_id = @target_contract.id
+				new_contract.start = @kill.confirmed_at
+
+				new_contract.save
 			end
 
 			redirect_to root_path, notice: "Successfully confirmed kill!"
