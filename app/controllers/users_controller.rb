@@ -77,7 +77,24 @@ class UsersController < ApplicationController
 	def out_of_town
 		@user.toggle :out_of_town
 
-		redirect_to dashboard_path, alert: (@user.save ? nil : "Could not toggle out-of-town!")
+		if @user.save
+			# Check if all remaining members of @user's team are out-of-town.
+			if @user.team && @user.team.in_game? && @user.team.alive_members.all? { |member| member.out_of_town }
+				# Kill all members of the team.
+				@user.team.alive_members.each do |member|
+					kill = Kill.new
+					kill.target_id = member.id
+					kill.kind = "out_of_town"
+					kill.game_id = @user.team.participation.game_id
+
+					kill.save
+				end
+			end
+			
+			redirect_to dashboard_path
+		else
+			redirect_to dashboard_path, alert: "Could not toggle out-of-town!"
+		end
 	end
 
 	private
