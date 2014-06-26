@@ -1,4 +1,6 @@
 class Team < ActiveRecord::Base
+	include ActionView::Helpers::TextHelper
+	
 	has_many :games, through: :participations
 	has_many :kills, foreign_key: "killer_id"
 	has_many :memberships, dependent: :destroy
@@ -73,9 +75,9 @@ class Team < ActiveRecord::Base
 	def remaining_kill_time_format
 		components = []
 		
-		components << "#{remaining_kill_time.in_days.floor} days" if remaining_kill_time.in_days.floor > 0
-		components << "#{remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24} hours" if remaining_kill_time.in_hours.floor > 0
-		components << "#{remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60} minutes" if remaining_kill_time.in_minutes.floor > 0
+		components << pluralize(remaining_kill_time.in_days.floor, "day") if remaining_kill_time.in_days.floor > 0
+		components << pluralize(remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24, "hour") if remaining_kill_time.in_hours.floor > 0
+		components << pluralize(remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60, "minute") if remaining_kill_time.in_minutes.floor > 0
 
 		components.to_sentence
 	end
