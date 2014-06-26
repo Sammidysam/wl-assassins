@@ -92,7 +92,7 @@
 		<% end %>
 	</p>
 
-	<% unless current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
+	<% if current_user.team && !current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
 		<p>
 			Your team is scheduled to participate in the <%= pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
 		</p>
