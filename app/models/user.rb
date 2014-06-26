@@ -40,11 +40,11 @@ class User < ActiveRecord::Base
 	end
 
 	def neutralized?
-		!self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).empty? if in_game? && alive?
+		!self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).select { |neutralization| DateTime.now < neutralization.end_time }.empty? if in_game? && alive?
 	end
 
 	def neutralized_end
-		TimeDifference.between self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).order(:start).last.end_time, Time.now
+		TimeDifference.between self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).order(:start).select { |neutralization| DateTime.now < neutralization.end_time }.last.end_time, Time.now
 	end
 
 	def neutralized_end_format
