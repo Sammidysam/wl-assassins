@@ -135,7 +135,7 @@
 						Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 					<% end %>
 					
-					You are currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+					Your team is currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
 				</p>
 			<% else %>
 				<h2>Hit List</h2>
