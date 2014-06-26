@@ -10,4 +10,8 @@ module ApplicationHelper
 	def markdown(content)
 		Markdown::RENDERER.render(content).html_safe
 	end
+
+	def glyphicon(icon)
+		content_tag :span, nil, class: "glyphicon glyphicon-#{icon}"
+	end
 end
