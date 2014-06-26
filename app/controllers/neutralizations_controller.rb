@@ -29,6 +29,7 @@ class NeutralizationsController < ApplicationController
 
 	def confirm
 		@neutralization.confirmed = true
+		@neutralization.start = DateTime.now
 
 		redirect_to root_path, alert: (@neutralization.save ? nil : "Could not confirm neutralization!")
 	end
