@@ -1,5 +1,5 @@
 class Kill < ActiveRecord::Base
-	enum kind: [ :assassination, :termination, :out_of_town, :disqualification, :quitting ]
+	enum kind: [ :assassination, :termination, :out_of_town, :out_of_time, :disqualification, :quitting ]
 
 	belongs_to :game
 
@@ -29,6 +29,13 @@ class Kill < ActiveRecord::Base
 	end
 	
 	def readable_kind
-		self.kind == "out_of_town" ? "being out-of-town at the wrong time" : self.kind
+		case self.kind
+		when "out_of_town"
+			"being out-of-town at the wrong time"
+		when "out_of_time"
+			"running out of time to conduct a kill"
+		else
+			self.kind
+		end
 	end
 end
