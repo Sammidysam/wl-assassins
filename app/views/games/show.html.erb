@@ -123,9 +123,17 @@
 
 	<h2>Contracts</h2>
 
-	<% @contract_order_teams.each do |team| %>
-		<%= link_to team.name, team %>
-		<span class="glyphicon glyphicon-arrow-right"></span>
+	<% if @contract_order_teams.count == 2 %>
+		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
+		<%= glyphicon "arrow-left" %><%= glyphicon "arrow-right" %>
+		<%= link_to @contract_order_teams.last.name, @contract_order_teams.last %>
+	<% else %>
+		<% @contract_order_teams.each do |team| %>
+			<%= link_to team.name, team %>
+			<%= glyphicon "arrow-right" %>
+		<% end %>
+		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 	<% end %>
-	<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
+
+	<h2>Kills</h2>
 <% end %>
