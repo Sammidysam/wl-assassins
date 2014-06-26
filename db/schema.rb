@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625170539) do
+ActiveRecord::Schema.define(version: 20140626024118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,14 +37,14 @@ ActiveRecord::Schema.define(version: 20140625170539) do
   end
 
   create_table "kills", force: true do |t|
-    t.boolean  "confirmed",   default: false
+    t.boolean  "confirmed",    default: false
     t.integer  "target_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "occurred_at"
+    t.datetime "confirmed_at"
     t.string   "picture_url"
     t.text     "how"
-    t.integer  "kind",        default: 0
+    t.integer  "kind",         default: 0
     t.integer  "game_id"
     t.integer  "killer_id"
   end
