@@ -67,13 +67,13 @@ class Ability
 			
 			can :manage, user
 
-			can :create, Kill
+			can :create, Kill if user.alive?
 
 			can :confirm, Kill.all do |kill|
 				user.id == kill.target_id
 			end
 
-			can :create, Neutralization
+			can :create, Neutralization if user.alive?
 
 			can :confirm, Neutralization.all do |neutralization|
 				user.id == neutralization.target_id
