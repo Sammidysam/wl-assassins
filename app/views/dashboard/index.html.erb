@@ -112,6 +112,13 @@
 					</p>
 				<% end %>
 
+				<% if current_user.neutralized? %>
+					<p>
+						You are currently neutralized, and cannot hunt anyone.
+						The neutralization is set to end in <%= current_user.neutralized_end_format %>.
+					</p>
+				<% end %>
+
 				<% Kill.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |kill| %>
 					<p>
 						<% if kill.assassination? %>
