@@ -116,45 +116,40 @@ class GamesController < ApplicationController
 
 	# POST /games/1/start
 	def start
-		# Check that all teams have four users.
-		unless @game.teams.all? { |team| team.members.count == 4 }
-			redirect_to @game, alert: "All teams must have four users!"
+		# Check that all team members are valid.
+		unless @game.teams.all? { |team| team.members.all? { |member| member.valid? } }
+			redirect_to @game, alert: "Not all team members are valid!"
 		else
-			# Check that all team members are valid.
-			unless @game.teams.all? { |team| team.members.all? { |member| member.valid? } }
-				redirect_to @game, alert: "Not all team members are valid!"
-			else
-				@game.in_progress = true
-				@game.started_at = DateTime.now
-				@game.team_fee = params[:team_fee]
+			@game.in_progress = true
+			@game.started_at = DateTime.now
+			@game.team_fee = params[:team_fee]
 
-				if @game.save
-					# Set contracts.
-					contract_teams = @game.teams.select { |team| !team.terminators? }.shuffle
+			if @game.save
+				# Set contracts.
+				contract_teams = @game.teams.select { |team| !team.terminators? }.shuffle
 
-					errors = false
+				errors = false
 
-					contract_teams.each_with_index do |team, index|
-						contract = Contract.new
-						contract.participation_id = team.participation.id
-						contract.target_id = contract_teams[index + 1 < contract_teams.count ? index + 1 : 0].id
-						contract.start = DateTime.now
+				contract_teams.each_with_index do |team, index|
+					contract = Contract.new
+					contract.participation_id = team.participation.id
+					contract.target_id = contract_teams[index + 1 < contract_teams.count ? index + 1 : 0].id
+					contract.start = DateTime.now
 
-						errors = true unless contract.save
-					end
-
-					# Set the termination time.
-					contract_teams.each do |team|
-						participation = team.participation
-						participation.termination_at = DateTime.now + (@game.teams.count > 4 ? 5 : 4).days
-
-						errors = true unless participation.save
-					end
-					
-					redirect_to @game, alert: (errors ? "Could not set up game!" : nil)
-				else
-					redirect_to @game, alert: "Could not start game!"
+					errors = true unless contract.save
 				end
+
+				# Set the termination time.
+				contract_teams.each do |team|
+					participation = team.participation
+					participation.termination_at = DateTime.now + (@game.teams.count > 4 ? 5 : 4).days
+
+					errors = true unless participation.save
+				end
+				
+				redirect_to @game, alert: (errors ? "Could not set up game!" : nil)
+			else
+				redirect_to @game, alert: "Could not start game!"
 			end
 		end
 	end
