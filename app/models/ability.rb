@@ -69,7 +69,15 @@ class Ability
 
 			can :create, Kill
 
+			can :confirm, Kill.all do |kill|
+				user.id == kill.target_id
+			end
+
 			can :create, Neutralization
+
+			can :confirm, Neutralization.all do |neutralization|
+				user.id == neutralization.target_id
+			end
 		end
 
 		cannot :destroy, :all
