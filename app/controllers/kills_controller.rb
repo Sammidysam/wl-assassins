@@ -70,7 +70,7 @@ class KillsController < ApplicationController
 				new_contract.save
 			end
 
-			redirect_to root_path, notice: "Successfully confirmed kill!"
+			redirect_to root_path
 		else
 			redirect_to root_path, alert: "Could not confirm kill!"
 		end
