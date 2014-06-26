@@ -16,7 +16,7 @@ class Membership < ActiveRecord::Base
 	# A team cannot have four or more members before a new membership is added.
 	# If it does, the member count will exceed the maximum, four.
 	def team_cannot_have_more_than_four_members
-		errors.add :team, "cannot have four members" if Team.find(team_id).members.count >= 4
+		errors.add :team, "cannot have more than four members" if Team.find(team_id).members.count >= 4
 	end
 
 	# Ensure that a user is not actively on the same team twice.
