@@ -12,8 +12,8 @@ class GamesController < ApplicationController
 	# GET /games/1
 	# GET /games/1.json
 	def show
-		@confirmed_kills = @game.kills.where(confirmed: true)
-		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true)
+		@confirmed_kills = @game.kills.where(confirmed: true).order(:confirmed_at)
+		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true).order(:start)
 		@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
 		@eliminated_teams = @game.eliminated_teams
 	end
