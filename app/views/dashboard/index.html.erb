@@ -62,8 +62,6 @@
 	<% end %>
 
 	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
-
-	<%= link_to "Test Job", dashboard_test_job_path, class: "btn btn-default" %>
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>

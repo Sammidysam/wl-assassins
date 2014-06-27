@@ -47,14 +47,14 @@ class KillsController < ApplicationController
 				participation = @kill.killer.participation
 
 				# First remove old autotermination job.
-				#Delayed::Job.find_by(queue: participation.team.queue_name).destroy
+				Delayed::Job.find_by(queue: participation.team.queue_name).destroy
 				
 				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
 				
 				participation.save
 
 				# Create new autotermination job.
-				#participation.team.autoterminate
+				participation.team.autoterminate
 			end
 
 			# Account for if the team is now eliminated.
@@ -68,7 +68,7 @@ class KillsController < ApplicationController
 				old_contract.save
 
 				# Delete old autotermination job for eliminated team.
-				#Delayed::Job.find_by(queue: @kill.target.team.queue_name).destroy
+				Delayed::Job.find_by(queue: @kill.target.team.queue_name).destroy
 
 				# Create and assign new contract.
 				new_contract = Contract.new
