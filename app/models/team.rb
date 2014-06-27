@@ -83,7 +83,7 @@ class Team < ActiveRecord::Base
 	end
 
 	def queue_name
-		"#{self.class.name-self.id}"
+		"#{self.class.name}-#{self.id}"
 	end
 
 	def autoterminate
