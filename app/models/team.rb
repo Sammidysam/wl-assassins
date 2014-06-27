@@ -82,6 +82,10 @@ class Team < ActiveRecord::Base
 		components.to_sentence
 	end
 
+	def queue_name
+		"#{self.class.name-self.id}"
+	end
+
 	def autoterminate
 		# Terminate all members of team.
 		alive_members.each do |member|
@@ -93,5 +97,5 @@ class Team < ActiveRecord::Base
 			kill.save
 		end
 	end
-	handle_asynchronously :autoterminate, run_at: Proc.new { participation.termination_at }
+	handle_asynchronously :autoterminate, run_at: Proc.new { participation.termination_at }, queue: queue_name
 end
