@@ -1,4 +1,6 @@
 class TeamsController < ApplicationController
+	include Revival
+	
 	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive]
 
 	load_and_authorize_resource

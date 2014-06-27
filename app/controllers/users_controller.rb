@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+	include Revival
+	
 	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town, :revive]
 
 	load_and_authorize_resource
