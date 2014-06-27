@@ -70,9 +70,6 @@ class KillsController < ApplicationController
 
 				old_contract.save
 
-				# Delete old autotermination kills for eliminated team.
-				@kill.target.team.remove_autotermination
-
 				unless @kill.game.remaining_teams.count == 1
 					# Create and assign new contract.
 					new_contract = Contract.new
