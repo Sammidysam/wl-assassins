@@ -48,7 +48,7 @@ class KillsController < ApplicationController
 				participation = @kill.killer.participation
 
 				# First remove old autotermination job.
-				Delayed::Job.find_by(queue: participation.team.queue_name).destroy
+				Delayed::Job.find_by(queue: participation.team.queue_name).destroy if Delayed::Job.find_by(queue: participation.team.queue_name)
 				
 				participation.termination_at = @kill.confirmed_at + (@kill.game.remaining_teams.count > 4 ? 5 : 4).days
 				
@@ -69,15 +69,40 @@ class KillsController < ApplicationController
 				old_contract.save
 
 				# Delete old autotermination job for eliminated team.
-				Delayed::Job.find_by(queue: @kill.target.team.queue_name).destroy
+				Delayed::Job.find_by(queue: @kill.target.team.queue_name).destroy if Delayed::Job.find_by(queue: @kill.target.team.queue_name)
 
-				# Create and assign new contract.
-				new_contract = Contract.new
-				new_contract.participation_id = @killer_team.participation.id
-				new_contract.target_id = @target_contract.target_id
-				new_contract.start = @kill.confirmed_at
+				unless @kill.game.remaining_teams.count == 1
+					# Create and assign new contract.
+					new_contract = Contract.new
+					new_contract.participation_id = @killer_team.participation.id
+					new_contract.target_id = @target_contract.target_id
+					new_contract.start = @kill.confirmed_at
 
-				new_contract.save
+					new_contract.save
+
+					# Do special action for two remaining teams.
+					if @kill.game.remaining_teams.count == 2
+						# Reset both termination times.
+						@kill.game.remaining_teams.each do |team|
+							participation = team.participation
+
+							participation.termination_at = @kill.confirmed_at + 4.days
+
+							participation.save
+						end
+					end
+				else
+					# Delete autotermination job for winner team.
+					Delayed::Job.find_by(queue: @killer_team.queue_name).destroy if Delayed::Job.find_by(queue: @killer_team.queue_name)
+					
+					# Close up game.
+					game = @kill.game
+
+					game.in_progress = false
+					game.ended_at = @kill.confirmed_at
+
+					game.save
+				end
 			end
 
 			# Account for if the remaining members of the team are out-of-town.
