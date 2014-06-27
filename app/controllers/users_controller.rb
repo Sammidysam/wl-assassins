@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town]
+	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town, :revive]
 
 	load_and_authorize_resource
 
@@ -95,6 +95,11 @@ class UsersController < ApplicationController
 		else
 			redirect_to dashboard_path, alert: "Could not toggle out-of-town!"
 		end
+	end
+
+	# POST /users/1/revive
+	def revive
+		
 	end
 
 	private

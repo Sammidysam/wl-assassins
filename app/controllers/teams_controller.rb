@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive]
 
 	load_and_authorize_resource
 
@@ -100,6 +100,11 @@ class TeamsController < ApplicationController
 		participation.toggle :terminators
 
 		redirect_to game_path(params[:game_id]), alert: (participation.save ? nil : "Could not toggle terminator status!")
+	end
+
+	# POST /teams/1/revive
+	def revive
+		
 	end
 
 	private
