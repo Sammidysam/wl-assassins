@@ -95,7 +95,7 @@ class Team < ActiveRecord::Base
 		end
 	end
 
-	def remove_autotermination_kills
+	def remove_autotermination
 		Kill.where(target_id: members.map { |member| member.id }, kind: "out_of_time", game_id: participation.game_id).where.not(appear_at: nil).destroy_all
 	end
 end
