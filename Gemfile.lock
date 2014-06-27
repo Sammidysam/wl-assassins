@@ -50,12 +50,8 @@ GEM
       activerecord (>= 3.0, < 4.2)
       delayed_job (>= 3.0, < 4.1)
     erubis (2.7.0)
-    excon (0.37.0)
     execjs (2.0.2)
     gem_config (0.3.1)
-    heroku-api (0.3.18)
-      excon (~> 0.27)
-      multi_json (~> 1.8)
     hike (1.2.3)
     humanize_boolean (0.0.1)
       i18n
@@ -108,8 +104,6 @@ GEM
     rdoc (4.1.1)
       json (~> 1.4)
     redcarpet (3.1.2)
-    rush (0.6.8)
-      session
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -119,7 +113,6 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
-    session (3.2.0)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -145,11 +138,6 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     validates_email_format_of (1.5.3)
-    workless (1.2.3)
-      delayed_job (>= 2.0.7)
-      heroku-api
-      rails
-      rush
 
 PLATFORMS
   ruby
@@ -175,4 +163,3 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   validates_email_format_of (~> 1.5.3)
-  workless (~> 1.2.3)
