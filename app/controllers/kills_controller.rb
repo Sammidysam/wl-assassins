@@ -34,10 +34,12 @@ class KillsController < ApplicationController
 	end
 
 	def confirm
-		@killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
-		@killer_team_contract = @killer_team.contract
-		@target_contract = @kill.target.team.contract
 		@already_eliminated = @kill.target.team.eliminated?
+		unless @already_eliminated
+			@killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
+			@killer_team_contract = @killer_team.contract
+			@target_contract = @kill.target.team.contract
+		end
 		
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
