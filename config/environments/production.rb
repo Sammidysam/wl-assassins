@@ -77,8 +77,4 @@ WlAssassins::Application.configure do
 
 	# Use default logging formatter so that PID and timestamp are not suppressed.
 	config.log_formatter = ::Logger::Formatter.new
-
-	# config.after_initialize do
-	# 	Delayed::Job.scaler = :heroku_cedar
-	# end
 end
