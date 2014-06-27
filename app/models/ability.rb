@@ -70,7 +70,7 @@ class Ability
 			can :create, Kill if user.alive? && !user.neutralized?
 
 			can :confirm, Kill.all do |kill|
-				user.id == kill.target_id
+				user.id == kill.target_id && kill.appear_at > DateTime.now
 			end
 
 			can :create, Neutralization if user.alive? && !user.neutralized?
