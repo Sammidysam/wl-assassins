@@ -168,4 +168,9 @@
 			</p>
 		<% end %>
 	<% end %>
+<% elsif @game.completed? %>
+	<h2>
+		Winner:
+		<%= @game.winner.name %>
+	</h2>
 <% end %>
