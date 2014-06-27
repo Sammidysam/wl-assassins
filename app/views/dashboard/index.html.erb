@@ -153,7 +153,7 @@
 			<% else %>
 				<h2>Hit List</h2>
 
-				<% unless Team.to_be_terminated(@team.participation.game).empty? %>
+				<% if !Team.to_be_terminated(@team.participation.game).empty? && @team.participation.game.remaining_teams.count > 2 %>
 					<ul>
 						<% current_user.team.participation.game.teams.select { |team| !team.terminators? && team.remaining_kill_time.in_days.floor == 0 && team.participation.termination_at > DateTime.now }.sort_by { |team| team.participation.termination_at }.each do |team| %>
 							<li>
