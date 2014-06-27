@@ -45,10 +45,16 @@ class KillsController < ApplicationController
 			# Reset termination_at for killing team.
 			if @kill.assassination?
 				participation = @kill.killer.participation
+
+				# First remove old autotermination job.
+				Delayed::Job.find_by(queue: participation.team.queue_name, run_at: participation.termination_at).destroy
 				
 				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
 				
 				participation.save
+
+				# Create new autotermination job.
+				participation.team.autoterminate
 			end
 
 			# Account for if the team is now eliminated.
