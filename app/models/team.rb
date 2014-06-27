@@ -89,6 +89,7 @@ class Team < ActiveRecord::Base
 			kill.target_id = member.id
 			kill.kind = "out_of_time"
 			kill.game_id = participation.game_id
+			kill.appear_at = participation.termination_at
 
 			kill.save
 		end
