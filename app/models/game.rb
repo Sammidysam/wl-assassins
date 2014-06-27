@@ -31,7 +31,7 @@ class Game < ActiveRecord::Base
 
 	def winner
 		self.teams.find do |team|
-			!team.members.all? do |member|
+			!team.participations.find_by(game_id: self.id).terminators && !team.members.all? do |member|
 				member.kills.find_by(game_id: self.id, confirmed: true)
 			end
 		end
