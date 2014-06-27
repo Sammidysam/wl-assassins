@@ -29,6 +29,14 @@ class Game < ActiveRecord::Base
 		self.teams.select { |team| team.eliminated? && !team.terminators? }
 	end
 
+	def winner
+		self.teams.find do |team|
+			!team.members.all? do |member|
+				member.kills.find_by(game_id: self.id, confirmed: true)
+			end
+		end
+	end
+
 	# All of the users sans terminators in the game.
 	def participants
 		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |team| team.members }.flatten
