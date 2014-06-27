@@ -38,7 +38,7 @@ class Ability
 
 			if user.terminator?
 				can :read, Team.all do |team|
-					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && team.remaining_kill_time.in_days.floor == 0
+					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && team.remaining_kill_time.in_days.floor == 0 && user.team.participation.game.remaining_teams.count > 2
 				end
 			end
 			
@@ -59,7 +59,7 @@ class Ability
 
 			if user.terminator?
 				can :read, User.all do |can_user|
-					can_user.team && can_user.team.in_game? && user.team.participation.game_id == can_user.team.participation.game_id && !can_user.terminator? && can_user.team.remaining_kill_time.in_days.floor == 0
+					can_user.team && can_user.team.in_game? && user.team.participation.game_id == can_user.team.participation.game_id && !can_user.terminator? && can_user.team.remaining_kill_time.in_days.floor == 0 && user.team.participation.game.remaining_teams.count > 2
 				end
 			end
 
