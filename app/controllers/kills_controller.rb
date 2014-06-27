@@ -50,7 +50,7 @@ class KillsController < ApplicationController
 				# First remove old autotermination job.
 				Delayed::Job.find_by(queue: participation.team.queue_name).destroy
 				
-				participation.termination_at = @kill.confirmed_at + (@kill.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
+				participation.termination_at = @kill.confirmed_at + (@kill.game.remaining_teams.count > 4 ? 5 : 4).days
 				
 				participation.save
 
