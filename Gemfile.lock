@@ -145,7 +145,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     validates_email_format_of (1.5.3)
-    workless (1.1.3)
+    workless (1.2.3)
       delayed_job (>= 2.0.7)
       heroku-api
       rails
@@ -175,4 +175,4 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   validates_email_format_of (~> 1.5.3)
-  workless (~> 1.1.3)
+  workless (~> 1.2.3)

@@ -11,10 +11,4 @@ class DashboardController < ApplicationController
 			@team = current_user.team
 		end
 	end
-
-	def test_job
-		Game.first.test_job
-
-		redirect_to dashboard_path, notice: "Created test job!"
-	end
 end

@@ -73,4 +73,4 @@ gem "time_difference", "~> 0.3.2"
 
 # Allow running code at a specified time.
 gem "delayed_job_active_record", "~> 4.0.1"
-gem "workless", "~> 1.1.3"
+gem "workless", "~> 1.2.3", group: :production

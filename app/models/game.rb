@@ -37,12 +37,4 @@ class Game < ActiveRecord::Base
 	def suggested_team_fee
 		participants.empty? ? 0.0 : (participants.map { |participant| participant.willing_to_pay_amount }.sum / participants.size.to_f * 4.0)
 	end
-
-	def test_job
-		game = Game.new
-		game.name = "Created by a job #{rand}"
-
-		game.save
-	end
-	handle_asynchronously :test_job, run_at: Proc.new { 2.minutes.from_now }
 end

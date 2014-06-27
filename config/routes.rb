@@ -1,7 +1,6 @@
 WlAssassins::Application.routes.draw do
 	get "calendar" => "pages#index"
 	get "dashboard" => "dashboard#index"
-	get "dashboard/test_job" => "dashboard#test_job"
 	get "days/:year/:month/:day" => "pages#day"
 	get "history" => "games#index"
 	get "log_in" => "session#new"
