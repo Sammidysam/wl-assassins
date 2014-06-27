@@ -32,10 +32,12 @@ WlAssassins::Application.routes.draw do
 		post "add", on: :member
 		post "remove", on: :member
 		post "terminators", on: :member
+		post "revive", on: :member
 	end
 	
 	resources :users do
 		post "out_of_town", on: :member
+		post "revive", on: :member
 	end
 	
 	# The priority is based upon order of creation: first created -> highest priority.
