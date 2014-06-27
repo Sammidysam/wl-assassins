@@ -149,6 +149,9 @@ class GamesController < ApplicationController
 
 					errors = true unless participation.save
 				end
+
+				# Create jobs for team auto-termination.
+				contract_teams.each { |team| team.autoterminate }
 				
 				redirect_to @game, alert: (errors ? "Could not set up game!" : nil)
 			else
