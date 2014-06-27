@@ -37,6 +37,7 @@ class KillsController < ApplicationController
 		@killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
 		@killer_team_contract = @killer_team.contract
 		@target_contract = @kill.target.team.contract
+		@already_eliminated = @kill.target.team.eliminated?
 		
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
@@ -58,7 +59,7 @@ class KillsController < ApplicationController
 			end
 
 			# Account for if the team is now eliminated.
-			if @kill.target.team.eliminated?
+			if @kill.target.team.eliminated? && !@already_eliminated
 				# Close current contract.
 				old_contract = @killer_team_contract
 
