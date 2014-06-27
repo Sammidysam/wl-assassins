@@ -79,6 +79,18 @@ class KillsController < ApplicationController
 				new_contract.save
 			end
 
+			# Account for if the remaining members of the team are out-of-town.
+			if @kill.target.team.alive_members.all? { |member| member.out_of_town }
+				@kill.target.team.alive_members.each do |member|
+					kill = Kill.new
+					kill.target_id = member.id
+					kill.kind = "out_of_town"
+					kill.game_id = @kill.game_id
+
+					kill.save
+				end
+			end
+
 			redirect_to root_path
 		else
 			redirect_to root_path, alert: "Could not confirm kill!"
