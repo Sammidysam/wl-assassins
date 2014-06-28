@@ -39,6 +39,9 @@
 		<p>
 			<strong>Out of town:</strong>
 			<%= @user.out_of_town.humanize %>
+			<% if can?(:update, @user) %>
+				<%= link_to "Toggle", out_of_town_user_path(@user), method: :post, class: "btn btn-default btn-xs" %>
+			<% end %>
 		</p>
 
 		<% if @user.description %>
