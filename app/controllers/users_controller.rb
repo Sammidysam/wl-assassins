@@ -105,8 +105,8 @@ class UsersController < ApplicationController
 
 				participation.save
 
-				# Delete old kills.
-				kills.destroy_all
+				# Delete old kills if out_of_town_hours is less than 24.
+				kills.destroy_all if participation.out_of_town_hours < 24
 			end
 			
 			redirect_to dashboard_path
