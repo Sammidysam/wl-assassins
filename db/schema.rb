@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627142833) do
+ActiveRecord::Schema.define(version: 20140628024833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,8 @@ ActiveRecord::Schema.define(version: 20140627142833) do
     t.datetime "updated_at"
     t.datetime "termination_at"
     t.float    "paid_amount"
-    t.boolean  "terminators",    default: false
+    t.boolean  "terminators",       default: false
+    t.float    "out_of_town_hours", default: 0.0
   end
 
   create_table "teams", force: true do |t|
