@@ -16,9 +16,9 @@ module ApplicationHelper
 	end
 	
 	# Returns the non-eliminated teams in the game game in order of contracts.
-	def contract_order_teams(game)
+	def contract_order_teams(game, starter_team = nil)
 		teams = []
-		starter_team = game.teams.select { |team| !team.terminators? && !team.eliminated? }.first
+		starter_team ||= game.teams.select { |team| !team.terminators? && !team.eliminated? }.first
 
 		if starter_team
 			teams << starter_team
