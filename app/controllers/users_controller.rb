@@ -101,8 +101,7 @@ class UsersController < ApplicationController
 
 	# POST /users/1/revive
 	def revive
-		# Destroy all confirmed kills on this user.
-		@user.kills.where(game_id: @user.team.participation.game_id, confirmed: true).destroy_all
+		revive_user @user
 
 		redirect_to @user.team
 	end

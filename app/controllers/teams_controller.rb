@@ -106,7 +106,9 @@ class TeamsController < ApplicationController
 
 	# POST /teams/1/revive
 	def revive
-		
+		@team.dead_members.each { |member| revive_user member }
+
+		redirect_to @team.participation.game
 	end
 
 	private
