@@ -8,7 +8,7 @@ class Contract < ActiveRecord::Base
 	def next_non_eliminated_target
 		contract = self
 
-		while !contract.target.eliminated?
+		while contract.target.eliminated?
 			contract = contract.target.contract
 		end
 
