@@ -37,6 +37,10 @@ class Team < ActiveRecord::Base
 		members.select { |member| member.alive? }
 	end
 
+	def dead_members
+		members.select { |member| member.dead? }
+	end
+
 	# Returns the current participation for the team.
 	def participation
 		self.participations.find { |participation| participation.game.in_progress if participation.game }
