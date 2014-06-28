@@ -119,7 +119,7 @@
 						<h4><%= link_to team.name, team %></h4>
 
 						<% if can?(:revive, Team) %>
-							<p><%= link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default" %></p>
+							<p><%= link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default", data: { confirm: "Are you sure?  This will revive ALL members on this team." } %></p>
 						<% end %>
 					</div>
 				<% end %>
