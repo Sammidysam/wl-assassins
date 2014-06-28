@@ -29,6 +29,8 @@ class Ability
 			end
 
 			cannot :remove, Team if user.team && user.team.in_game?
+			
+			cannot :revive, Team
 
 			if user.team && user.team.contract && user.team.contract.target
 				can :read, Team.all do |team|
@@ -66,6 +68,8 @@ class Ability
 			can :index, User
 			
 			can :manage, user
+
+			cannot :revive, user
 
 			can :create, Kill if user.alive? && !user.neutralized?
 
