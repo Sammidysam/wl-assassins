@@ -40,6 +40,7 @@ class KillsController < ApplicationController
 			killer_team_contract = killer_team.contract
 			target_contract = @kill.target.team.contract
 		end
+		already_out_of_town = @kill.target.team.alive_members.all? { |member| member.out_of_town }
 		
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
@@ -105,7 +106,7 @@ class KillsController < ApplicationController
 			end
 
 			# Account for if the remaining members of the team are out-of-town.
-			if @kill.target.team.alive_members.all? { |member| member.out_of_town }
+			if !already_out_of_town && @kill.target.team.alive_members.all? { |member| member.out_of_town }
 				@kill.target.team.alive_members.each do |member|
 					kill = Kill.new
 					kill.target_id = member.id
