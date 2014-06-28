@@ -112,9 +112,23 @@ class KillsController < ApplicationController
 					kill.target_id = member.id
 					kill.kind = "out_of_town"
 					kill.game_id = @kill.game_id
+					kill.appear_at = (24 - @kill.target.team.participation.out_of_town_hours).hours.from_now
 
 					kill.save
 				end
+			elsif already_out_of_town && !@kill.target.team.alive_members.all? { |member| member.out_of_town }
+				# Get old kills.
+				kills = Kill.out_of_town.where(target_id: @kill.target.team.members.map { |member| member.id }, game_id: @kill.target.team.participation.game_id).where.not(appear_at: nil)
+				
+				# Adjust out_of_town_hours.
+				participation = @kill.target.team.participation
+
+				participation.out_of_town_hours += TimeDifference.between(kills.first.created_at, Time.now).in_hours
+
+				participation.save
+
+				# Delete old kills if out_of_town_hours is less than 24.
+				kills.destroy_all if participation.out_of_town_hours < 24
 			end
 
 			redirect_to root_path
