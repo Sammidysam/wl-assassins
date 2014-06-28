@@ -9,16 +9,30 @@ module Revival
 
 		# Then revive the team if necessary.
 		if eliminated
-			# Get the old contract to eliminate this team.
-			old_contract = Contract.where(target_id: user.team.id, completed: true).find { |contract| contract.participation.game_id == user.team.participation.game_id }
+			# Destroy the old contract to eliminate this team.
+			Contract.where(target_id: user.team.id, completed: true).find { |contract| contract.participation.game_id == user.team.participation.game_id }.destroy
 
-			# Destroy the new contract for the killing team.
-			old_contract.participation.team.contract.destroy
+			teams = view_context.contract_order_teams(user.team.participation.game)
 
-			old_contract.completed = false
-			old_contract.end = nil
+			# Insert current team into last slot of contract order teams.
+			# Adjust last team's contract to be targeted at current team.
+			killer_contract = teams.last.contract
 
-			old_contract.save
+			killer_contract.target_id = user.team.id
+
+			killer_contract.save
+
+			# Create contract for current team.
+			# Delete current contract.
+			user.team.contract.destroy
+
+			# Create new contract.
+			contract = Contract.new
+			contract.participation_id = user.team.participation.id
+			contract.target_id = teams.first.id
+			contract.start = DateTime.now
+
+			contract.save
 		end
 	end
 end
