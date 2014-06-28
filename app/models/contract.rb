@@ -12,6 +12,6 @@ class Contract < ActiveRecord::Base
 			contract = contract.target.contract
 		end
 
-		contract
+		contract.target
 	end
 end
