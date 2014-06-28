@@ -77,6 +77,8 @@ class UsersController < ApplicationController
 	# POST /users/1/out_of_town
 	# Toggles the out_of_town boolean in @user.
 	def out_of_town
+		all_out_of_town = @user.team.alive_members.all? { |member| member.out_of_town } if @user.team && @user.team.in_game?
+		
 		@user.toggle :out_of_town
 
 		if @user.save
@@ -88,9 +90,23 @@ class UsersController < ApplicationController
 					kill.target_id = member.id
 					kill.kind = "out_of_town"
 					kill.game_id = @user.team.participation.game_id
+					kill.appear_at = (24 - @user.team.participation.out_of_town_hours).hours.from_now
 
 					kill.save
 				end
+			elsif all_out_of_town
+				# Get old kills.
+				kills = Kill.out_of_town.where(target_id: @user.team.members.map { |member| member.id }, game_id: @user.team.participation.game_id).where.not(appear_at: nil)
+				
+				# Adjust out_of_town_hours.
+				participation = @user.team.participation
+
+				participation.out_of_town_hours = TimeDifference(kills.first.created_at, Time.now).in_hours
+
+				participation.save
+
+				# Delete old kills.
+				kills.destroy_all
 			end
 			
 			redirect_to dashboard_path
