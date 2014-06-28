@@ -12,7 +12,7 @@ module Revival
 			# Destroy the old contract to eliminate this team.
 			Contract.where(target_id: user.team.id, completed: true).find { |contract| contract.participation.game_id == user.team.participation.game_id }.destroy
 
-			teams = view_context.contract_order_teams(user.team.participation.game, user.team.contract.target.eliminated? ? user.team.contract.next_non_eliminated_target : user.team.contract.target)
+			teams = view_context.contract_order_teams(user.team.participation.game, user.team.contract.next_non_eliminated_target)
 
 			# Insert current team into last slot of contract order teams.
 			# Adjust last team's contract to be targeted at current team.
