@@ -117,6 +117,10 @@
 						<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
 						<h4><%= link_to team.name, team %></h4>
+
+						<% if can?(:revive, Team) %>
+							<p><%= link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default" %></p>
+						<% end %>
 					</div>
 				<% end %>
 			</div>
