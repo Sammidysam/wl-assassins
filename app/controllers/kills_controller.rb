@@ -34,11 +34,11 @@ class KillsController < ApplicationController
 	end
 
 	def confirm
-		@already_eliminated = @kill.target.team.eliminated?
-		unless @already_eliminated
-			@killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
-			@killer_team_contract = @killer_team.contract
-			@target_contract = @kill.target.team.contract
+		already_eliminated = @kill.target.team.eliminated?
+		unless already_eliminated
+			killer_team = @kill.assassination? ? @kill.killer : @kill.game.remaining_teams.find { |team| team.contract.target_id == @kill.target.team.id }
+			killer_team_contract = killer_team.contract
+			target_contract = @kill.target.team.contract
 		end
 		
 		@kill.confirmed = true
@@ -61,9 +61,9 @@ class KillsController < ApplicationController
 			end
 
 			# Account for if the team is now eliminated.
-			if @kill.target.team.eliminated? && !@already_eliminated
+			if @kill.target.team.eliminated? && !already_eliminated
 				# Close current contract.
-				old_contract = @killer_team_contract
+				old_contract = killer_team_contract
 
 				old_contract.completed = true
 				old_contract.end = @kill.confirmed_at
@@ -73,8 +73,8 @@ class KillsController < ApplicationController
 				unless @kill.game.remaining_teams.count == 1
 					# Create and assign new contract.
 					new_contract = Contract.new
-					new_contract.participation_id = @killer_team.participation.id
-					new_contract.target_id = @target_contract.target_id
+					new_contract.participation_id = killer_team.participation.id
+					new_contract.target_id = target_contract.target_id
 					new_contract.start = @kill.confirmed_at
 
 					new_contract.save
@@ -92,7 +92,7 @@ class KillsController < ApplicationController
 					end
 				else
 					# Delete autotermination job for winner team.
-					@killer_team.remove_autotermination
+					killer_team.remove_autotermination
 					
 					# Close up game.
 					game = @kill.game
