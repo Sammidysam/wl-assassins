@@ -78,8 +78,12 @@ class Ability
 				user.id == kill.target_id
 			end
 
-			can [:read, :update], Kill.all do |kill|
+			can :update, Kill.all do |kill|
 				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed if kill.killer
+			end
+
+			can :read, Kill.all do |kill|
+				kill.confirmed
 			end
 
 			can :index, Kill
@@ -90,8 +94,12 @@ class Ability
 				user.id == neutralization.target_id
 			end
 
-			can [:read, :update], Neutralization.all do |neutralization|
+			can :update, Neutralization.all do |neutralization|
 				user.id == neutralization.killer_id && neutralization.confirmed
+			end
+
+			can :read, Neutralization.all do |neutralization|
+				neutralization.confirmed
 			end
 
 			can :index, Neutralization
