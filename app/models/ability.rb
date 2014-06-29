@@ -75,11 +75,11 @@ class Ability
 			can :create, Kill if user.alive? && !user.neutralized?
 
 			can :confirm, Kill.all do |kill|
-				user.id == kill.target_id && (kill.appear_at.nil? || kill.appear_at < DateTime.now)
+				user.id == kill.target_id
 			end
 
 			can [:read, :update], Kill.all do |kill|
-				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed && (kill.appear_at.nil? || kill.appear_at < DateTime.now) if kill.killer
+				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed if kill.killer
 			end
 
 			can :index, Kill
@@ -100,5 +100,9 @@ class Ability
 		cannot :destroy, :all
 
 		can :manage, :all if user.admin?
+
+		cannot [:read, :update, :confirm], Kill.all do |kill|
+			!kill.appear_at.nil? && kill.appear_at > DateTime.now
+		end
 	end
 end
