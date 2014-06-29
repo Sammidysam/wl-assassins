@@ -3,30 +3,30 @@
 <table>
 	<thead>
 		<tr>
-			<th>Confirmed</th>
-			<th>Start</th>
-			<th>Killer</th>
-			<th>Target</th>
+			<th>Neutralizer</th>
+			<th>Neutralized</th>
 			<th>Game</th>
-			<th>How</th>
-			<th>Picture url</th>
-			<th colspan="3"></th>
+			<th>Start Time</th>
+			<% if current_user.admin? %><th>Confirmed</th><% end %>
+			<th>Actions</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		<% @neutralizations.each do |neutralization| %>
 			<tr>
-				<td><%= neutralization.confirmed %></td>
-				<td><%= neutralization.start %></td>
-				<td><%= neutralization.killer_id %></td>
-				<td><%= neutralization.target_id %></td>
-				<td><%= neutralization.game_id %></td>
-				<td><%= neutralization.how %></td>
-				<td><%= neutralization.picture_url %></td>
-				<td><%= link_to 'Show', neutralization %></td>
-				<td><%= link_to 'Edit', edit_neutralization_path(neutralization) %></td>
-				<td><%= link_to 'Destroy', neutralization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td><%= link_to_if_can_read neutralization.target.name, neutralization.target %></td>
+				<td><%= link_to_if_can_read neutralization.killer.name, neutralization.killer %></td>
+				<td><%= link_to_if_can_read neutralization.game.name, neutralization.game %></td>
+				<td><%= neutralization.start.strftime "%b %-d %Y at %l:%M %p" %></td>
+				<% if current_user.admin? %><td><%= neutralization.confirmed.humanize %></td><% end %>
+				<td>
+					<div class="btn-group btn-group-xs">
+						<%= link_to "Show", neutralization, class: "btn btn-default btn-xs" if can?(:read, neutralization) %>
+						<%= link_to "Edit", edit_neutralization_path(neutralization), class: "btn btn-default btn-xs" if can?(:update, neutralization) %>
+						<%= link_to "Destroy", neutralization, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, neutralization) %>
+					</div>
+				</td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -34,4 +34,4 @@
 
 <br>
 
-<%= link_to 'New Neutralization', new_neutralization_path %>
+<%= link_to "New Neutralization", new_neutralization_path, class: "btn btn-default" if can?(:create, Neutralization) %>
