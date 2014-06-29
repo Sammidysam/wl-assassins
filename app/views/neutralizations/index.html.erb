@@ -1,35 +1,35 @@
 <h1>Listing neutralizations</h1>
 
 <table>
-  <thead>
-    <tr>
-      <th>Confirmed</th>
-      <th>Start</th>
-      <th>Killer</th>
-      <th>Target</th>
-      <th>Game</th>
-      <th>How</th>
-      <th>Picture url</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+	<thead>
+		<tr>
+			<th>Confirmed</th>
+			<th>Start</th>
+			<th>Killer</th>
+			<th>Target</th>
+			<th>Game</th>
+			<th>How</th>
+			<th>Picture url</th>
+			<th colspan="3"></th>
+		</tr>
+	</thead>
 
-  <tbody>
-    <% @neutralizations.each do |neutralization| %>
-      <tr>
-        <td><%= neutralization.confirmed %></td>
-        <td><%= neutralization.start %></td>
-        <td><%= neutralization.killer_id %></td>
-        <td><%= neutralization.target_id %></td>
-        <td><%= neutralization.game_id %></td>
-        <td><%= neutralization.how %></td>
-        <td><%= neutralization.picture_url %></td>
-        <td><%= link_to 'Show', neutralization %></td>
-        <td><%= link_to 'Edit', edit_neutralization_path(neutralization) %></td>
-        <td><%= link_to 'Destroy', neutralization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+	<tbody>
+		<% @neutralizations.each do |neutralization| %>
+			<tr>
+				<td><%= neutralization.confirmed %></td>
+				<td><%= neutralization.start %></td>
+				<td><%= neutralization.killer_id %></td>
+				<td><%= neutralization.target_id %></td>
+				<td><%= neutralization.game_id %></td>
+				<td><%= neutralization.how %></td>
+				<td><%= neutralization.picture_url %></td>
+				<td><%= link_to 'Show', neutralization %></td>
+				<td><%= link_to 'Edit', edit_neutralization_path(neutralization) %></td>
+				<td><%= link_to 'Destroy', neutralization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
 </table>
 
 <br>
