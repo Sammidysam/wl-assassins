@@ -1,8 +1,20 @@
 class KillsController < ApplicationController
-	before_action :set_kill, only: [:destroy, :confirm]
+	before_action :set_kill, only: [:show, :edit, :update, :destroy, :confirm]
 	
 	load_and_authorize_resource
-	
+
+	# GET /kills
+	# GET /kills.json
+	def index
+		@kills = Kill.all.select { |kill| can? :read, kill }
+	end
+
+	# GET /kills/1
+	# GET /kills/1.json
+	def show
+	end
+
+	# GET /kills/new
 	def new
 		@kill = Kill.new
 
@@ -19,6 +31,11 @@ class KillsController < ApplicationController
 		end
 	end
 
+	# GET /kills/1/edit
+	def edit
+	end
+
+	# POST /kills
 	def create
 		@kill = Kill.new(kill_params)
 
@@ -29,10 +46,26 @@ class KillsController < ApplicationController
 		end
 	end
 
+	# PATCH/PUT /kills/1
+	# PATCH/PUT /kills/1.json
+	def update
+		respond_to do |format|
+			if @kill.update(kill_params)
+				format.html { redirect_to @kill, notice: "Kill was successfully updated." }
+				format.json { head :no_content }
+			else
+				format.html { render action: "edit" }
+				format.json { render json: @kill.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
+	# DELETE /kills/1
 	def destroy
 		redirect_to root_path, alert: (@kill.destroy ? nil : "Could not destroy kill!")
 	end
 
+	# POST /kills/1/confirm
 	def confirm
 		already_eliminated = @kill.target.team.eliminated?
 		unless already_eliminated
