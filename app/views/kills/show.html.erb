@@ -1,46 +1,26 @@
 <p>
-	<strong>Confirmed:</strong>
-	<%= @kill.confirmed %>
+	<%= link_to_if_can_read @kill.target.name, @kill.target %>
+	was killed via
+	<%= @kill.readable_kind %>
+	<% if @kill.killer %>
+		by
+		<%= link_to_if_can_read @kill.killer.name, @kill.killer %>
+	<% end %>
+	in the game <%= link_to_if_can_read @kill.game.name, @kill.game %>.
 </p>
 
 <p>
-	<strong>Target:</strong>
-	<%= @kill.target_id %>
+	This kill was reported on <%= @kill.created_at.strftime "%b %-d at %l:%M %p" %> and confirmed on <%= @kill.confirmed_at.strftime "%b %-d at %l:%M %p" %>.
 </p>
 
-<p>
-	<strong>Confirmed at:</strong>
-	<%= @kill.confirmed_at %>
-</p>
+<% if @kill.how %>
+	<p>
+		How this kill occurred: "<%= kill.how %>"
+	</p>
+<% end %>
 
-<p>
-	<strong>Picture url:</strong>
-	<%= @kill.picture_url %>
-</p>
-
-<p>
-	<strong>How:</strong>
-	<%= @kill.how %>
-</p>
-
-<p>
-	<strong>Kind:</strong>
-	<%= @kill.kind %>
-</p>
-
-<p>
-	<strong>Game:</strong>
-	<%= @kill.game_id %>
-</p>
-
-<p>
-	<strong>Killer:</strong>
-	<%= @kill.killer_id %>
-</p>
-
-<p>
-	<strong>Appear at:</strong>
-	<%= @kill.appear_at %>
-</p>
+<% if @kill.picture_url %>
+	<p><%= image_tag @kill.picture_url, alt: "Invalid Image URL" %></p>
+<% end %>
 
 <%= link_to "Edit", edit_kill_path(@kill) if can?(:update, @kill) %>
