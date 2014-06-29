@@ -7,12 +7,12 @@
 		<% @confirmed_kills.each do |kill| %>
 			<p>
 				<% if kill.killer %>
-					<%= link_to kill.killer.name, kill.killer %>
+					<%= link_to_if_can_read kill.killer.name, kill.killer %>
 				<% else %>
 					<%= kill.readable_kind.capitalize %>
 				<% end %>
 				<%= glyphicon "arrow-right" %>
-				<%= link_to kill.target.name, kill.target %>
+				<%= link_to_if_can_read kill.target.name, kill.target %>
 			</p>
 
 			<%# Using ul for indentation. %>
@@ -28,9 +28,9 @@
 
 		<% @confirmed_neutralizations.each do |neutralization| %>
 			<p>
-				<%= link_to neutralization.target.name, neutralization.target %>
+				<%= link_to_if_can_read neutralization.target.name, neutralization.target %>
 				<%= glyphicon "arrow-right" %>
-				<%= link_to neutralization.killer.name, neutralization.killer %>
+				<%= link_to_if_can_read neutralization.killer.name, neutralization.killer %>
 				from
 				<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
 				to
