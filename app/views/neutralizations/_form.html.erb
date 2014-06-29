@@ -1,45 +1,45 @@
 <%= form_for(@neutralization) do |f| %>
-  <% if @neutralization.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@neutralization.errors.count, "error") %> prohibited this neutralization from being saved:</h2>
+	<% if @neutralization.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@neutralization.errors.count, "error") %> prohibited this neutralization from being saved:</h2>
 
-      <ul>
-      <% @neutralization.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+			<ul>
+				<% @neutralization.errors.full_messages.each do |message| %>
+					<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
 
-  <div class="field">
-    <%= f.label :confirmed %><br>
-    <%= f.text_field :confirmed %>
-  </div>
-  <div class="field">
-    <%= f.label :start %><br>
-    <%= f.datetime_select :start %>
-  </div>
-  <div class="field">
-    <%= f.label :killer_id %><br>
-    <%= f.number_field :killer_id %>
-  </div>
-  <div class="field">
-    <%= f.label :target_id %><br>
-    <%= f.number_field :target_id %>
-  </div>
-  <div class="field">
-    <%= f.label :game_id %><br>
-    <%= f.number_field :game_id %>
-  </div>
-  <div class="field">
-    <%= f.label :how %><br>
-    <%= f.text_area :how %>
-  </div>
-  <div class="field">
-    <%= f.label :picture_url %><br>
-    <%= f.text_field :picture_url %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<div class="field">
+		<%= f.label :confirmed %><br>
+		<%= f.text_field :confirmed %>
+	</div>
+	<div class="field">
+		<%= f.label :start %><br>
+		<%= f.datetime_select :start %>
+	</div>
+	<div class="field">
+		<%= f.label :killer_id %><br>
+		<%= f.number_field :killer_id %>
+	</div>
+	<div class="field">
+		<%= f.label :target_id %><br>
+		<%= f.number_field :target_id %>
+	</div>
+	<div class="field">
+		<%= f.label :game_id %><br>
+		<%= f.number_field :game_id %>
+	</div>
+	<div class="field">
+		<%= f.label :how %><br>
+		<%= f.text_area :how %>
+	</div>
+	<div class="field">
+		<%= f.label :picture_url %><br>
+		<%= f.text_field :picture_url %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
 <% end %>
