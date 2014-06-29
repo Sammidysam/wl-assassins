@@ -6,7 +6,8 @@
 			<th>Target</th>
 			<th>Killer</th>
 			<th>Game</th>
-			<th>Kind</th>
+			<th>Type</th>
+			<% if current_user.admin? %><th>Confirmed</th><% end %>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -15,9 +16,10 @@
 		<% @kills.each do |kill| %>
 			<tr>
 				<td><%= link_to_if_can_read kill.target.name, kill.target %></td>
-				<td><%= link_to_if_can_read kill.killer.name, kill.killer %></td>
+				<td><%= kill.killer ? link_to_if_can_read(kill.killer.name, kill.killer) : "None" %></td>
 				<td><%= link_to_if_can_read kill.game.name, kill.game %></td>
 				<td><%= kill.readable_kind.capitalize %></td>
+				<% if current_user.admin? %><td><%= kill.confirmed.humanize %></td><% end %>
 				<td>
 					<div class="btn-group btn-group-xs">
 						<%= link_to "Show", kill, class: "btn btn-default btn-xs" if can?(:read, kill) %>
