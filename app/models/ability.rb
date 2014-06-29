@@ -78,7 +78,7 @@ class Ability
 				user.id == kill.target_id && (kill.appear_at.nil? || kill.appear_at < DateTime.now)
 			end
 
-			can :update, Kill.all do |kill|
+			can [:read, :update], Kill.all do |kill|
 				kill.killer.members.map { |member| member.id }.include?(user.id) if kill.killer
 			end
 
@@ -88,7 +88,7 @@ class Ability
 				user.id == neutralization.target_id
 			end
 
-			can :update, Neutralization.all do |neutralization|
+			can [:read, :update], Neutralization.all do |neutralization|
 				user.id == neutralization.killer_id
 			end
 		end
