@@ -22,6 +22,7 @@ class Ability
 		end
 
 		can :index, Game
+		can :events, Game
 
 		if logged_in
 			can :manage, Team.all do |team|
