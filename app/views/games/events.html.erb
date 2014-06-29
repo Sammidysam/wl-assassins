@@ -17,8 +17,8 @@
 
 			<%# Using ul for indentation. %>
 			<ul>
-				<p>Reported on <%= kill.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
-				<p>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
+				<p>Reported on <%= kill.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %>.</p>
+				<p>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %>.</p>
 				<% if kill.how %>
 					<p>How occurred: "<%= kill.how %>"</p>
 				<% end %>
@@ -41,11 +41,13 @@
 
 			<%# Using ul for indentation. %>
 			<ul>
+				<p>Reported on <%= kill.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %>.</p>
+				<p>Confirmed on <%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>.</p>
 				<p>
 					Lasts from
 					<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
 					to
-					<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>
+					<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>.
 				</p>
 				<% if neutralization.how %>
 					<p>How occurred: "<%= neutralization.how %>"</p>
