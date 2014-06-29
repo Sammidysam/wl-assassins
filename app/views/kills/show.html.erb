@@ -10,7 +10,7 @@
 </p>
 
 <p>
-	This kill was reported on <%= @kill.created_at.strftime "%b %-d at %l:%M %p" %> and confirmed on <%= @kill.confirmed_at.strftime "%b %-d at %l:%M %p" %>.
+	This kill was reported on <%= @kill.created_at.strftime "%b %-d %Y at %l:%M %p" %> and confirmed on <%= @kill.confirmed_at.strftime "%b %-d %Y at %l:%M %p" %>.
 </p>
 
 <% if @kill.how %>
