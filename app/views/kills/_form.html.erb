@@ -11,43 +11,19 @@
 		</div>
 	<% end %>
 
-	<div class="field">
-		<%= f.label :confirmed %><br>
-		<%= f.check_box :confirmed %>
+	<div class="form-group">
+		<%= f.label :picture_url, "URL of picture of kill" %>
+		<br>
+		<%= f.text_field :picture_url, class: "form-control" %>
 	</div>
-	<div class="field">
-		<%= f.label :target_id %><br>
-		<%= f.number_field :target_id %>
+
+	<div class="form-group">
+		<%= f.label :how, "How did this kill occur?" %>
+		<br>
+		<%= f.text_area :how, class: "form-control" %>
 	</div>
-	<div class="field">
-		<%= f.label :confirmed_at %><br>
-		<%= f.datetime_select :confirmed_at %>
-	</div>
-	<div class="field">
-		<%= f.label :picture_url %><br>
-		<%= f.text_field :picture_url %>
-	</div>
-	<div class="field">
-		<%= f.label :how %><br>
-		<%= f.text_area :how %>
-	</div>
-	<div class="field">
-		<%= f.label :kind %><br>
-		<%= f.number_field :kind %>
-	</div>
-	<div class="field">
-		<%= f.label :game_id %><br>
-		<%= f.number_field :game_id %>
-	</div>
-	<div class="field">
-		<%= f.label :killer_id %><br>
-		<%= f.number_field :killer_id %>
-	</div>
-	<div class="field">
-		<%= f.label :appear_at %><br>
-		<%= f.datetime_select :appear_at %>
-	</div>
+
 	<div class="actions">
-		<%= f.submit %>
+		<%= f.submit class: "btn btn-success" %>
 	</div>
 <% end %>
