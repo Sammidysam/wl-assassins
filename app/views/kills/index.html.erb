@@ -1,36 +1,30 @@
-<h1>Listing kills</h1>
+<h1>Listing Kills</h1>
 
 <table>
 	<thead>
 		<tr>
-			<th>Confirmed</th>
 			<th>Target</th>
-			<th>Confirmed at</th>
-			<th>Picture url</th>
-			<th>How</th>
-			<th>Kind</th>
-			<th>Game</th>
 			<th>Killer</th>
-			<th>Appear at</th>
-			<th colspan="3"></th>
+			<th>Game</th>
+			<th>Kind</th>
+			<th>Actions</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		<% @kills.each do |kill| %>
 			<tr>
-				<td><%= kill.confirmed %></td>
-				<td><%= kill.target_id %></td>
-				<td><%= kill.confirmed_at %></td>
-				<td><%= kill.picture_url %></td>
-				<td><%= kill.how %></td>
-				<td><%= kill.kind %></td>
-				<td><%= kill.game_id %></td>
-				<td><%= kill.killer_id %></td>
-				<td><%= kill.appear_at %></td>
-				<td><%= link_to 'Show', kill %></td>
-				<td><%= link_to 'Edit', edit_kill_path(kill) %></td>
-				<td><%= link_to 'Destroy', kill, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td><%= link_to_if_can_read kill.target.name, kill.target %></td>
+				<td><%= link_to_if_can_read kill.killer.name, kill.killer %></td>
+				<td><%= link_to_if_can_read kill.game.name, kill.game %></td>
+				<td><%= kill.readable_kind.capitalize %></td>
+				<td>
+					<div class="btn-group btn-group-xs">
+						<%= link_to "Show", kill, class: "btn btn-default btn-xs" if can?(:read, kill) %>
+						<%= link_to "Edit", edit_kill_path(kill), class: "btn btn-default btn-xs" if can?(:update, kill) %>
+						<%= link_to "Destroy", kill, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" if can?(:destroy, kill) %>
+					</div>
+				</td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -38,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Kill', new_kill_path %>
+<%= link_to "New Kill", new_kill_path, class: "btn btn-default" if can?(:create, Kill) %>

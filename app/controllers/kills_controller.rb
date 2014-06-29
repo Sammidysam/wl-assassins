@@ -6,7 +6,7 @@ class KillsController < ApplicationController
 	# GET /kills
 	# GET /kills.json
 	def index
-		@kills = Kill.all.select { |kill| can? :read, kill }
+		@kills = Kill.all.select { |kill| can?(:read, kill) && (kill.appear_at.nil? || kill.appear_at < DateTime.now) && kill.confirmed }
 	end
 
 	# GET /kills/1
