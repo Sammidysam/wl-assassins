@@ -29,6 +29,14 @@ class KillsController < ApplicationController
 		if @kind != "assassination" && !current_user.admin?
 			redirect_to root_path, alert: "You are not allowed to create a kill of this kind!" unless @kind == "termination" && current_user.terminator?
 		end
+
+		unless performed?
+			@kill.confirmed = current_user.admin?
+			@kill.target_id = @target.id
+			@kill.kind = @kind if @kind
+			@kill.game_id = @target.team.participation.game_id
+			@kill.killer_id = view_context.default_killer_id(@kind, @target.team.participation.game_id)
+		end
 	end
 
 	# GET /kills/1/edit
