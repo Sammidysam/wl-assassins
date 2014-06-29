@@ -22,13 +22,16 @@
 					<% Kill.where(game_id: game.id, confirmed: false).order(:created_at).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.each do |kill| %>
 						<li>
 							<p>
-								<%= link_to kill.target.name, kill.target %> was killed
+								<%= link_to kill.target.name, kill.target %>
+								was killed
 
 								<% if kill.killer %>
-									by <%= link_to kill.killer.name, kill.killer %>
+									by
+									<%= link_to kill.killer.name, kill.killer %>
 								<% end %>
 
-								via <%= kill.readable_kind %>.
+								via
+								<%= kill.readable_kind %>.
 
 								<div class="btn-group btn-group-xs">
 									<%= link_to "Confirm", confirm_kill_path(kill), method: :post, class: "btn btn-danger btn-xs" %>
