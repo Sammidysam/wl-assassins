@@ -37,11 +37,23 @@
 				<%= link_to_if_can_read neutralization.target.name, neutralization.target %>
 				<%= glyphicon "arrow-right" %>
 				<%= link_to_if_can_read neutralization.killer.name, neutralization.killer %>
-				from
-				<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
-				to
-				<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>
 			</p>
+
+			<%# Using ul for indentation. %>
+			<ul>
+				<p>
+					Lasts from
+					<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
+					to
+					<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>
+				</p>
+				<% if neutralization.how %>
+					<p>How occurred: "<%= neutralization.how %>"</p>
+				<% end %>
+				<% if neutralization.picture_url %>
+					<p><%= link_to "View image of neutralization", neutralization.picture_url, class: "btn btn-default btn-sm" %></p>
+				<% end %>
+			</ul>
 		<% end %>
 	<% end %>
 <% else %>
