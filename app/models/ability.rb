@@ -79,7 +79,7 @@ class Ability
 			end
 
 			can [:read, :update], Kill.all do |kill|
-				kill.killer.members.map { |member| member.id }.include?(user.id) if kill.killer
+				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed && (kill.appear_at.nil? || kill.appear_at < DateTime.now) if kill.killer
 			end
 
 			can :index, Kill
@@ -91,7 +91,7 @@ class Ability
 			end
 
 			can [:read, :update], Neutralization.all do |neutralization|
-				user.id == neutralization.killer_id
+				user.id == neutralization.killer_id && neutralization.confirmed
 			end
 
 			can :index, Neutralization
