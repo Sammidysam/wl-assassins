@@ -43,5 +43,4 @@
 	<%= @kill.appear_at %>
 </p>
 
-<%= link_to 'Edit', edit_kill_path(@kill) %> |
-<%= link_to 'Back', kills_path %>
+<%= link_to "Edit", edit_kill_path(@kill) if can?(:update, @kill) %>
