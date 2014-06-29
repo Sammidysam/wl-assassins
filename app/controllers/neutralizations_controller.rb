@@ -23,6 +23,12 @@ class NeutralizationsController < ApplicationController
 		else
 			redirect_to root_path, alert: "You are not authorized to access this page."
 		end
+
+		unless performed?
+			@neutralization.killer_id = current_user.id
+			@neutralization.target_id = @neutralizer.id
+			@neutralization.game_id = @neutralizer.team.participation.game_id
+		end
 	end
 
 	# GET /neutralizations/1/edit
