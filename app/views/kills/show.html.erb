@@ -24,4 +24,4 @@
 	<p><%= image_tag @kill.picture_url, alt: "Invalid Image URL" %></p>
 <% end %>
 
-<%= link_to "Edit", edit_kill_path(@kill) if can?(:update, @kill) %>
+<%= link_to "Edit", edit_kill_path(@kill), class: "btn btn-default" if can?(:update, @kill) %>
