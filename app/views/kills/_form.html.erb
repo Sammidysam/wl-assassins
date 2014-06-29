@@ -1,0 +1,53 @@
+<%= form_for(@kill) do |f| %>
+  <% if @kill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@kill.errors.count, "error") %> prohibited this kill from being saved:</h2>
+
+      <ul>
+      <% @kill.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :confirmed %><br>
+    <%= f.check_box :confirmed %>
+  </div>
+  <div class="field">
+    <%= f.label :target_id %><br>
+    <%= f.number_field :target_id %>
+  </div>
+  <div class="field">
+    <%= f.label :confirmed_at %><br>
+    <%= f.datetime_select :confirmed_at %>
+  </div>
+  <div class="field">
+    <%= f.label :picture_url %><br>
+    <%= f.text_field :picture_url %>
+  </div>
+  <div class="field">
+    <%= f.label :how %><br>
+    <%= f.text_area :how %>
+  </div>
+  <div class="field">
+    <%= f.label :kind %><br>
+    <%= f.number_field :kind %>
+  </div>
+  <div class="field">
+    <%= f.label :game_id %><br>
+    <%= f.number_field :game_id %>
+  </div>
+  <div class="field">
+    <%= f.label :killer_id %><br>
+    <%= f.number_field :killer_id %>
+  </div>
+  <div class="field">
+    <%= f.label :appear_at %><br>
+    <%= f.datetime_select :appear_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
