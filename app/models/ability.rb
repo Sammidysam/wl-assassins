@@ -24,6 +24,14 @@ class Ability
 		can :index, Game
 		can :events, Game
 
+		can :read, Kill.all do |kill|
+			kill.confirmed
+		end
+
+		can :read, Neutralization.all do |neutralization|
+			neutralization.confirmed
+		end
+
 		if logged_in
 			can :manage, Team.all do |team|
 				team.members.include? user
@@ -82,10 +90,6 @@ class Ability
 				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed if kill.killer
 			end
 
-			can :read, Kill.all do |kill|
-				kill.confirmed
-			end
-
 			can :index, Kill
 
 			can :create, Neutralization if user.alive? && !user.neutralized?
@@ -97,11 +101,7 @@ class Ability
 			can :update, Neutralization.all do |neutralization|
 				user.id == neutralization.killer_id && neutralization.confirmed
 			end
-
-			can :read, Neutralization.all do |neutralization|
-				neutralization.confirmed
-			end
-
+			
 			can :index, Neutralization
 		end
 
