@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :add, :remove, :add_all, :remove_all, :start]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :add, :remove, :add_all, :remove_all, :start]
 
 	load_and_authorize_resource
 
@@ -12,8 +12,6 @@ class GamesController < ApplicationController
 	# GET /games/1
 	# GET /games/1.json
 	def show
-		@confirmed_kills = @game.kills.where(confirmed: true).order(:confirmed_at)
-		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true).order(:start)
 		@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
 		@eliminated_teams = @game.eliminated_teams
 	end
@@ -65,6 +63,12 @@ class GamesController < ApplicationController
 			format.html { redirect_to games_url }
 			format.json { head :no_content }
 		end
+	end
+
+	# GET /games/1/events
+	def events
+		@confirmed_kills = @game.kills.where(confirmed: true).order(:confirmed_at)
+		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true).order(:start)
 	end
 
 	# POST /games/1/add

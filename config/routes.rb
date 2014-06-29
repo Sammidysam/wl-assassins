@@ -21,6 +21,8 @@ WlAssassins::Application.routes.draw do
 	end
 	
 	resources :games do
+		get "events", on: :member
+		
 		post "add", on: :member
 		post "remove", on: :member
 		post "add_all", on: :member
