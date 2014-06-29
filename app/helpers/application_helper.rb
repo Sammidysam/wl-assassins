@@ -14,6 +14,10 @@ module ApplicationHelper
 	def glyphicon(icon)
 		content_tag :span, nil, class: "glyphicon glyphicon-#{icon}"
 	end
+
+	def link_to_if_can_read(name, link)
+		can?(:read, link) ? link_to(name, link) : name
+	end
 	
 	# Returns the non-eliminated teams in the game game in order of contracts.
 	def contract_order_teams(game, starter_team = nil)
