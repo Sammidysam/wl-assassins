@@ -82,6 +82,8 @@ class Ability
 				kill.killer.members.map { |member| member.id }.include?(user.id) if kill.killer
 			end
 
+			can :index, Kill
+
 			can :create, Neutralization if user.alive? && !user.neutralized?
 
 			can :confirm, Neutralization.all do |neutralization|
@@ -91,6 +93,8 @@ class Ability
 			can [:read, :update], Neutralization.all do |neutralization|
 				user.id == neutralization.killer_id
 			end
+
+			can :index, Neutralization
 		end
 
 		cannot :destroy, :all
