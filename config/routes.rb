@@ -12,11 +12,11 @@ WlAssassins::Application.routes.draw do
 	
 	resources :pages
 
-	resources :neutralizations, only: [:new, :create, :destroy] do
+	resources :neutralizations do
 		post "confirm", on: :member
 	end
 
-	resources :kills, only: [:new, :create, :destroy] do
+	resources :kills do
 		post "confirm", on: :member
 	end
 	
