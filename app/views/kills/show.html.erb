@@ -6,7 +6,8 @@
 		by
 		<%= link_to_if_can_read @kill.killer.name, @kill.killer %>
 	<% end %>
-	in the game <%= link_to_if_can_read @kill.game.name, @kill.game %>.
+	in the game
+	<%= link_to_if_can_read @kill.game.name, @kill.game %>.
 </p>
 
 <p>
