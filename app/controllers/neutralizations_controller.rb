@@ -1,8 +1,20 @@
 class NeutralizationsController < ApplicationController
-	before_action :set_neutralization, only: [:destroy, :confirm]
+	before_action :set_neutralization, only: [:show, :edit, :update, :destroy, :confirm]
 	
 	load_and_authorize_resource
-	
+
+	# GET /neutralizations
+	# GET /neutralizations.json
+	def index
+		@neutralizations = Neutralization.all.select { |neutralization| can? :read, neutralization }
+	end
+
+	# GET /neutralizations/1
+	# GET /neutralizations/1.json
+	def show
+	end
+
+	# GET /neutralizations/new
 	def new
 		@neutralization = Neutralization.new
 
@@ -13,6 +25,11 @@ class NeutralizationsController < ApplicationController
 		end
 	end
 
+	# GET /neutralizations/1/edit
+	def edit
+	end
+
+	# POST /neutralizations
 	def create
 		@neutralization = Neutralization.new(neutralization_params)
 
@@ -23,10 +40,26 @@ class NeutralizationsController < ApplicationController
 		end
 	end
 
+	# PATCH/PUT /neutralizations/1
+	# PATCH/PUT /neutralizations/1.json
+	def update
+		respond_to do |format|
+			if @neutralization.update(neutralization_params)
+				format.html { redirect_to @neutralization, notice: "Neutralization was successfully updated." }
+				format.json { head :no_content }
+			else
+				format.html { render action: "edit" }
+				format.json { render json: @neutralization.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
+	# DELETE /neutralizations/1
 	def destroy
 		redirect_to root_path, alert: (@neutralization.destroy ? nil : "Could not destroy neutralization!")
 	end
 
+	# POST /neutralizations/1/confirm
 	def confirm
 		@neutralization.confirmed = true
 		@neutralization.start = DateTime.now
