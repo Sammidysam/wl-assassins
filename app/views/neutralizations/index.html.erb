@@ -7,7 +7,7 @@
 			<th>Neutralized</th>
 			<th>Game</th>
 			<th>Start Time</th>
-			<% if current_user.admin? %><th>Confirmed</th><% end %>
+			<% if current_user && current_user.admin? %><th>Confirmed</th><% end %>
 			<th>Actions</th>
 		</tr>
 	</thead>
