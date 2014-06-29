@@ -33,5 +33,4 @@
 	<%= @neutralization.picture_url %>
 </p>
 
-<%= link_to 'Edit', edit_neutralization_path(@neutralization) %> |
-<%= link_to 'Back', neutralizations_path %>
+<%= link_to "Edit", edit_neutralization_path(@neutralization), class: "btn btn-default" if can?(:update, @neutralization) %>
