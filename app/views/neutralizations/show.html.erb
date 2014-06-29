@@ -1,36 +1,23 @@
 <p>
-	<strong>Confirmed:</strong>
-	<%= @neutralization.confirmed %>
+	<%= link_to_if_can_read @neutralization.killer.name, @neutralization.killer %>
+	was neutralized by
+	<%= link_to_if_can_read @neutralization.target.name, @neutralization.target %>
+	in the game
+	<%= link_to_if_can_read @neutralization.game.name, @neutralization.game %>.
 </p>
 
 <p>
-	<strong>Start:</strong>
-	<%= @neutralization.start %>
+	This neutralization was reported on <%= @neutralization.created_at.strftime "%b %-d %Y at %l:%M %p" %> and was confirmed and started on <%= @neutralization.start.strftime "%b %-d %Y at %l:%M %p" %>, lasting until <%= @neutralization.end_time.strftime "%b %-d %Y at %l:%M %p" %>.
 </p>
 
-<p>
-	<strong>Killer:</strong>
-	<%= @neutralization.killer_id %>
-</p>
+<% if @neutralization.how %>
+	<p>
+		How this neutralization occurred: "<%= neutralization.how %>"
+	</p>
+<% end %>
 
-<p>
-	<strong>Target:</strong>
-	<%= @neutralization.target_id %>
-</p>
-
-<p>
-	<strong>Game:</strong>
-	<%= @neutralization.game_id %>
-</p>
-
-<p>
-	<strong>How:</strong>
-	<%= @neutralization.how %>
-</p>
-
-<p>
-	<strong>Picture url:</strong>
-	<%= @neutralization.picture_url %>
-</p>
+<% if @neutralization.picture_url %>
+	<p><%= image_tag @neutralization.picture_url, alt: "Invalid Image URL" %></p>
+<% end %>
 
 <%= link_to "Edit", edit_neutralization_path(@neutralization), class: "btn btn-default" if can?(:update, @neutralization) %>
