@@ -71,8 +71,12 @@
 			You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before autotermination.
 
 			<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
-				Watch out!
-				Terminators have been sent out to terminate your team.
+				<% if current_user.team.participation.termination_at > DateTime.now %>
+					Watch out!
+					Terminators have been sent out to terminate your team.
+				<% else %>
+					Autotermination is imminent!
+				<% end %>
 			<% end %>
 		</p>
 	<% end %>
