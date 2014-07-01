@@ -88,18 +88,10 @@ class Team < ActiveRecord::Base
 
 	def autoterminate
 		# Terminate all members of team.
-		alive_members.each do |member|
-			kill = Kill.new
-			kill.target_id = member.id
-			kill.kind = "out_of_time"
-			kill.game_id = participation.game_id
-			kill.appear_at = participation.termination_at
-
-			kill.save
-		end
+		alive_members.each { |member| member.autoterminate }
 	end
 
 	def remove_autotermination
-		Kill.out_of_time.where(target_id: members.map { |member| member.id }, game_id: participation.game_id).where.not(appear_at: nil).destroy_all
+		Kill.out_of_time.where(confirmed: false, target_id: members.map { |member| member.id }, game_id: participation.game_id).where.not(appear_at: nil).destroy_all
 	end
 end
