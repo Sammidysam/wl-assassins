@@ -59,10 +59,10 @@
 		<% end %>
 	<% end %>
 
-	<% if @game.eliminated_teams.count > 0 %>
+	<% if @eliminated_teams.count > 0 %>
 		<h2>Team Eliminations</h2>
 
-		<% @game.eliminated_teams.sort_by { |team| team.eliminated_at }.each do |team| %>
+		<% @eliminated_teams.each do |team| %>
 			<p>
 				<% if team.killer %>
 					<%= link_to_if_can_read team.killer.name, team.killer %>

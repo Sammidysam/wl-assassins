@@ -69,6 +69,7 @@ class GamesController < ApplicationController
 	def events
 		@confirmed_kills = @game.kills.where(confirmed: true).order(:confirmed_at)
 		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true).order(:start)
+		@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
 	end
 
 	# POST /games/1/add
