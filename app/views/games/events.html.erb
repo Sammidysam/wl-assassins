@@ -58,6 +58,27 @@
 			</ul>
 		<% end %>
 	<% end %>
+
+	<% if @game.eliminated_teams.count > 0 %>
+		<h2>Eliminations</h2>
+
+		<% @game.eliminated_teams.sort_by { |team| team.eliminated_at }.each do |team| %>
+			<p>
+				<% if team.killer %>
+					<%= link_to_if_can_read team.killer.name, team.killer %>
+				<% else %>
+					<%= team.last_confirmed_kill.readable_kind.capitalize %>
+				<% end %>
+				<%= glyphicon "arrow-right" %>
+				<%= link_to_if_can_read team.name, team %>
+			</p>
+
+			<%# Using ul for indentation. %>
+			<ul>
+				<p>Occurred on <%= team.eliminated_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
+			</ul>
+		<% end %>
+	<% end %>
 <% else %>
 	<p>No events have occurred yet in this game.</p>
 <% end %>
