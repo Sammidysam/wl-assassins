@@ -13,7 +13,7 @@ class GamesController < ApplicationController
 	# GET /games/1.json
 	def show
 		@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
-		@eliminated_teams = @game.eliminated_teams
+		@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
 	end
 
 	# GET /games/new
