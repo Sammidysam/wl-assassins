@@ -68,7 +68,7 @@
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>
-			You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before termination.
+			You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before autotermination.
 
 			<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
 				Watch out!
@@ -148,7 +148,8 @@
 				
 				<p>
 					<% unless current_user.team.completed_contracts.empty? %>
-						Your team has successfully completed the <%= pluralize current_user.team.completed_contracts.count, "contract" %> to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
+						Your team has successfully completed <%= pluralize current_user.team.completed_contracts.count, "contract" %>:
+						to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 					<% end %>
 					
 					Your team is currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
