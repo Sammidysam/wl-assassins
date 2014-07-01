@@ -83,7 +83,7 @@ class Team < ActiveRecord::Base
 		components << pluralize(remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24, "hour") if remaining_kill_time.in_hours.floor > 0
 		components << pluralize(remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60, "minute") if remaining_kill_time.in_minutes.floor > 0
 
-		components.to_sentence
+		participation.termination_at > DateTime.now ? components.to_sentence : "no time"
 	end
 
 	def autoterminate
