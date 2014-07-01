@@ -19,7 +19,7 @@
 				<h5>Reported Kills</h5>
 				
 				<ul>
-					<% Kill.where(game_id: game.id, confirmed: false).order(:created_at).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.each do |kill| %>
+					<% Kill.where(game_id: game.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.sort_by { |kill| kill.appear_at || kill.created_at }.each do |kill| %>
 						<li>
 							<p>
 								<%= link_to kill.target.name, kill.target %>
