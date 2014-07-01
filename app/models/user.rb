@@ -71,4 +71,8 @@ class User < ActiveRecord::Base
 	def on_team?(team)
 		self.team.id == team.id
 	end
+
+	def remove_autotermination
+		Kill.out_of_time.where(target_id: self.id, game_id: team.participation.game_id).where.not(appear_at: nil).destroy_all
+	end
 end

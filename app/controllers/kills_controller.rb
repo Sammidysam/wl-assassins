@@ -86,6 +86,9 @@ class KillsController < ApplicationController
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
 
+		# Remove autotermination for dead user.
+		@kill.target.remove_autotermination
+
 		if @kill.save
 			# Reset termination_at for killing team.
 			if @kill.assassination?
