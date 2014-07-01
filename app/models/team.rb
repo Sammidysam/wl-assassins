@@ -85,6 +85,11 @@ class Team < ActiveRecord::Base
 	def target
 		contract.target if contract
 	end
+
+	# Returns all of the neutralizations that the team conducted.
+	def target_neutralizations
+		members.map { |member| member.target_neutralizations }.flatten
+	end
 	
 	def remaining_kill_time
 		TimeDifference.between(participation.termination_at, Time.now) if participation
