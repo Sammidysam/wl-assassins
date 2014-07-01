@@ -14,6 +14,12 @@ class Ability
 			can_user.public_admin?
 		end
 
+		can :read, Team.all do |team|
+			team.eliminated?
+		end
+
+		can :index, Team if Team.all.select { |team| can? :read, team }.count > 0
+
 		can :day, Page
 		can :read, Page
 
