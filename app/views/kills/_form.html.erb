@@ -28,6 +28,7 @@
 	<%= f.hidden_field :kind, value: @kill.kind unless @kill.kind.nil? %>
 	<%= f.hidden_field :game_id, value: @kill.game_id unless @kill.game_id.nil? %>
 	<%= f.hidden_field :killer_id, value: @kill.killer_id unless @kill.killer_id.nil? %>
+	<%= f.hidden_field :confirmed_at, value: @kill.confirmed_at unless @kill.confirmed_at.nil? %>
 
 	<div class="actions">
 		<%= f.submit class: "btn btn-success" %>

@@ -36,6 +36,7 @@ class KillsController < ApplicationController
 			@kill.kind = @kind if @kind
 			@kill.game_id = @target.team.participation.game_id
 			@kill.killer_id = view_context.default_killer_id(@kind, @target.team.participation.game_id)
+			@kill.confirmed_at = DateTime.now if current_user.admin?
 		end
 	end
 
@@ -174,6 +175,6 @@ class KillsController < ApplicationController
 	end
 	
 	def kill_params
-		params.require(:kill).permit(:confirmed, :target_id, :picture_url, :how, :kind, :game_id, :killer_id)
+		params.require(:kill).permit(:confirmed, :target_id, :picture_url, :how, :kind, :game_id, :killer_id, :confirmed_at)
 	end
 end
