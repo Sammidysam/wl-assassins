@@ -60,7 +60,7 @@
 	<% end %>
 
 	<% if @game.eliminated_teams.count > 0 %>
-		<h2>Eliminations</h2>
+		<h2>Team Eliminations</h2>
 
 		<% @game.eliminated_teams.sort_by { |team| team.eliminated_at }.each do |team| %>
 			<p>
