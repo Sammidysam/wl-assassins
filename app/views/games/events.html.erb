@@ -17,7 +17,7 @@
 
 			<%# Using ul for indentation. %>
 			<ul>
-				<p>Reported on <%= kill.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
+				<p>Reported on <%= (kill.appear_at || kill.created_at).in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
 				<p>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
 				<% if kill.how %>
 					<p>How occurred: "<%= kill.how %>"</p>
