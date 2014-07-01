@@ -82,7 +82,11 @@ class User < ActiveRecord::Base
 		kill.save
 	end
 
+	def autoterminations
+		kills.out_of_time.where(confirmed: false, game_id: team.participation.game_id).where.not(appear_at: nil)
+	end
+
 	def remove_autotermination
-		kills.out_of_time.where(confirmed: false, game_id: team.participation.game_id).where.not(appear_at: nil).destroy_all
+		autoterminations.destroy_all
 	end
 end
