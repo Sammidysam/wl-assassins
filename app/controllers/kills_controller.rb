@@ -48,7 +48,7 @@ class KillsController < ApplicationController
 		@kill = Kill.new(kill_params)
 
 		if @kill.save
-			redirect_to root_path, notice: "Successfully created kill!"
+			redirect_to root_path, notice: "Successfully reported kill!"
 		else
 			redirect_to root_path, alert: "Could not create kill!"
 		end

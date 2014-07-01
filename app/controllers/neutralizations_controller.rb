@@ -40,7 +40,7 @@ class NeutralizationsController < ApplicationController
 		@neutralization = Neutralization.new(neutralization_params)
 
 		if @neutralization.save
-			redirect_to root_path, notice: "Successfully created neutralization!"
+			redirect_to root_path, notice: "Successfully reported neutralization!"
 		else
 			redirect_to root_path, alert: "Could not create neutralization!"
 		end
