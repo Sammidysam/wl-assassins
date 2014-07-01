@@ -54,9 +54,18 @@ class Team < ActiveRecord::Base
 		members.all? { |member| member.dead? }
 	end
 
+	def last_confirmed_kill
+		members.map { |member| member.kills.where(game_id: participation.game_id, confirmed: true) }.flatten.sort_by { |kill| kill.confirmed_at }.last
+	end
+
 	# Returns time of the confirmation of the last kill for this team.
 	def eliminated_at
-		members.map { |member| member.kills.where(game_id: participation.game_id, confirmed: true) }.flatten.sort_by { |kill| kill.confirmed_at }.last.confirmed_at if eliminated?
+		last_confirmed_kill.confirmed_at if eliminated?
+	end
+
+	# Returns the team that killed this team.
+	def killer
+		last_confirmed_kill.killer if eliminated?
 	end
 
 	def terminators?
