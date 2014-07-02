@@ -39,7 +39,7 @@ class Game < ActiveRecord::Base
 
 	# All of the users sans terminators in the game.
 	def participants
-		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |team| team.members }.flatten
+		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |inner_team| inner_team.members }.flatten
 	end
 
 	def suggested_team_fee
