@@ -156,7 +156,7 @@ DEPENDENCIES
   jquery-rails
   nilify_blanks (~> 1.0.3)
   pg
-  pry-rails
+  pry-rails (~> 0.3.2)
   rails (= 4.1.2)
   rails_12factor
   rails_bootstrap_navbar (~> 2.0.1)

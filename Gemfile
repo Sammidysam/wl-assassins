@@ -72,4 +72,4 @@ gem "nilify_blanks", "~> 1.0.3"
 gem "time_difference", "~> 0.3.2"
 
 # Use pry for the console.
-gem "pry-rails", group: :development
+gem "pry-rails", "~> 0.3.2"
