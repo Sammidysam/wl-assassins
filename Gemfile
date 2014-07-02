@@ -70,3 +70,6 @@ gem "nilify_blanks", "~> 1.0.3"
 
 # Calculate time difference between times.
 gem "time_difference", "~> 0.3.2"
+
+# Use pry for the console.
+gem "pry-rails", group: :development
