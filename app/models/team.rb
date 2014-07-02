@@ -30,7 +30,8 @@ class Team < ActiveRecord::Base
 
 	# Returns only the user who are current members of team.
 	def members
-		self.memberships.where(active: true).map { |membership| membership.user }
+		active_memberships = self.memberships.where(active: true)
+		User.where(id: active_memberships.map { |membership| membership.user_id })
 	end
 
 	def alive_members
