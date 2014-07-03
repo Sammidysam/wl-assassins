@@ -20,7 +20,9 @@
 				<p>Reported on <%= (kill.appear_at || kill.created_at).in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
 				<p>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
 				<% if kill.how %>
-					<p>How occurred: "<%= kill.how %>"</p>
+					<p>
+						How occurred: "<%= kill.how %>"
+					</p>
 				<% end %>
 				<% if kill.picture_url %>
 					<p><%= link_to "View image of kill", kill, class: "btn btn-default btn-sm" %></p>
