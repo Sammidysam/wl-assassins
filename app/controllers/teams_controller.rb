@@ -115,9 +115,15 @@ class TeamsController < ApplicationController
 	def reset_termination_at
 		participation = @team.participation
 
+		@team.remove_autotermination
+
 		participation.termination_at = (@team.participation.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days.from_now
 
-		redirect_to game_path(params[:game_id]), alert: (participation.save ? nil : "Could not reset autotermination time!")
+		participation.save
+
+		@team.autoterminate
+
+		redirect_to @team.participation.game
 	end
 
 	private
