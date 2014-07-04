@@ -85,10 +85,13 @@ class KillsController < ApplicationController
 		@kill.confirmed = true
 		@kill.confirmed_at = DateTime.now
 
-		# Remove autotermination for dead user unless that is being confirmed.
-		@kill.target.remove_autotermination unless @kill.target.autoterminations.map { |kill| kill.id }.include?(@kill.id)
-
 		if @kill.save
+			# Remove autotermination for dead user.
+			@kill.target.remove_autotermination
+
+			# Remove out-of-town kills for dead user.
+			@kill.target.remove_out_of_town_kills
+			
 			# Reset termination_at for killing team.
 			if @kill.assassination?
 				participation = @kill.killer.participation
