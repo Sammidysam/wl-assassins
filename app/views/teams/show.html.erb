@@ -5,7 +5,7 @@
 		<h1><%= @team.name %></h1>
 	</div>
 
-	<% @team.members.each do |member| %>
+	<% @team.members.sort_by { |member| member.alive? ? 0 : 1 }.each do |member| %>
 		<div class="col-md-2">
 			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
