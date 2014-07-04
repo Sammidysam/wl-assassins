@@ -31,12 +31,10 @@ class KillsController < ApplicationController
 		end
 
 		unless performed?
-			@kill.confirmed = current_user.admin?
 			@kill.target_id = @target.id
 			@kill.kind = @kind if @kind
 			@kill.game_id = @target.team.participation.game_id
 			@kill.killer_id = view_context.default_killer_id(@kind, @target.team.participation.game_id)
-			@kill.confirmed_at = DateTime.now if current_user.admin?
 		end
 	end
 
