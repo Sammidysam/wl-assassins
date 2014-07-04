@@ -176,6 +176,6 @@ class KillsController < ApplicationController
 	end
 	
 	def kill_params
-		params.require(:kill).permit(:confirmed, :target_id, :picture_url, :how, :kind, :game_id, :killer_id, :confirmed_at)
+		params.require(:kill).permit(:target_id, :picture_url, :how, :kind, :game_id, :killer_id)
 	end
 end
