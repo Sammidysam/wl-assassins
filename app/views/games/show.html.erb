@@ -103,7 +103,7 @@
 					<p><%= team.alive_members.count %> / <%= team.members.count %> members are still alive.</p>
 					<p><%= team.remaining_kill_time_format.capitalize %> left before autotermination.</p>
 
-					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal" %></p>
+					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 				</div>
 			<% end %>
 		</div>
