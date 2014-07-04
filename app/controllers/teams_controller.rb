@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
 	include Revival
 	
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at]
 
 	load_and_authorize_resource
 
@@ -109,6 +109,15 @@ class TeamsController < ApplicationController
 		@team.dead_members.each { |member| revive_user member }
 
 		redirect_to @team.participation.game
+	end
+
+	# POST /teams/1/reset_termination_at
+	def reset_termination_at
+		participation = @team.participation
+
+		participation.termination_at = (@team.participation.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days.from_now
+
+		redirect_to game_path(params[:game_id]), alert: (participation.save ? nil : "Could not reset autotermination time!")
 	end
 
 	private
