@@ -73,6 +73,11 @@ class Team < ActiveRecord::Base
 		participation.terminators if participation
 	end
 
+	# Returns true if all of the alive members of the team are out-of-town.
+	def out_of_town?
+		alive_members.all? { |member| member.out_of_town }
+	end
+
 	# Returns the current contract for the team.
 	def contract
 		participation.contracts.find { |contract| !contract.completed } if participation
