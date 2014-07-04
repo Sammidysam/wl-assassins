@@ -7,6 +7,9 @@ module Revival
 		# Destroy all confirmed kills on the user.
 		user.kills.where(game_id: user.team.participation.game_id, confirmed: true).destroy_all
 
+		# Add autotermination job for user.
+		user.autoterminate
+
 		# Then revive the team if necessary.
 		if eliminated
 			# Destroy the old contract to eliminate this team.
