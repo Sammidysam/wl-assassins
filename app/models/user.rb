@@ -89,4 +89,12 @@ class User < ActiveRecord::Base
 	def remove_autotermination
 		autoterminations.destroy_all
 	end
+
+	def out_of_town_kills
+		kills.out_of_town.where(confirmed: false, game_id: team.participation.game_id).where.not(appear_at: nil)
+	end
+
+	def remove_out_of_town_kills
+		out_of_town_kills.destroy_all
+	end
 end
