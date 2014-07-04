@@ -100,7 +100,7 @@
 
 					<h4><%= link_to team.name, team %></h4>
 
-					<p><%= team.alive_members.count %> / 4 members are still alive.</p>
+					<p><%= team.alive_members.count %> / <%= team.members.count %> members are still alive.</p>
 					<p><%= team.remaining_kill_time_format.capitalize %> left before autotermination.</p>
 
 					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default" %></p>
