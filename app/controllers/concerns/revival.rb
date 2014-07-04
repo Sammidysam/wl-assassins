@@ -8,9 +8,6 @@ module Revival
 		# Destroy all confirmed kills on the user.
 		user.kills.where(game_id: user.team.participation.game_id, confirmed: true).destroy_all
 
-		# Add autotermination job for user.
-		user.autoterminate
-
 		# Then revive the team if necessary.
 		if eliminated
 			# Destroy the old contract to eliminate this team.
@@ -37,7 +34,17 @@ module Revival
 			contract.start = DateTime.now
 
 			contract.save
+
+			# Reset termination_at for team.
+			participation = user.team.participation
+
+			participation.termination_at = (participation.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days.from_now
+
+			participation.save
 		end
+
+		# Add autotermination job for user.
+		user.autoterminate
 
 		if !out_of_town && user.team.out_of_town?
 			# Kill all members of the team.
