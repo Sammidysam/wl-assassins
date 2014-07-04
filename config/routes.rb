@@ -33,6 +33,7 @@ WlAssassins::Application.routes.draw do
 		post "remove", on: :member
 		post "terminators", on: :member
 		post "revive", on: :member
+		post "reset_termination_at", on: :member
 	end
 	
 	resources :users do
