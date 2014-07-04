@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+  helpers:
+    submit:
+      kill:
+        create: "Report %{model}"
+      neutralization:
+        create: "Report %{model}"
