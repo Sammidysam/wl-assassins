@@ -42,6 +42,10 @@ class Team < ActiveRecord::Base
 		members.select { |member| member.dead? }
 	end
 
+	def member_kills
+		Kill.where(target_id: members.map { |member| member.id })
+	end
+
 	# Returns the current participation for the team.
 	def participation
 		self.participations.find { |participation| participation.game.in_progress if participation.game }
