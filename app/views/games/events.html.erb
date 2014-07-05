@@ -1,9 +1,20 @@
 <h1>Events</h1>
 
 <% if @confirmed_kills.count > 0 || @confirmed_neutralizations.count > 0 %>
-	<p>Occurring in this game have been <%= pluralize @confirmed_kills.count, "kill" %>, <%= pluralize @confirmed_neutralizations.count, "neutralization" %>, and <%= pluralize @eliminated_teams.count, "team elimination" %>.
+	<p>Occurring in this game have been <%= pluralize @confirmed_kills.count, "kill" %>, <%= pluralize @confirmed_neutralizations.count, "neutralization" %>, and <%= pluralize @eliminated_teams.count, "team elimination" %>.</p>
 	
 	<% if @confirmed_kills.count > 0 %>
+		<p>
+			Number of kills for each type of kill in this game:
+
+			<ul>
+				<%# kind goes from 0 to 5 %>
+				<% 0.upto(5) do |kind_number| %>
+					<li><%= Kill.readable_kind_number(kind_number).capitalize %>: <%= @confirmed_kills.where(kind: kind_number).count %></li>
+				<% end %>
+			</ul>
+		</p>
+		
 		<h2>Kills</h2>
 
 		<ol>

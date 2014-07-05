@@ -27,6 +27,23 @@ class Kill < ActiveRecord::Base
 	def event_time(date)
 		self.confirmed_at
 	end
+
+	def self.readable_kind_number(number)
+		case number
+		when 0
+			"assassination"
+		when 1
+			"termination"
+		when 2
+			"being out-of-town at the wrong time for too long"
+		when 3
+			"running out of time to conduct a kill"
+		when 4
+			"disqualification"
+		when 5
+			"quitting"
+		end
+	end
 	
 	def readable_kind
 		case self.kind
