@@ -86,7 +86,7 @@
 
 		<% if current_user.in_game? %>
 			Your team as a whole is currently <%= @team.out_of_town? ? "out-of-town" : "in town" %>.
-			Your team has <%= @team.remaining_out_of_town_time_format %> <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where you must all be out-of-town until being terminated due to being out-of-town for too long." %>
+			Your team has <%= @team.remaining_out_of_town_time_format %> <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where you must all be out-of-town until being terminated due to being out-of-town for too long" %>.
 		<% end %>
 
 		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
