@@ -6,90 +6,93 @@
 	<% if @confirmed_kills.count > 0 %>
 		<h2>Kills</h2>
 
-		<% @confirmed_kills.each do |kill| %>
-			<p>
-				<% if kill.killer %>
-					<%= link_to_if_can_read kill.killer.name, kill.killer %>
-				<% else %>
-					<%= kill.readable_kind.capitalize %>
-				<% end %>
-				<%= glyphicon "arrow-right" %>
-				<%= link_to_if_can_read kill.target.name, kill.target %>
-			</p>
-
-			<%# Using ul for indentation. %>
-			<ul>
-				<p>Reported on <%= (kill.appear_at || kill.created_at).in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
-				<p>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
-				<% if kill.how %>
-					<p>
-						How occurred: "<%= kill.how %>"
-					</p>
-				<% end %>
-				<% if kill.picture_url %>
-					<p><%= link_to "View image of kill", kill, class: "btn btn-default btn-sm" %></p>
-				<% end %>
-			</ul>
-		<% end %>
+		<ol>
+			<% @confirmed_kills.each do |kill| %>
+				<li>
+					<% if kill.killer %>
+						<%= link_to_if_can_read kill.killer.name, kill.killer %>
+					<% else %>
+						<%= kill.readable_kind.capitalize %>
+					<% end %>
+					<%= glyphicon "arrow-right" %>
+					<%= link_to_if_can_read kill.target.name, kill.target %>
+					
+					<ul>
+						<li>Reported on <%= (kill.appear_at || kill.created_at).in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
+						<li>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
+						<% if kill.how %>
+							<li>
+								How occurred: "<%= kill.how %>"
+							</li>
+						<% end %>
+						<% if kill.picture_url %>
+							<%= link_to "View image of kill", kill, class: "btn btn-default btn-sm" %>
+						<% end %>
+					</ul>
+				</li>
+			<% end %>
+		</ol>
 	<% end %>
 
 	<% if @confirmed_neutralizations.count > 0 %>
 		<h2>Neutralizations</h2>
 
-		<% @confirmed_neutralizations.each do |neutralization| %>
-			<p>
-				<%= link_to_if_can_read neutralization.target.name, neutralization.target %>
-				<%= glyphicon "arrow-right" %>
-				<%= link_to_if_can_read neutralization.killer.name, neutralization.killer %>
-			</p>
-
-			<%# Using ul for indentation. %>
-			<ul>
-				<p>Reported on <%= neutralization.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
-				<p>Confirmed on <%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %></p>
-				<p>
-					Lasts from
-					<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
-					to
-					<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>
-				</p>
-				<% if neutralization.how %>
-					<p>How occurred: "<%= neutralization.how %>"</p>
-				<% end %>
-				<% if neutralization.picture_url %>
-					<p><%= link_to "View image of neutralization", neutralization, class: "btn btn-default btn-sm" %></p>
-				<% end %>
-			</ul>
-		<% end %> 
+		<ol>
+			<% @confirmed_neutralizations.each do |neutralization| %>
+				<li>
+					<%= link_to_if_can_read neutralization.target.name, neutralization.target %>
+					<%= glyphicon "arrow-right" %>
+					<%= link_to_if_can_read neutralization.killer.name, neutralization.killer %>
+					
+					<ul>
+						<li>Reported on <%= neutralization.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
+						<li>Confirmed on <%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %></li>
+						<li>
+							Lasts from
+							<%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %>
+							to
+							<%= neutralization.end_time.in_time_zone.strftime "%b %-d %l:%M %p" %>
+						</li>
+						<% if neutralization.how %>
+							<li>How occurred: "<%= neutralization.how %>"</li>
+						<% end %>
+						<% if neutralization.picture_url %>
+							<%= link_to "View image of neutralization", neutralization, class: "btn btn-default btn-sm" %>
+						<% end %>
+					</ul>
+				</li>
+			<% end %>
+		</ol>
 	<% end %>
 
 	<% if @eliminated_teams.count > 0 %>
 		<h2>Team Eliminations</h2>
 
-		<% @eliminated_teams.each do |team| %>
-			<p>
-				<% if team.killer %>
-					<%= link_to_if_can_read team.killer.name, team.killer %>
-				<% else %>
-					<%= team.last_confirmed_kill.readable_kind.capitalize %>
-				<% end %>
-				<%= glyphicon "arrow-right" %>
-				<%= link_to_if_can_read team.name, team %>
-			</p>
-
-			<%# Using ul for indentation. %>
-			<ul>
-				<p>
+		<ol>
+			<% @eliminated_teams.each do |team| %>
+				<li>
+					<% if team.killer %>
+						<%= link_to_if_can_read team.killer.name, team.killer %>
+					<% else %>
+						<%= team.last_confirmed_kill.readable_kind.capitalize %>
+					<% end %>
+					<%= glyphicon "arrow-right" %>
 					<%= link_to_if_can_read team.name, team %>
-					conducted
-					<%= pluralize team.kills.where(confirmed: true, game_id: @game.id).count, "kill" %>
-					and
-					<%= pluralize team.target_neutralizations.select { |neutralization| neutralization.confirmed && neutralization.game_id == @game.id }.count, "neutralization" %>
-					during this game.
-				</p>
-				<p>Occurred on <%= team.eliminated_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
-			</ul>
-		<% end %>
+					
+					<ul>
+						<li>
+							<%= link_to_if_can_read team.name, team %>
+							conducted
+							<%= pluralize team.kills.where(confirmed: true, game_id: @game.id).count, "kill" %>
+							and
+							<%= pluralize team.target_neutralizations.select { |neutralization| neutralization.confirmed && neutralization.game_id == @game.id }.count, "neutralization" %>
+							during this game.
+						</li>
+						<li>Occurred on <%= team.eliminated_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
+					</ul>
+				</li>
+			<% end %>
+		</ol>
 	<% end %>
 <% else %>
 	<p>No events have occurred yet in this game.</p>
