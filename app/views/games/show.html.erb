@@ -109,8 +109,9 @@
 							All members must be out-of-town for <%= team.remaining_out_of_town_time_format %> until termination.
 						<% end %>
 					</p>
+					<p><%= link_to "Reset Out-Of-Town Hours", reset_out_of_town_hours_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
+					
 					<p><%= team.remaining_kill_time_format.capitalize %> left before autotermination.</p>
-
 					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 				</div>
 			<% end %>

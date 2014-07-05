@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
 	include Revival
 	
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at, :reset_out_of_town_hours]
 
 	load_and_authorize_resource
 
@@ -124,6 +124,19 @@ class TeamsController < ApplicationController
 		@team.autoterminate
 
 		redirect_to @team.participation.game
+	end
+
+	# POST /teams/1/reset_out_of_town_hours
+	def reset_out_of_town_hours
+		participation = @team.participation
+
+		@team.remove_out_of_town_kills if @team.out_of_town?
+
+		participation.out_of_town_hours = 0.0
+
+		@team.out_of_town_kill if @team.out_of_town?
+
+		redirect_to @team.participation.game, alert: (participation.save ? nil : "Could not reset out-of-town hours!")
 	end
 
 	private

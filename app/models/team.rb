@@ -140,4 +140,24 @@ class Team < ActiveRecord::Base
 	def remove_autotermination
 		autoterminations.destroy_all
 	end
+
+	def out_of_town_kill
+		alive_members.each do |member|
+			kill = Kill.new
+			kill.target_id = member.id
+			kill.kind = "out_of_town"
+			kill.game_id = participation.game_id
+			kill.appear_at = (24 - participation.out_of_town_hours).hours.from_now
+
+			kill.save
+		end
+	end
+
+	def out_of_town_kills
+		Kill.out_of_town.where(confirmed: false, target_id: members.map { |member| member.id }, game_id: participation.game_id).where.not(appear_at: nil)
+	end
+
+	def remove_out_of_town_kills
+		out_of_town_kills.destroy_all
+	end
 end

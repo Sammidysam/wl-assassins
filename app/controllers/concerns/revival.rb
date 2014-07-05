@@ -47,16 +47,7 @@ module Revival
 		user.autoterminate
 
 		if !out_of_town && user.team.out_of_town?
-			# Kill all members of the team.
-			user.team.alive_members.each do |member|
-				kill = Kill.new
-				kill.target_id = member.id
-				kill.kind = "out_of_town"
-				kill.game_id = user.team.participation.game_id
-				kill.appear_at = (24 - user.team.participation.out_of_town_hours).hours.from_now
-
-				kill.save
-			end
+			user.team.out_of_town_kill
 		elsif out_of_town && !user.team.out_of_town?
 			# Get old kills.
 			kills = Kill.out_of_town.where(target_id: user.team.members.map { |member| member.id }, game_id: user.team.participation.game_id).where.not(appear_at: nil)
