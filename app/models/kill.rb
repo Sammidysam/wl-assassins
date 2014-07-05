@@ -31,7 +31,7 @@ class Kill < ActiveRecord::Base
 	def readable_kind
 		case self.kind
 		when "out_of_town"
-			"being out-of-town at the wrong time"
+			"being out-of-town at the wrong time for too long"
 		when "out_of_time"
 			"running out of time to conduct a kill"
 		else
