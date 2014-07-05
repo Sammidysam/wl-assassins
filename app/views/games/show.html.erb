@@ -101,7 +101,14 @@
 					<h4><%= link_to team.name, team %></h4>
 
 					<p><%= team.alive_members.count %> / <%= team.members.count %> members are still alive.</p>
-					<p><%= team.out_of_town? ? TimeDifference.between(team.member_kills.out_of_town.where(confirmed: false, game_id: @game.id).first.appear_at, Time.now).in_hours : 24 - team.participation.out_of_town_hours %> hours of all being out-of-town until termination.</p>
+					<p>
+						This team is currently <%= team.out_of_town? ? "out-of-town" : "in town" %>.
+						<% if team.out_of_town? %>
+							<%= team.remaining_out_of_town_time_format false %> left until termination.
+						<% else %>
+							All members must be out-of-town for <%= team.remaining_out_of_town_time_format %> until termination.
+						<% end %>
+					</p>
 					<p><%= team.remaining_kill_time_format.capitalize %> left before autotermination.</p>
 
 					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
