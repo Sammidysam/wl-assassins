@@ -86,7 +86,7 @@
 
 		<% if current_user.in_game? %>
 			Your team as a whole is currently <%= @team.out_of_town? ? "out-of-town" : "in town" %>.
-			Your team has <%= 24 - @team.participation.out_of_town_hours %> hours <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where they must all be out-of-town until being gterminated due to being out-of-town for too long." %>
+			Your team has <%= @team.out_of_town? ? TimeDifference.between(@team.kills.out_of_town.where(confirmed: false, game_id: @team.participation.game_id).first.appear_at, Time.now).in_hours : 24 - @team.participation.out_of_town_hours %> hours <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where they must all be out-of-town until being gterminated due to being out-of-town for too long." %>
 		<% end %>
 
 		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
