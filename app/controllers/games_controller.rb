@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :add, :remove, :add_all, :remove_all, :start]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start]
 
 	load_and_authorize_resource
 
@@ -70,6 +70,15 @@ class GamesController < ApplicationController
 		@confirmed_kills = @game.kills.where(confirmed: true).order(:confirmed_at)
 		@confirmed_neutralizations = @game.neutralizations.where(confirmed: true).order(:start)
 		@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
+	end
+
+	# GET /games/1/team_fees
+	def team_fees
+		@participations = @game.participations
+		@unpaid_participations = @participations.where("paid_amount < ?", @game.team_fee)
+		@unpaid_teams = Team.find(@unpaid_participations.map { |participation| participation.team_id })
+		@paid_participations = @participations.where("paid_amount >= ?", @game.team_fee)
+		@paid_teams = Team.find(@paid_participations.map { |participation| participation.team_id })
 	end
 
 	# POST /games/1/add
