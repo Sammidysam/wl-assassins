@@ -36,6 +36,7 @@ WlAssassins::Application.routes.draw do
 		post "revive", on: :member
 		post "reset_termination_at", on: :member
 		post "reset_out_of_town_hours", on: :member
+		post "paid_amount", on: :member
 	end
 	
 	resources :users do

@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
 	include Revival
 	
-	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at, :reset_out_of_town_hours]
+	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at, :reset_out_of_town_hours, :paid_amount]
 
 	load_and_authorize_resource
 
@@ -137,6 +137,15 @@ class TeamsController < ApplicationController
 		@team.out_of_town_kill if @team.out_of_town?
 
 		redirect_to @team.participation.game, alert: (participation.save ? nil : "Could not reset out-of-town hours!")
+	end
+
+	# POST /teams/1/paid_amount
+	def paid_amount
+		participation = @team.participation
+
+		participation.paid_amount = params[:paid_amount]
+
+		redirect_to team_fees_game_path(participation.game), alert: (participation.save ? nil : "Could not change paid amount!")
 	end
 
 	private
