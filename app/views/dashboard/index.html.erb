@@ -117,6 +117,15 @@
 					Your team is participating in the game <%= current_user.team.participation.game.name %>.
 				</p>
 
+				<p>
+					Your team has paid $<%= number_with_precision @team.participation.paid_amount, precision: 2 %> of the team fee of $<%= number_with_precision @team.participation.game.team_fee, precision: 2 %> for this game.
+					<% if @team.participation.paid_amount < @team.participation.game.team_fee %>
+						Please pay the remaining $<%= number_with_precision @team.participation.game.team_fee - @team.participation.paid_amount, precision: 2 %> to an admin and they will adjust your paid amount.
+					<% else %>
+						Good job paying your team fee!
+					<% end %>
+				</p>					
+
 				<% if current_user.dead? %>
 					<p>
 						You have been killed.
