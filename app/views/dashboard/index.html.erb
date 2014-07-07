@@ -138,7 +138,13 @@
 						<% elsif kill.termination? %>
 							You were terminated.
 						<% elsif kill.out_of_town? %>
-							You went out-of-town when all of your team members were dead.
+							Your team was collectively out-of-town for too long, resulting in your death.
+						<% elsif kill.out_of_time? %>
+							Your team ran out of time to conduct a kill, resulting in your death.
+						<% elsif kill.disqualification? %>
+							You were disqualified.
+						<% elsif kill.quitting? %>
+							You quit.
 						<% end %>
 						If this did not occur, contact an admin, and they can delete it.
 
