@@ -9,6 +9,17 @@
 		<% @unpaid_participations.each_with_index do |participation, index| %>
 			<li>
 				<%= link_to @unpaid_teams[index].name, @unpaid_teams[index] %> has paid $<%= number_with_precision participation.paid_amount, precision: 2 %> and thus owes $<%= number_with_precision @game.team_fee - participation.paid_amount, precision: 2 %>.
+
+				<%= form_tag paid_amount_team_path(@unpaid_teams[index]) do %>
+					Change paid amount to
+
+					<div class="input-group">
+						<span class="input-group-addon">$</span>
+						<%= text_field_tag :paid_amount, number_with_precision(@game.team_fee, precision: 2), placeholder: "Paid Amount", class: "form-control" %>
+					</div>
+
+					<%= submit_tag "Go", class: "btn btn-success btn-sm" %>
+				<% end %>
 			</li>
 		<% end %>
 	</ul>
