@@ -1,16 +1,19 @@
 <h1>Team Fees</h1>
 
-<p>The team fee for this game is $<%= number_with_precision @game.team_fee, precision: 2 %>.</p>
+<p>
+	The team fee for this game is $<%= number_with_precision @game.team_fee, precision: 2 %>.
+	A total of $<%= number_with_precision @participations.sum(:paid_amount), precision: 2 %> has been paid.
+</p>
 
 <h2>Unpaid</h2>
 
-<% if @unpaid_participations.count > 0 %>
+<% if @unpaid.count > 0 %>
 	<ul>
-		<% @unpaid_participations.each_with_index do |participation, index| %>
+		<% @unpaid.each do |participation, team| %>
 			<li>
-				<%= link_to @unpaid_teams[index].name, @unpaid_teams[index] %> has paid $<%= number_with_precision participation.paid_amount, precision: 2 %> and thus owes $<%= number_with_precision @game.team_fee - participation.paid_amount, precision: 2 %>.
+				<%= link_to team.name, team %> has paid $<%= number_with_precision participation.paid_amount, precision: 2 %> and thus owes $<%= number_with_precision @game.team_fee - participation.paid_amount, precision: 2 %>.
 
-				<%= form_tag paid_amount_team_path(@unpaid_teams[index]) do %>
+				<%= form_tag paid_amount_team_path(team) do %>
 					Change paid amount to
 
 					<div class="input-group">
@@ -29,10 +32,10 @@
 
 <h2>Paid</h2>
 
-<% if @paid_participations.count > 0 %>
+<% if @paid.count > 0 %>
 	<ul>
-		<% @paid_participations.each_with_index do |participation, index| %>
-			<li><%= link_to @paid_teams[index].name, @paid_teams[index] %> paid $<%= number_with_precision participation.paid_amount, precision: 2 %>.</li>
+		<% @paid.each do |participation, team| %>
+			<li><%= link_to team.name, team %> paid $<%= number_with_precision participation.paid_amount, precision: 2 %>.</li>
 		<% end %>
 	</ul>
 <% else %>

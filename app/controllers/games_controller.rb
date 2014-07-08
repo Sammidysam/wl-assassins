@@ -75,10 +75,16 @@ class GamesController < ApplicationController
 	# GET /games/1/team_fees
 	def team_fees
 		@participations = @game.participations
-		@unpaid_participations = @participations.where("paid_amount < ?", @game.team_fee)
-		@unpaid_teams = Team.find(@unpaid_participations.map { |participation| participation.team_id })
-		@paid_participations = @participations.where("paid_amount >= ?", @game.team_fee)
-		@paid_teams = Team.find(@paid_participations.map { |participation| participation.team_id })
+		
+		unpaid_participations = @participations.where("paid_amount < ?", @game.team_fee).order(:team_id)
+		unpaid_teams = Team.where(id: unpaid_participations.map { |participation| participation.team_id }).order(:id)
+		
+		@unpaid = unpaid_participations.zip(unpaid_teams)
+		
+		paid_participations = @participations.where("paid_amount >= ?", @game.team_fee).order(:team_id)
+		paid_teams = Team.where(id: paid_participations.map { |participation| participation.team_id }).order(:id)
+
+		@paid = paid_participations.zip(paid_teams)
 	end
 
 	# POST /games/1/add
