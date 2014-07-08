@@ -74,7 +74,7 @@ class GamesController < ApplicationController
 
 	# GET /games/1/team_fees
 	def team_fees
-		@participations = @game.participations
+		@participations = @game.participations.where(terminators: false)
 		
 		unpaid_participations = @participations.where("paid_amount < ?", @game.team_fee).order(:team_id)
 		unpaid_teams = Team.where(id: unpaid_participations.map { |participation| participation.team_id }).order(:id)
