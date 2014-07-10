@@ -55,7 +55,7 @@ module Revival
 			# Adjust out_of_town_hours.
 			participation = user.team.participation
 
-			participation.out_of_town_hours += TimeDifference.between(kills.first.created_at, Time.now).in_hours
+			participation.out_of_town_hours += (Time.now - kills.first.created_at) / 1.hour
 
 			participation.save
 
