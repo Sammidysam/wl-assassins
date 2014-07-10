@@ -68,8 +68,5 @@ gem "humanize_boolean", "~> 0.0.1"
 # Nilify blank strings easily.
 gem "nilify_blanks", "~> 1.0.3"
 
-# Calculate time differences.
-gem "time_difference", "~> 0.3.2"
-
 # Use pry for the console.
 gem "pry-rails", "~> 0.3.2"
