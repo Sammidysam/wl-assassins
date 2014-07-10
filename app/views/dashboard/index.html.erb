@@ -69,9 +69,9 @@
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>
-			You have <%= @team.remaining_kill_time_format %> left to complete an assassination before autotermination.
+			You have <%= precise_distance_of_time_in_words_to_now @team.participation.termination_at, no_time: true %> left to complete an assassination before autotermination.
 
-			<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
+			<% if precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 %>
 				<% if current_user.team.participation.termination_at > DateTime.now %>
 					Watch out!
 					Terminators have been sent out to terminate your team.
@@ -137,7 +137,7 @@
 				<% if current_user.neutralized? %>
 					<p>
 						You are currently neutralized, and cannot hunt anyone.
-						The neutralization is set to end in <%= current_user.neutralized_end_format %>.
+						The neutralization is set to end in <%= precise_distance_of_time_in_words_to_now current_user.neutralized_end %>.
 					</p>
 				<% end %>
 
@@ -187,7 +187,7 @@
 						<% Team.to_be_terminated(@team.participation.game).each do |team| %>
 							<li>
 								<%= link_to team.name, team %>
-								(<%= team.remaining_kill_time_format %> remaining before auto-termination)
+								(<%= precise_distance_of_time_in_words_to_now team.participation.termination_at, no_time: true %> remaining before auto-termination)
 
 								<ul>
 									<% team.members.select { |member| member.alive? }.each do |member| %>

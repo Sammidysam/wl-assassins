@@ -100,20 +100,6 @@ class Team < ActiveRecord::Base
 	def target_neutralizations
 		members.map { |member| member.target_neutralizations }.flatten
 	end
-	
-	def remaining_kill_time
-		TimeDifference.between(participation.termination_at, Time.now) if participation
-	end
-
-	def remaining_kill_time_format
-		components = []
-		
-		components << pluralize(remaining_kill_time.in_days.floor, "day") if remaining_kill_time.in_days.floor > 0
-		components << pluralize(remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24, "hour") if remaining_kill_time.in_hours.floor - remaining_kill_time.in_days.floor * 24 > 0
-		components << pluralize(remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60, "minute") if remaining_kill_time.in_minutes.floor - remaining_kill_time.in_hours.floor * 60 > 0
-
-		participation.termination_at > DateTime.now ? components.to_sentence : "no time"
-	end
 
 	def remaining_out_of_town_end
 		out_of_town? ? member_kills.out_of_town.where(confirmed: false, game_id: participation.game_id).first.appear_at : (24 - participation.out_of_town_hours).hours.from_now

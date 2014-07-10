@@ -44,16 +44,7 @@ class User < ActiveRecord::Base
 	end
 
 	def neutralized_end
-		TimeDifference.between self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).order(:start).select { |neutralization| DateTime.now < neutralization.end_time }.last.end_time, Time.now
-	end
-
-	def neutralized_end_format
-		components = []
-
-		components << pluralize(neutralized_end.in_hours.floor, "hour") if neutralized_end.in_hours.floor > 0
-		components << pluralize(neutralized_end.in_minutes.floor - neutralized_end.in_hours.floor * 60, "minute") if neutralized_end.in_minutes.floor > 0
-
-		components.to_sentence
+		self.killer_neutralizations.where(game_id: team.participation.game_id, confirmed: true).order(:start).select { |neutralization| DateTime.now < neutralization.end_time }.last.end_time
 	end
 
 	def terminator?
