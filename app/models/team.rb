@@ -115,17 +115,8 @@ class Team < ActiveRecord::Base
 		participation.termination_at > DateTime.now ? components.to_sentence : "no time"
 	end
 
-	def remaining_out_of_town_time
-		TimeDifference.between(out_of_town? ? member_kills.out_of_town.where(confirmed: false, game_id: participation.game_id).first.appear_at : (24 - participation.out_of_town_hours).hours.from_now, Time.now)
-	end
-
-	def remaining_out_of_town_time_format(more = true)
-		components = []
-
-		components << pluralize(remaining_out_of_town_time.in_hours.floor, "hour") if remaining_out_of_town_time.in_hours.floor > 0
-		components << pluralize(remaining_out_of_town_time.in_minutes.floor - remaining_out_of_town_time.in_hours.floor * 60, "minute") if remaining_out_of_town_time.in_minutes.floor - remaining_out_of_town_time.in_hours.floor * 60 > 0
-
-		(out_of_town? && DateTime.now > member_kills.out_of_town.where(confirmed: false, game_id: participation.game_id).first.appear_at) ? "no #{"more " if more}time" : "#{components.to_sentence}#{" more" if more}"
+	def remaining_out_of_town_end
+		out_of_town? ? member_kills.out_of_town.where(confirmed: false, game_id: participation.game_id).first.appear_at : (24 - participation.out_of_town_hours).hours.from_now
 	end
 
 	def autoterminate

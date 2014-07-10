@@ -69,7 +69,7 @@
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>
-			You have <%= current_user.team.remaining_kill_time_format %> left to complete an assassination before autotermination.
+			You have <%= @team.remaining_kill_time_format %> left to complete an assassination before autotermination.
 
 			<% if current_user.team.remaining_kill_time.in_days.floor == 0 %>
 				<% if current_user.team.participation.termination_at > DateTime.now %>
@@ -87,7 +87,7 @@
 
 		<% if current_user.in_game? %>
 			Your team as a whole is currently <%= @team.out_of_town? ? "out-of-town" : "in town" %>.
-			Your team has <%= @team.remaining_out_of_town_time_format %> <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where you must all be out-of-town until being terminated due to being out-of-town for too long" %>.
+			Your team has <%= precise_distance_of_time_in_words_to_now @team.remaining_out_of_town_end, true %> <%= @team.out_of_town? ? "until termination due to being out-of-town for too long" : "remaining where you must all be out-of-town until being terminated due to being out-of-town for too long" %>.
 		<% end %>
 
 		<%= link_to "Toggle Out-of-Town", out_of_town_user_path(current_user), method: :post, class: "btn btn-default" %>
