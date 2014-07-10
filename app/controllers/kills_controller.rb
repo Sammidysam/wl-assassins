@@ -1,4 +1,6 @@
 class KillsController < ApplicationController
+	include TerminationAt
+	
 	before_action :set_kill, only: [:show, :edit, :update, :destroy, :confirm]
 	
 	load_and_authorize_resource
@@ -124,7 +126,7 @@ class KillsController < ApplicationController
 				# First remove old autotermination kills.
 				participation.team.remove_autotermination
 				
-				participation.termination_at = kill.confirmed_at + (kill.game.remaining_teams.count > 4 ? 5 : 4).days
+				participation.termination_at = next_termination_at(kill.game.remaining_teams.count)
 				
 				participation.save
 
@@ -157,7 +159,7 @@ class KillsController < ApplicationController
 						kill.game.remaining_teams.each do |team|
 							participation = team.participation
 
-							participation.termination_at = kill.confirmed_at + 4.days
+							participation.termination_at = next_termination_at(kill.game.remaining_teams.count)
 
 							participation.save
 						end

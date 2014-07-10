@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+	include TerminationAt
+	
 	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start]
 
 	load_and_authorize_resource
@@ -165,7 +167,7 @@ class GamesController < ApplicationController
 				# Set the termination time.
 				contract_teams.each do |team|
 					participation = team.participation
-					participation.termination_at = DateTime.now + (@game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days
+					participation.termination_at = next_termination_at(@game.remaining_teams.count)
 
 					errors = true unless participation.save
 				end

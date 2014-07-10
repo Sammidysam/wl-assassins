@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
 	include Revival
+	include TerminationAt
 	
 	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at, :reset_out_of_town_hours, :paid_amount]
 
@@ -117,7 +118,7 @@ class TeamsController < ApplicationController
 
 		@team.remove_autotermination
 
-		participation.termination_at = (@team.participation.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days.from_now
+		participation.termination_at = next_termination_at(@team.participation.game.remaining_teams.count)
 
 		participation.save
 

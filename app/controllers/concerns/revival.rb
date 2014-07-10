@@ -1,5 +1,6 @@
 module Revival
 	extend ActiveSupport::Concern
+	include TerminationAt
 
 	def revive_user(user)
 		eliminated = user.team.eliminated?
@@ -38,7 +39,7 @@ module Revival
 			# Reset termination_at for team.
 			participation = user.team.participation
 
-			participation.termination_at = (participation.game.teams.select { |team| !team.terminators? && !team.eliminated? }.count > 4 ? 5 : 4).days.from_now
+			participation.termination_at = next_termination_at(participation.game.remaining_teams.count)
 
 			participation.save
 		end
