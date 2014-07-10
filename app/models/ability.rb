@@ -1,5 +1,6 @@
 class Ability
 	include CanCan::Ability
+	include DistanceOfTimeInWords
 
 	def initialize(user)
 		logged_in = true if user
@@ -59,7 +60,7 @@ class Ability
 
 			if user.terminator?
 				can :read, Team.all do |team|
-					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && team.remaining_kill_time.in_days.floor == 0 && user.team.participation.game.remaining_teams.count > 2
+					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && precise_distance_of_time_in_words_to_now(team.participation.termination_at, interval: :day) == 0 && user.team.participation.game.remaining_teams.count > 2
 				end
 			end
 			
@@ -80,7 +81,7 @@ class Ability
 
 			if user.terminator?
 				can :read, User.all do |can_user|
-					can_user.team && can_user.team.in_game? && user.team.participation.game_id == can_user.team.participation.game_id && !can_user.terminator? && can_user.team.remaining_kill_time.in_days.floor == 0 && user.team.participation.game.remaining_teams.count > 2
+					can_user.team && can_user.team.in_game? && user.team.participation.game_id == can_user.team.participation.game_id && !can_user.terminator? && precise_distance_of_time_in_words_to_now(can_user.team.participation.termination_at, interval: :day) == 0 && user.team.participation.game.remaining_teams.count > 2
 				end
 			end
 

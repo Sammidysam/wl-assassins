@@ -27,7 +27,7 @@
 					</div>
 				<% end %>
 
-				<% if !@team.terminators? && (current_user.admin? || current_user.terminator?) && @team.remaining_kill_time.in_days.floor == 0 %>
+				<% if !@team.terminators? && (current_user.admin? || current_user.terminator?) && precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 %>
 					<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
 				<% end %>
 			<% else %>

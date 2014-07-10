@@ -71,6 +71,7 @@
 		<p>
 			You have <%= precise_distance_of_time_in_words_to_now @team.participation.termination_at, no_time: true %> left to complete an assassination before autotermination.
 
+			<%= precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: "day") %>
 			<% if precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 %>
 				<% if current_user.team.participation.termination_at > DateTime.now %>
 					Watch out!
