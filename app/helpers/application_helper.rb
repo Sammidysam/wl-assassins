@@ -36,8 +36,6 @@ module ApplicationHelper
 	end
 
 	def precise_distance_of_time_in_words(from_time, to_time, options = {})
-		options[:interval] = options[:interval].to_s if options[:interval] && options[:inteval].is_a?(Symbol)
-		
 		return "no time" if options[:no_time] && from_time < to_time
 		
 		from_time = from_time.to_time if from_time.respond_to?(:to_time)
@@ -51,16 +49,11 @@ module ApplicationHelper
 			if distance_in_seconds >= 1.send(interval)
 				delta = (distance_in_seconds / 1.send(interval)).floor
 				distance_in_seconds -= delta.send(interval)
-				
-				if options[:interval]
-					components = delta if options[:interval] == interval
-				else
-					components << pluralize(delta, interval)
-				end
+				components << pluralize(delta, interval)
 			end
 		end
 
-		components.is_a?(Array) ? components.to_sentence : components
+		components.to_sentence
 	end
 
 	def precise_distance_of_time_in_words_to_now(from_time, options = {})
