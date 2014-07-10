@@ -104,14 +104,14 @@
 					<p>
 						This team is currently <%= team.out_of_town? ? "out-of-town" : "in town" %>.
 						<% if team.out_of_town? %>
-							<%= precise_distance_of_time_in_words_to_now(team.remaining_out_of_town_end, true).capitalize %> left until termination.
+							<%= precise_distance_of_time_in_words_to_now(team.remaining_out_of_town_end, no_time: true).capitalize %> left until termination.
 						<% else %>
-							All members must collectively be out-of-town for <%= precise_distance_of_time_in_words_to_now team.remaining_out_of_town_end, true %> for termination to occur.
+							All members must collectively be out-of-town for <%= precise_distance_of_time_in_words_to_now team.remaining_out_of_town_end, no_time: true %> for termination to occur.
 						<% end %>
 					</p>
 					<p><%= link_to "Reset Out-Of-Town Hours", reset_out_of_town_hours_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 					
-					<p><%= team.remaining_kill_time_format.capitalize %> left before autotermination.</p>
+					<p><%= precise_distance_of_time_in_words_to_now(team.participation.termination_at, no_time: true) %> left before autotermination.</p>
 					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 				</div>
 			<% end %>
