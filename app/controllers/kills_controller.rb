@@ -153,9 +153,8 @@ class KillsController < ApplicationController
 
 					new_contract.save
 
-					# Do special action for two remaining teams.
-					if kill.game.remaining_teams.count == 2
-						# Reset both termination times.
+					# Reset termination times when necessary.
+					if [2, 4].include?(kill.game.remaining_teams.count)
 						kill.game.remaining_teams.each do |team|
 							participation = team.participation
 
