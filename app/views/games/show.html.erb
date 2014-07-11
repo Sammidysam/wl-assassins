@@ -151,13 +151,6 @@
 		<% end %>
 		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 	<% end %>
-
-	<p>
-		<div class="btn-group">
-			<%= link_to "View Events", events_game_path(@game), class: "btn btn-default" %>
-			<%= link_to "Manage Team Fees", team_fees_game_path(@game), class: "btn btn-default" %>
-		</div>
-	</p>
 <% elsif @game.completed? %>
 	<p>The prize money total for this game was $<%= number_with_precision @game.prize_money, precision: 2 %>.</p>
 	
@@ -189,3 +182,10 @@
 		</ol>
 	</p>
 <% end %>
+
+<p>
+	<div class="btn-group">
+		<%= link_to "View Events", events_game_path(@game), class: "btn btn-default" %>
+		<%= link_to "Manage Team Fees", team_fees_game_path(@game), class: "btn btn-default" if can?(:team_fees, @game) %>
+	</div>
+</p>
