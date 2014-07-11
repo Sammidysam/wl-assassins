@@ -26,17 +26,17 @@ class User < ActiveRecord::Base
 		team.in_game? if team
 	end
 
-	def alive?
-		in_game? ? kill.nil? : true
+	def alive?(game_id = (team && team.participation ? team.participation.game_id : nil))
+		kill(game_id).nil?
 	end
 
-	def dead?
-		!alive?
+	def dead?(game_id = (team && team.participation ? team.participation.game_id : nil))
+		!alive?(game_id)
 	end
 
 	# Returns the kill that killed this user.
-	def kill
-		Kill.find_by game_id: team.participation.game_id, target_id: self.id, confirmed: true
+	def kill(game_id)
+		Kill.find_by game_id: game_id, target_id: self.id, confirmed: true
 	end
 
 	def neutralized?

@@ -66,8 +66,8 @@ class Team < ActiveRecord::Base
 		!participation.nil?
 	end
 
-	def eliminated?
-		members.all? { |member| member.dead? }
+	def eliminated?(game_id = (participation ? participation.game_id : nil))
+		members(game_id).all? { |member| member.dead?(game_id) }
 	end
 
 	def last_confirmed_kill(game_id)
@@ -80,8 +80,8 @@ class Team < ActiveRecord::Base
 	end
 
 	# Returns the team that killed this team.
-	def killer
-		last_confirmed_kill(participation.game_id).killer
+	def killer(game_id = participation.game_id)
+		last_confirmed_kill(game_id) ? last_confirmed_kill(game_id).killer : nil
 	end
 
 	def terminators?(game_id = participation.game_id)

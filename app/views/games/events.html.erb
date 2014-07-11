@@ -20,8 +20,8 @@
 		<ol>
 			<% @confirmed_kills.each do |kill| %>
 				<li>
-					<% if kill.killer %>
-						<%= link_to_if_can_read kill.killer.name, kill.killer %>
+					<% if kill.killer(@game.id) %>
+						<%= link_to_if_can_read kill.killer(@game.id).name, kill.killer(@game.id) %>
 					<% else %>
 						<%= kill.readable_kind.capitalize %>
 					<% end %>
@@ -82,10 +82,10 @@
 		<ol>
 			<% @eliminated_teams.each do |team| %>
 				<li>
-					<% if team.killer %>
-						<%= link_to_if_can_read team.killer.name, team.killer %>
+					<% if team.killer(@game.id) %>
+						<%= link_to_if_can_read team.killer(@game.id).name, team.killer(@game.id) %>
 					<% else %>
-						<%= team.last_confirmed_kill.readable_kind.capitalize %>
+						<%= team.last_confirmed_kill(@game.id).readable_kind.capitalize %>
 					<% end %>
 					<%= glyphicon "arrow-right" %>
 					<%= link_to_if_can_read team.name, team %>
@@ -99,7 +99,7 @@
 							<%= pluralize team.target_neutralizations.select { |neutralization| neutralization.confirmed && neutralization.game_id == @game.id }.count, "neutralization" %>
 							during this game.
 						</li>
-						<li>Occurred on <%= team.eliminated_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
+						<li>Occurred on <%= team.eliminated_at(@game.id).in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
 					</ul>
 				</li>
 			<% end %>

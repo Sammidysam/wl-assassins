@@ -26,7 +26,7 @@ class Game < ActiveRecord::Base
 	end
 
 	def eliminated_teams
-		self.teams.select { |team| team.eliminated? && !team.terminators? }
+		self.teams.select { |team| team.eliminated?(self.id) && !team.terminators?(self.id) }
 	end
 
 	def winner
