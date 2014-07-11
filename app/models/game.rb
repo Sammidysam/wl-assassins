@@ -37,6 +37,10 @@ class Game < ActiveRecord::Base
 		end
 	end
 
+	def prize_money
+		self.participations.where(terminators: false).sum(:paid_amount)
+	end
+
 	# All of the users sans terminators in the game.
 	def participants
 		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |inner_team| inner_team.members }.flatten
