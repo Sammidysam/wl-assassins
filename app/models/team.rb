@@ -60,22 +60,23 @@ class Team < ActiveRecord::Base
 		members.all? { |member| member.dead? }
 	end
 
-	def last_confirmed_kill
-		members.map { |member| member.kills.where(game_id: participation.game_id, confirmed: true) }.flatten.sort_by { |kill| kill.confirmed_at }.last
+	def last_confirmed_kill(game_id)
+		member_kills.where(game_id: game_id, confirmed: true).order(:confirmed_at).last
 	end
 
 	# Returns time of the confirmation of the last kill for this team.
-	def eliminated_at
-		last_confirmed_kill.confirmed_at if eliminated?
+	def eliminated_at(game_id = participation.game_id)
+		last_confirmed_kill(game_id) ? last_confirmed_kill(game_id).confirmed_at : nil
 	end
 
 	# Returns the team that killed this team.
 	def killer
-		last_confirmed_kill.killer if eliminated?
+		last_confirmed_kill(participation.game_id).killer
 	end
 
-	def terminators?
-		participation.terminators if participation
+	def terminators?(game_id = participation.game_id)
+		game_participation = self.participations.find_by game_id: game_id
+		game_participation.terminators if game_participation
 	end
 
 	# Returns true if all of the alive members of the team are out-of-town.
