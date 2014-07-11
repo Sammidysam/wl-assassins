@@ -35,8 +35,7 @@ class Team < ActiveRecord::Base
 			# Return members of the team during this game.
 			game = Game.find(game_id)
 			created_before_game = self.memberships.where("created_at < ?", game.started_at)
-
-			# Look into OR to have one query.
+			
 			retrieval_memberships = created_before_game.where(active: true) + created_before_game.where(active: false).where("ended_at > ?", game.ended_at)
 		else
 			# Return active members of the team.
