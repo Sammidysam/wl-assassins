@@ -159,8 +159,33 @@
 		</div>
 	</p>
 <% elsif @game.completed? %>
+	<p>The prize money total for this game was $<%= number_with_precision @game.prize_money, precision: 2 %>.</p>
+	
 	<h2>
 		Winner:
-		<%= @game.winner.name %>
+		<%= link_to_if_can_read @game.winner.name, @game.winner %>
+		
+		<ul>
+			<% @game.winner.members(@game.id).each do |member| %>
+				<li><%= link_to_if_can_read member.name, member %></li>
+			<% end %>
+		</ul>
 	</h2>
+
+	<p>
+		The other teams were placed:
+
+		<%# Reverse sort_by and start at 2. %>
+		<ol>
+			<% @game.teams.select { |team| !team.terminators?(@game.id) && team.id != @game.winner.id? }.sort_by { |team| team.eliminated_at(@game.id) }.each do |team| %>
+				<li><%= link_to_if_can_read team.name, team %></li>
+
+				<ul>
+					<% team.members(@game.id).each do |member| %>
+						<li><%= link_to_if_can_read member.name, member %></li>
+					<% end %>
+				</ul>
+			<% end %>
+		</ol>
+	</p>
 <% end %>
