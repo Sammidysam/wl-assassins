@@ -169,7 +169,7 @@
 		The other teams were placed:
 
 		<%# Reverse sort_by and start at 2. %>
-		<ol>
+		<ol start="2">
 			<% @game.teams.select { |team| !team.terminators?(@game.id) && team.id != @game.winner.id? }.sort_by { |team| team.eliminated_at(@game.id) }.reverse.each do |team| %>
 				<li><%= link_to_if_can_read team.name, team %></li>
 
