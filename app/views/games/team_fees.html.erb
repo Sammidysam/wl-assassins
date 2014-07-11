@@ -2,7 +2,7 @@
 
 <p>
 	The team fee for this game is $<%= number_with_precision @game.team_fee, precision: 2 %>.
-	A total of $<%= number_with_precision @participations.sum(:paid_amount), precision: 2 %> has been paid.
+	A total of $<%= number_with_precision @game.prize_money, precision: 2 %> has been paid.
 </p>
 
 <h2>Unpaid</h2>
