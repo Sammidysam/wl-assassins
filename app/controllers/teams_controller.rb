@@ -92,6 +92,7 @@ class TeamsController < ApplicationController
 	def remove
 		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active }
 		membership.active = false
+		membership.ended_at = DateTime.now
 
 		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
 	end
