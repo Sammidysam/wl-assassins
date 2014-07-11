@@ -75,12 +75,12 @@ class Team < ActiveRecord::Base
 	end
 
 	# Returns time of the confirmation of the last kill for this team.
-	def eliminated_at(game_id = participation.game_id)
+	def eliminated_at(game_id = (participation ? participation.game_id : nil))
 		last_confirmed_kill(game_id) ? last_confirmed_kill(game_id).confirmed_at : nil
 	end
 
 	# Returns the team that killed this team.
-	def killer(game_id = participation.game_id)
+	def killer(game_id = (participation ? participation.game_id : nil))
 		last_confirmed_kill(game_id) ? last_confirmed_kill(game_id).killer : nil
 	end
 
