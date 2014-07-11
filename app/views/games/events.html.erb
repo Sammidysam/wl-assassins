@@ -1,5 +1,7 @@
 <h1><%= @game.name %> Events</h1>
 
+<p><%= link_to "View Game", @game, class: "btn btn-default" if can?(:read, @game) %></p>
+
 <% if @confirmed_kills.count > 0 || @confirmed_neutralizations.count > 0 %>
 	<p>Occurring in this game have been <%= pluralize @confirmed_kills.count, "kill" %>, <%= pluralize @confirmed_neutralizations.count, "neutralization" %>, and <%= pluralize @eliminated_teams.count, "team elimination" %>.</p>
 	
@@ -107,8 +109,4 @@
 	<% end %>
 <% else %>
 	<p>No events have occurred yet in this game.</p>
-<% end %>
-
-<% if can?(:read, @game) %>
-	<%= link_to "Back to Game", @game, class: "btn btn-default" %>
 <% end %>
