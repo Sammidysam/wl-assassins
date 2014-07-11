@@ -29,10 +29,21 @@ class Team < ActiveRecord::Base
 		end
 	end
 
-	# Returns only the user who are current members of team.
-	def members
-		active_memberships = self.memberships.where(active: true)
-		User.find(active_memberships.map { |membership| membership.user_id })
+	# Returns the members of the team.
+	def members(game_id = nil)
+		if game_id
+			# Return members of the team during this game.
+			game = Game.find(game_id)
+			created_before_game = self.memberships.where("created_at < ?", game.started_at)
+
+			# Look into OR to have one query.
+			retrieval_memberships = created_before_game.where(active: true) + created_before_game.where(active: false).where("ended_at > ?", game.ended_at)
+		else
+			# Return active members of the team.
+			retrieval_memberships = self.memberships.where(active: true)
+		end
+		
+		User.find(retrieval_memberships.map { |membership| membership.user_id })
 	end
 
 	def alive_members
