@@ -1,4 +1,4 @@
-<h1>Events</h1>
+<h1><%= @game.name %> Events</h1>
 
 <% if @confirmed_kills.count > 0 || @confirmed_neutralizations.count > 0 %>
 	<p>Occurring in this game have been <%= pluralize @confirmed_kills.count, "kill" %>, <%= pluralize @confirmed_neutralizations.count, "neutralization" %>, and <%= pluralize @eliminated_teams.count, "team elimination" %>.</p>
