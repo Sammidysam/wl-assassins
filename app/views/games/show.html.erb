@@ -170,15 +170,35 @@
 		
 		<ol start="2">
 			<% @game.teams.select { |team| !team.terminators?(@game.id) && team.id != @game.winner.id? }.sort_by { |team| team.eliminated_at(@game.id) }.reverse.each do |team| %>
-				<li><%= link_to_if_can_read team.name, team %></li>
+				<li>
+					<%= link_to_if_can_read team.name, team %>
 
-				<ul>
-					<% team.members(@game.id).each do |member| %>
-						<li><%= link_to_if_can_read member.name, member %></li>
-					<% end %>
-				</ul>
+					<ul>
+						<% team.members(@game.id).each do |member| %>
+							<li><%= link_to_if_can_read member.name, member %></li>
+						<% end %>
+					</ul>
+				</li>
 			<% end %>
 		</ol>
+	</p>
+
+	<p>
+		The terminators in this game were:
+
+		<ul>
+			<% @game.teams.select { |team| team.terminators?(@game.id) }.each do |team| %>
+				<li>
+					<%= link_to_if_can_read team.name, team %>
+
+					<ul>
+						<% team.members(@game.id).each do |member| %>
+							<li><%= link_to_if_can_read member.name, member %></li>
+						<% end %>
+					</ul>
+				</li>
+			<% end %>
+		</ul>
 	</p>
 <% end %>
 
