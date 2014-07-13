@@ -42,7 +42,7 @@ class Team < ActiveRecord::Base
 			retrieval_memberships = self.memberships.where(active: true)
 		end
 		
-		User.find(retrieval_memberships.map { |membership| membership.user_id })
+		User.where(id: retrieval_memberships.map { |membership| membership.user_id })
 	end
 
 	def alive_members
