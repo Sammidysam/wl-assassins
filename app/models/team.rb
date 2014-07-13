@@ -111,7 +111,7 @@ class Team < ActiveRecord::Base
 
 	# Returns all of the neutralizations that the team conducted.
 	def target_neutralizations
-		members.map { |member| member.target_neutralizations }.flatten
+		Neutralization.where(target_id: members.ids)
 	end
 
 	def remaining_out_of_town_end
