@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
 	end
 
 	# Returns the kill that killed this user.
-	def kill(game_id)
+	def kill(game_id = (team && team.participation ? team.participation.game_id : nil))
 		Kill.find_by game_id: game_id, target_id: self.id, confirmed: true
 	end
 
