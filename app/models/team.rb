@@ -59,7 +59,8 @@ class Team < ActiveRecord::Base
 
 	# Returns the current participation for the team.
 	def participation
-		self.participations.find { |participation| participation.game.in_progress if participation.game }
+		in_progress_game_ids = Game.where(in_progress: true).ids
+		self.participations.find_by game_id: in_progress_game_ids
 	end
 
 	def in_game?
