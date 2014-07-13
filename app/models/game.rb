@@ -41,6 +41,20 @@ class Game < ActiveRecord::Base
 		self.participations.where(terminators: false).sum(:paid_amount)
 	end
 
+	# Returns the teams in order of their place.
+	def placement_order_teams
+		self.teams.select { |team| !team.terminators?(self.id) && team.id != winner.id }.sort do |x, y|
+			x_last_confirmed_kill = x.last_confirmed_kill(self.id)
+			y_last_confirmed_kill = y.last_confirmed_kill(self.id)
+			
+			if x_last_confirmed_kill.out_of_time? && y_last_confirmed_kill.out_of_time? && ((x_last_confirmed_kill.appear_at - y_last_confirmed_kill.appear_at) / 1.minute).abs < 2
+				y.kills.where(game_id: self.id, confirmed: true).count + y.target_neutralizations.where(game_id: self.id, confirmed: true).count <=> x.kills.where(game_id: self.id, confirmed: true).count + x.target_neutralizations.where(game_id: self.id, confirmed: true).count
+			else
+				y.eliminated_at(self.id) <=> x.eliminated_at(self.id)
+			end
+		end
+	end
+
 	# All of the users sans terminators in the game.
 	def participants
 		self.teams.select { |team| !team.participations.find_by(game_id: self.id).terminators }.map { |inner_team| inner_team.members }.flatten
