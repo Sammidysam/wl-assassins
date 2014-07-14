@@ -95,6 +95,11 @@ class Team < ActiveRecord::Base
 		alive_members.count > 0 && alive_members.all? { |member| member.out_of_town }
 	end
 
+	# A team is disbanded if it has no active members.
+	def disbanded?
+		self.memberships.where(active: true).empty?
+	end
+
 	# Returns the current contract for the team.
 	def contract
 		participation.contracts.find { |contract| !contract.completed } if participation
