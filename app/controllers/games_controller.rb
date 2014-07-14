@@ -16,6 +16,7 @@ class GamesController < ApplicationController
 	def show
 		@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
 		@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
+		@placement = @game.placement if @game.completed?
 	end
 
 	# GET /games/new

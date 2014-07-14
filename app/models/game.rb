@@ -87,7 +87,8 @@ class Game < ActiveRecord::Base
 			end
 
 			# Add to the hash.
-			order_hash.merge!({ (index + 2) => teams })
+			new_item = { ((order_hash.keys.sort.last || 1) + 1) => teams }
+			order_hash.merge! new_item
 		end
 
 		order_hash
