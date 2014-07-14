@@ -64,6 +64,13 @@
 	<% end %>
 </div>
 
+<% if @team.disbanded? %>
+	<p>
+		This team is disbanded.
+		Contact an admin if you would like to join it to bring it back to life.
+	</p>
+<% end %>
+
 <% if @team.description %>
 	<p><%= simple_format @team.description %></p>
 <% end %>
