@@ -169,16 +169,18 @@
 		The other teams were placed:
 		
 		<ol start="2">
-			<% @game.placement_order_teams.each do |team| %>
-				<li>
-					<%= link_to_if_can_read team.name, team %>
+			<% @placement.keys.sort.each do |key| %>
+				<% @placement[key].each do |team| %>
+					<li value="<%= key %>">
+						<%= link_to_if_can_read team.name, team %>
 
-					<ul>
-						<% team.members(@game.id).each do |member| %>
-							<li><%= link_to_if_can_read member.name, member %></li>
-						<% end %>
-					</ul>
-				</li>
+						<ul>
+							<% team.members(@game.id).each do |member| %>
+								<li><%= link_to_if_can_read member.name, member %></li>
+							<% end %>
+						</ul>
+					</li>
+				<% end %>
 			<% end %>
 		</ol>
 	</p>
