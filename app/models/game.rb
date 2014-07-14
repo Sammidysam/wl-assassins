@@ -41,18 +41,56 @@ class Game < ActiveRecord::Base
 		self.participations.where(terminators: false).sum(:paid_amount)
 	end
 
-	# Returns the teams in order of their place.
-	def placement_order_teams
-		self.teams.select { |team| !team.terminators?(self.id) && team.id != winner.id }.sort do |x, y|
-			x_last_confirmed_kill = x.last_confirmed_kill(self.id)
-			y_last_confirmed_kill = y.last_confirmed_kill(self.id)
-			
-			if x_last_confirmed_kill.out_of_time? && y_last_confirmed_kill.out_of_time? && ((x_last_confirmed_kill.appear_at - y_last_confirmed_kill.appear_at) / 1.minute).abs < 2
-				y.kills.where(game_id: self.id, confirmed: true).count + y.target_neutralizations.where(game_id: self.id, confirmed: true).count <=> x.kills.where(game_id: self.id, confirmed: true).count + x.target_neutralizations.where(game_id: self.id, confirmed: true).count
-			else
-				y.eliminated_at(self.id) <=> x.eliminated_at(self.id)
-			end
+	def comparison_2014(x, y)
+		# Use tiebreaker when teams were eliminated less than 2 minutes from each other.
+		if ((x.eliminated_at(self.id) - y.eliminated_at(self.id)) / 1.minute).abs < 2
+			y.kills.where(game_id: self.id, confirmed: true).count + (0.5 * y.target_neutralizations.where(game_id: self.id, confirmed: true).count) <=> x.kills.where(game_id: self.id, confirmed: true).count + (0.5 * x.target_neutralizations.where(game_id: self.id, confirmed: true).count)
+		else
+			y.eliminated_at(self.id) <=> x.eliminated_at(self.id)
 		end
+	end
+
+	# Returns the teams in order of their place.
+	def placement
+		teams_to_sort = self.teams.select { |team| !team.terminators?(self.id) && team.id != winner.id }
+
+		sorting_comparison = case self.ended_at.year
+		                     when 2014
+			                     :comparison_2014
+		                     else
+			                     :comparison_2014
+		                     end
+
+		sorted_teams = teams_to_sort.sort { |x, y| send sorting_comparison, x, y }
+
+		# The hash will be of format:
+		#   key: place (e.g. 3)
+		#   value: array of teams of that place
+		# For example:
+		#   { 2 => [team id 5], 3 => [team id 7, team id 15] }
+		order_hash = {}
+		
+		sorted_teams.each_with_index do |team, index|
+			next if order_hash.values.flatten.map { |inner_team| inner_team.id }.include?(team.id)
+			
+			teams = [team]
+
+			# Check if this team is tied with any of the next teams.
+			while sorted_teams[index + 1]
+				if send(sorting_comparison, team, sorted_teams[index + 1]) == 0
+					teams << sorted_teams[index + 1]
+				else
+					break
+				end
+				
+				index += 1
+			end
+
+			# Add to the hash.
+			order_hash.merge!({ (index + 2) => teams })
+		end
+
+		order_hash
 	end
 
 	# All of the users sans terminators in the game.
