@@ -21,16 +21,16 @@
 
 			<% if @team.in_game? %>
 				<% if member.alive? %>
-					<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
-						<div class="btn-group btn-group-sm">
+					<div class="btn-group btn-group-sm">
+						<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
 							<%= link_to "Kill", new_kill_path(email: member.email), class: "btn btn-danger btn-sm" if can?(:create, Kill) %>
 							<%= link_to "Neutralized Me", new_neutralization_path(email: member.email), class: "btn btn-danger btn-sm" if can?(:create, Neutralization) %>
-						</div>
-					<% end %>
+						<% end %>
 
-					<% if !@team.terminators? && (current_user.admin? || current_user.terminator?) && precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 %>
-						<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
-					<% end %>
+						<% if !@team.terminators? && (current_user.admin? || current_user.terminator?) && precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 %>
+							<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+						<% end %>
+					</div>
 				<% else %>
 					<p>Died via <%= member.kill.readable_kind %></p>
 
