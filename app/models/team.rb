@@ -53,8 +53,8 @@ class Team < ActiveRecord::Base
 		members.select { |member| member.dead? }
 	end
 
-	def member_kills
-		Kill.where(target_id: members.map { |member| member.id })
+	def member_kills(game_id = nil)
+		Kill.where(target_id: members(game_id).map { |member| member.id })
 	end
 
 	# Returns the current participation for the team.
@@ -72,7 +72,8 @@ class Team < ActiveRecord::Base
 	end
 
 	def last_confirmed_kill(game_id)
-		member_kills.where(game_id: game_id, confirmed: true).order(:confirmed_at).last
+		confirmed_kills = member_kills(game_id).where(game_id: game_id, confirmed: true)
+		confirmed_kills.sort_by { |kill| kill.appear_at || kill.created_at }.last
 	end
 
 	# Returns time of the confirmation of the last kill for this team.
