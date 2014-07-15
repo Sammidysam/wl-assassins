@@ -152,7 +152,7 @@
 		<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
 	<% end %>
 <% elsif @game.completed? %>
-	<p>The prize money total for this game was $<%= number_with_precision @game.prize_money, precision: 2 %>.</p>
+	<p>This game lasted <%= precise_distance_of_time_in_words @game.started_at, @game.ended_at %>.</p>
 	
 	<h2>
 		Winner:
