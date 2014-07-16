@@ -146,7 +146,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.1)
-  bootstrap-sass (~> 3.1)
+  bootstrap-sass (~> 3.2.0)
   cancan (~> 1.6)
   coffee-rails (~> 4.0)
   humanize_boolean (~> 0.0)

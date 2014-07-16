@@ -47,7 +47,7 @@ gem "bcrypt-ruby", "~> 3.1"
 # gem "debugger", group: [:development, :test]
 
 # Bootstrap utilities
-gem "bootstrap-sass", "~> 3.1"
+gem "bootstrap-sass", "~> 3.2.0"
 gem "rails_bootstrap_navbar", "~> 2.0"
 
 # Email format
