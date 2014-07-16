@@ -33,7 +33,7 @@ GEM
       bcrypt (>= 3.1.3)
     bootstrap-navbar (2.1.4)
       gem_config (~> 0.3)
-    bootstrap-sass (3.1.1.1)
+    bootstrap-sass (3.2.0.0)
       sass (~> 3.2)
     builder (3.2.2)
     cancan (1.6.10)
@@ -41,10 +41,10 @@ GEM
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
-    coffee-script (2.2.0)
+    coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.0)
+    coffee-script-source (1.7.1)
     erubis (2.7.0)
     execjs (2.2.1)
     gem_config (0.3.1)
@@ -66,7 +66,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.4.0)
     multi_json (1.10.1)
-    nilify_blanks (1.0.3)
+    nilify_blanks (1.1.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     pg (0.17.1)
@@ -145,22 +145,22 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt-ruby (~> 3.1.2)
-  bootstrap-sass (~> 3.1.1.1)
-  cancan (~> 1.6.10)
-  coffee-rails (~> 4.0.0)
-  humanize_boolean (~> 0.0.1)
+  bcrypt-ruby (~> 3.1)
+  bootstrap-sass (~> 3.1)
+  cancan (~> 1.6)
+  coffee-rails (~> 4.0)
+  humanize_boolean (~> 0.0)
   jbuilder (~> 1.2)
   jquery-rails
-  nilify_blanks (~> 1.0.3)
+  nilify_blanks (~> 1.0)
   pg
-  pry-rails (~> 0.3.2)
+  pry-rails (~> 0.3)
   rails (= 4.1.4)
   rails_12factor
-  rails_bootstrap_navbar (~> 2.0.1)
-  redcarpet (~> 3.1.2)
-  sass-rails (~> 4.0.0)
+  rails_bootstrap_navbar (~> 2.0)
+  redcarpet (~> 3.1)
+  sass-rails (~> 4.0)
   sdoc
   turbolinks
   uglifier (>= 1.3.0)
-  validates_email_format_of (~> 1.5.3)
+  validates_email_format_of (~> 1.5)

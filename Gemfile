@@ -9,13 +9,13 @@ gem "rails", "4.1.4"
 gem "pg"
 
 # Use SCSS for stylesheets
-gem "sass-rails", "~> 4.0.0"
+gem "sass-rails", "~> 4.0"
 
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 1.3.0"
 
 # Use CoffeeScript for .js.coffee assets and views
-gem "coffee-rails", "~> 4.0.0"
+gem "coffee-rails", "~> 4.0"
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem "therubyracer", platforms: :ruby
@@ -35,7 +35,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-gem "bcrypt-ruby", "~> 3.1.2"
+gem "bcrypt-ruby", "~> 3.1"
 
 # Use unicorn as the app server
 # gem "unicorn"
@@ -47,26 +47,26 @@ gem "bcrypt-ruby", "~> 3.1.2"
 # gem "debugger", group: [:development, :test]
 
 # Bootstrap utilities
-gem "bootstrap-sass", "~> 3.1.1.1"
-gem "rails_bootstrap_navbar", "~> 2.0.1"
+gem "bootstrap-sass", "~> 3.1"
+gem "rails_bootstrap_navbar", "~> 2.0"
 
 # Email format
-gem "validates_email_format_of", "~> 1.5.3"
+gem "validates_email_format_of", "~> 1.5"
 
 # Markdown compiling
-gem "redcarpet", "~> 3.1.2"
+gem "redcarpet", "~> 3.1"
 
 # Permissions
-gem "cancan", "~> 1.6.10"
+gem "cancan", "~> 1.6"
 
 # Heroku compatibility
 gem "rails_12factor", group: :production
 
 # Yes no booleans.
-gem "humanize_boolean", "~> 0.0.1"
+gem "humanize_boolean", "~> 0.0"
 
 # Nilify blank strings easily.
-gem "nilify_blanks", "~> 1.0.3"
+gem "nilify_blanks", "~> 1.0"
 
 # Use pry for the console.
-gem "pry-rails", "~> 0.3.2"
+gem "pry-rails", "~> 0.3"
