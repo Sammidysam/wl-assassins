@@ -86,7 +86,7 @@ class Team < ActiveRecord::Base
 		last_confirmed_kill(game_id) ? last_confirmed_kill(game_id).killer : nil
 	end
 
-	def terminators?(game_id = participation.game_id)
+	def terminators?(game_id = participation ? participation.game_id : nil)
 		game_participation = self.participations.find_by game_id: game_id
 		game_participation.terminators if game_participation
 	end
