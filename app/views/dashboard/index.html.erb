@@ -65,6 +65,24 @@
 		<% end %>
 	<% end %>
 
+	<% if !@games.select { |game| game.prize_money < game.expected_money }.empty? %>
+		<h2>Unpaid Fees</h2>
+		
+		<p>
+			Some team fees from games that have ended have <i>still</i> not been paid.
+			They are listed below.
+			The links go to the team fee management pages.
+		</p>
+
+		<ul>
+			<% @games.select { |game| game.prize_money < game.expected_money }.each do |game| %>
+				<li><%= link_to_if_can_read game.name, team_fees_game_path(game) %></li>
+			<% end %>
+		</ul>
+	<% end %>
+
+	<ul>
+
 	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
 <% else %>
 	<% if current_user.in_game? && !current_user.terminator? %>

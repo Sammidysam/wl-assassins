@@ -41,6 +41,10 @@ class Game < ActiveRecord::Base
 		self.participations.where(terminators: false).sum(:paid_amount)
 	end
 
+	def expected_money
+		self.team_fee * self.participations.where(terminators: false).count
+	end
+
 	def comparison_2014(x, y)
 		# Use tiebreaker when teams were eliminated less than 2 minutes from each other.
 		if ((x.eliminated_at(self.id) - y.eliminated_at(self.id)) / 1.minute).abs < 2
