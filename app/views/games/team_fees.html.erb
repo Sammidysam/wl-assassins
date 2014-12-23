@@ -21,6 +21,8 @@
 						<%= text_field_tag :paid_amount, number_with_precision(@game.team_fee, precision: 2), placeholder: "Paid Amount", class: "form-control" %>
 					</div>
 
+					<%= hidden_field_tag :participation_id, participation.id %>
+
 					<%= submit_tag "Go", class: "btn btn-success btn-sm" %>
 				<% end %>
 			</li>

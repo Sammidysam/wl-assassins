@@ -143,7 +143,7 @@ class TeamsController < ApplicationController
 
 	# POST /teams/1/paid_amount
 	def paid_amount
-		participation = @team.participation
+		participation = Participation.find(params[:participation_id])
 
 		participation.paid_amount = params[:paid_amount]
 
