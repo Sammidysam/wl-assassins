@@ -11,11 +11,13 @@
 		</div>
 	<% end %>
 
-	<div class="form-group">
-		<%= f.label :name %>
-		<br>
-		<%= f.text_field :name, class: "form-control" %>
-	</div>
+	<% if current_user.admin? || @team.participations.select { |participation| participation.game.ended_at || participation.game.in_progress }.empty? %>
+		<div class="form-group">
+			<%= f.label :name %>
+			<br>
+			<%= f.text_field :name, class: "form-control" %>
+		</div>
+	<% end %>
 
 	<div class="form-group">
 		<%= f.label :logo_url, "Logo URL (optional)" %>
