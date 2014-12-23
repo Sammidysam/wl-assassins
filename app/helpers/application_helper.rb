@@ -10,7 +10,7 @@ module ApplicationHelper
 	end
 
 	def markdown(content)
-		Markdown::RENDERER.render(content).html_safe
+		MarkdownTools::RENDERER.render(content).html_safe
 	end
 
 	def glyphicon(icon)
