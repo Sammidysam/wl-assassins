@@ -22,13 +22,18 @@ class DashboardController < ApplicationController
 
 	def switch_user
 		# First ensure the right people are doing this.
-		if current_user && current_user.admin? && Rails.env.development?
-			user = User.find_by name: params[:user_name]
+		if current_user && (current_user.admin? || session[:previous_user_id]) && Rails.env.development?
+			unless session[:previous_user_id]
+				user = User.find_by name: params[:user_name]
 
-			session[:previous_user_id] = session[:user_id]
-			session[:user_id] = user.id
+				session[:previous_user_id] = session[:user_id]
+				session[:user_id] = user.id
+			else
+				session[:user_id] = session[:previous_user_id]
+				session.delete(:previous_user_id)
+			end
 
-			redirect_to dashboard_path, notice: "You have switched user to #{params[:user_name]}!"
+			redirect_to dashboard_path, notice: "You have switched user to user of id #{session[:user_id]}!"
 		else
 			redirect_to dashboard_path, alert: "You are not authorized to switch user!"
 		end

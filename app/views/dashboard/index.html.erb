@@ -1,10 +1,10 @@
 <h1>Dashboard</h1>
 
+<% if Rails.env.development? && (current_user.admin? || session[:previous_user_id]) %>
+	<%= render "switch_user_select", user_names: @user_names %>
+<% end %>
+
 <% if current_user.admin? %>
-	<% if Rails.env.development? %>
-		<%= render "switch_user_select", user_names: @user_names %>
-	<% end %>
-	
 	<% if @pregames.count > 0 %>
 		<h2>Games To Be Started</h2>
 
