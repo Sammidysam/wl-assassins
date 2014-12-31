@@ -4,7 +4,7 @@
 	<div class="form-group">
 		<%= label_tag :user_name %>
 		<br>
-		<%= select_tag :user_name, options_for_select(User.all.map { |user| user.name }), class: "form-control" %>
+		<%= select_tag :user_name, options_for_select(user_names), class: "form-control" %>
 	</div>
 
 	<%= submit_tag "Go", class: "btn btn-success" %>

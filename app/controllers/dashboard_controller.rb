@@ -11,6 +11,12 @@ class DashboardController < ApplicationController
 
 			# Normal user variables.
 			@team = current_user.team
+
+			# Variables passed to the switch_user_select partial.
+			if Rails.env.development? && current_user
+				select_users = User.where.not(id: current_user.id)
+				@user_names = select_users.map(&:name)
+			end
 		end
 	end
 

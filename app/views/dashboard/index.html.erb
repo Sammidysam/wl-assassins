@@ -2,7 +2,7 @@
 
 <% if current_user.admin? %>
 	<% if Rails.env.development? %>
-		<%= render "switch_user_select" %>
+		<%= render "switch_user_select", user_names: @user_names %>
 	<% end %>
 	
 	<% if @pregames.count > 0 %>
