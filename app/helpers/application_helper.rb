@@ -2,7 +2,15 @@ module ApplicationHelper
 	include DistanceOfTimeInWords
 	
 	def current_user
-		@current_user ||= session[:user_id] && User.find_by_id(session[:user_id])
+		if @current_user
+			if @current_user.id == session[:user_id]
+				@current_user
+			else
+				@current_user = session[:user_id] && User.find_by_id(session[:user_id])
+			end
+		else
+			@current_user = session[:user_id] && User.find_by_id(session[:user_id])
+		end
 	end
 
 	def title(title_string)
