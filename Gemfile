@@ -70,6 +70,3 @@ gem "nilify_blanks", "~> 1.0"
 
 # Use pry for the console.
 gem "pry-rails", "~> 0.3"
-
-# Switch users in development to make my testing life easier.
-gem "switch_user", "~> 0.9", group: :development
