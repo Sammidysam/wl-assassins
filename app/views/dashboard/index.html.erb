@@ -88,7 +88,7 @@
 			You have <%= precise_distance_of_time_in_words_to_now @team.participation.termination_at, no_time: true %> left to complete an assassination before autotermination.
 			
 			<% if precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 && @team.participation.game.remaining_teams.count > 2 %>
-				<% if current_user.team.participation.termination_at > DateTime.now %>
+				<% if @team.participation.termination_at > DateTime.now %>
 					Watch out!
 					Terminators have been sent out to terminate your team.
 				<% else %>
@@ -121,17 +121,17 @@
 		<% end %>
 	</p>
 
-	<% if current_user.team && !current_user.team.participations.select { |participation| participation.game.pregame? }.empty? %>
+	<% if @team && !@team.participations.select { |participation| participation.game.pregame? }.empty? %>
 		<p>
-			Your team is scheduled to participate in the <%= pluralize current_user.team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= current_user.team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
+			Your team is scheduled to participate in the <%= pluralize @team.participations.select { |participation| participation.game.pregame? }.count, "game" %> <%= @team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
 		</p>
 	<% end %>
 
 	<% if current_user.in_game? %>
-		<% unless current_user.team.eliminated? %>
+		<% unless @team.eliminated? %>
 			<% unless current_user.terminator? %>
 				<p>
-					Your team is participating in the game <%= current_user.team.participation.game.name %>.
+					Your team is participating in the game <%= @team.participation.game.name %>.
 				</p>
 
 				<p>
@@ -157,7 +157,7 @@
 					</p>
 				<% end %>
 
-				<% Kill.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.each do |kill| %>
+				<% Kill.where(game_id: @team.participation.game_id, target_id: current_user.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.each do |kill| %>
 					<p>
 						<% if kill.assassination? %>
 							<%= kill.killer.name %> killed you.
@@ -178,7 +178,7 @@
 					</p>
 				<% end %>
 
-				<% Neutralization.where(game_id: current_user.team.participation.game_id, target_id: current_user.id, confirmed: false).each do |neutralization| %>
+				<% Neutralization.where(game_id: @team.participation.game_id, target_id: current_user.id, confirmed: false).each do |neutralization| %>
 					<p>
 						You neutralized <%= neutralization.target.name %>.
 						If this did not occur, contact an admin, and they can delete it.
@@ -188,12 +188,12 @@
 				<% end %>
 				
 				<p>
-					<% unless current_user.team.completed_contracts.empty? %>
-						Your team has successfully completed <%= pluralize current_user.team.completed_contracts.count, "contract" %>:
-						to assassinate <%= current_user.team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
+					<% unless @team.completed_contracts.empty? %>
+						Your team has successfully completed <%= pluralize @team.completed_contracts.count, "contract" %>:
+						to assassinate <%= @team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 					<% end %>
 					
-					Your team is currently contracted to assassinate <%= link_to current_user.team.target.name, current_user.team.target %>.
+					Your team is currently contracted to assassinate <%= link_to @team.target.name, @team.target %>.
 				</p>
 			<% else %>
 				<h2>Hit List</h2>
@@ -223,7 +223,7 @@
 			<% end %>
 		<% else %>
 			<p>
-				Your team has been eliminated from the game <%= current_user.team.participation.game.name %>.
+				Your team has been eliminated from the game <%= @team.participation.game.name %>.
 				Good luck next time!
 			</p>
 		<% end %>
