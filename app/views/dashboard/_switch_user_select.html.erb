@@ -1,0 +1,11 @@
+<h3>Switch User</h3>
+
+<%= form_tag switch_user_path, method: :patch do %>
+	<div class="form-group">
+		<%= label_tag :user_name %>
+		<br>
+		<%= select_tag :user_name, options_for_select(User.all.map { |user| user.name }), class: "form-control" %>
+	</div>
+
+	<%= submit_tag "Go", class: "btn btn-success" %>
+<% end %>

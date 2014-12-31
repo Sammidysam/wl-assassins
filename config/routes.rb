@@ -8,6 +8,8 @@ WlAssassins::Application.routes.draw do
 	post "session/create" => "session#create"
 	post "session/new"
 	
+	patch "switch_user" => "dashboard#switch_user"
+	
 	resources :pages
 
 	resources :neutralizations do
