@@ -1,3 +1,7 @@
 <%= markdown @page.content if @page.content %>
 
+<% if can?(:update, @page) %>
+	<p><i>Sort index is <%= @page.sort_index %></i></p>
+<% end %>
+
 <%= link_to "Edit", edit_page_path(@page), class: "btn btn-default" if can?(:update, @page) %>
