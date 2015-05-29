@@ -25,4 +25,8 @@ class Membership < ActiveRecord::Base
 	def user_cannot_be_on_team_twice
 		errors.add :user_id, "cannot be on team twice" unless Membership.where(active: true, user_id: self.user_id, team_id: self.team_id).empty?
 	end
+
+	def active?
+		!self.ended_at
+	end
 end
