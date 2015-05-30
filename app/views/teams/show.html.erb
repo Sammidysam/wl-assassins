@@ -5,7 +5,7 @@
 		<h1><%= @team.name %></h1>
 	</div>
 
-	<% @team.members.sort_by { |member| member.alive? ? 0 : 1 }.each do |member| %>
+	<% @members.each do |member| %>
 		<div class="col-md-2">
 			<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
 
@@ -47,7 +47,7 @@
 		</div>
 	<% end %>
 
-	<% (4 - @team.members.count).times do %>
+	<% (4 - @members.count).times do %>
 		<div class="col-md-2">
 			<% if can? :add, @team %>
 				<%= form_tag add_team_path(@team) do %>

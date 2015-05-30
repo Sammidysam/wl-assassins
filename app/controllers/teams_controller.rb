@@ -15,8 +15,13 @@ class TeamsController < ApplicationController
 	# GET /teams/1
 	# GET /teams/1.json
 	def show
+		# People available to add to a team.
 		normal_users = User.normal.order(:name)
 		@users = normal_users.select { |u| !u.team }
+
+		# Members of this team.
+		@members = @team.members.order(:name)
+		@members.to_a.sort_by! { |m| m.alive? ? 0 : 1 }
 	end
 
 	# GET /teams/new
