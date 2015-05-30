@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "contracts", force: true do |t|
+  create_table "contracts", force: :cascade do |t|
     t.boolean  "completed",        default: false
     t.integer  "participation_id"
     t.integer  "target_id"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.datetime "end"
   end
 
-  create_table "games", force: true do |t|
+  create_table "games", force: :cascade do |t|
     t.string   "name"
     t.boolean  "in_progress", default: false
     t.datetime "created_at"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.float    "team_fee"
   end
 
-  create_table "kills", force: true do |t|
+  create_table "kills", force: :cascade do |t|
     t.boolean  "confirmed",    default: false
     t.integer  "target_id"
     t.datetime "created_at"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.datetime "appear_at"
   end
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
     t.datetime "created_at"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.datetime "ended_at"
   end
 
-  create_table "neutralizations", force: true do |t|
+  create_table "neutralizations", force: :cascade do |t|
     t.boolean  "confirmed",   default: false
     t.datetime "start"
     t.integer  "killer_id"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.string   "picture_url"
   end
 
-  create_table "pages", force: true do |t|
+  create_table "pages", force: :cascade do |t|
     t.string   "name"
     t.text     "content"
     t.datetime "created_at"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.string   "link"
   end
 
-  create_table "participations", force: true do |t|
+  create_table "participations", force: :cascade do |t|
     t.integer  "team_id"
     t.integer  "game_id"
     t.datetime "created_at"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.float    "out_of_town_hours", default: 0.0
   end
 
-  create_table "teams", force: true do |t|
+  create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.string   "logo_url"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
