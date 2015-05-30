@@ -89,7 +89,7 @@ class TeamsController < ApplicationController
 			membership.user_id = user.id
 			membership.team_id = @team.id
 
-			membership.save ? flash[:notice] = "Invitation successfully sent!" : flash[:alert] = "Could not send an invitation to this person!"
+			membership.save ? flash[:notice] = "Invitation successfully sent!" : flash[:alert] = "Could not send an invitation to this person!  #{membership.errors.full_messages.first}."
 			redirect_to @team
 		end
 	end

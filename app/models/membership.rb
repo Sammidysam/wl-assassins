@@ -5,6 +5,7 @@ class Membership < ActiveRecord::Base
 	validate :admin_cannot_be_on_team
 	validate :team_cannot_have_more_than_four_members, on: :create
 	validate :user_cannot_be_on_team_twice, on: :create
+	validate :cannot_send_multiple_invitations, on: :create
 
 	validates :team_id, :user_id, presence: true
 
@@ -24,6 +25,11 @@ class Membership < ActiveRecord::Base
 	# and ensures that none exist.
 	def user_cannot_be_on_team_twice
 		errors.add :user_id, "cannot be on team twice" unless Membership.where(ended_at: nil, user_id: self.user_id, team_id: self.team_id).where.not(started_at: nil).empty?
+	end
+
+	# Only one invitation can be sent to someone.
+	def cannot_send_multiple_invitations
+		errors.add :user_id, "has already been invited" unless Membership.where(started_at: nil, user_id: self.user_id, team_id: self.team_id).empty?
 	end
 
 	def active?
