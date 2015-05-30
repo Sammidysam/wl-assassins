@@ -97,9 +97,8 @@ class TeamsController < ApplicationController
 	# POST /teams/1/remove
 	def remove
 		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active? }
-		membership.ended_at = DateTime.now
 
-		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
+		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.update_attribute(:ended_at, DateTime.now) ? nil : "Could not remove from team!")
 	end
 
 	# POST /teams/1/terminators
