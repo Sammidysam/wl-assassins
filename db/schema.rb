@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20140711162300) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.string   "name"
-    t.boolean  "in_progress", default: false
+    t.string   "name",        limit: 255
+    t.boolean  "in_progress",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "started_at"
@@ -37,14 +37,14 @@ ActiveRecord::Schema.define(version: 20140711162300) do
   end
 
   create_table "kills", force: :cascade do |t|
-    t.boolean  "confirmed",    default: false
+    t.boolean  "confirmed",                default: false
     t.integer  "target_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "confirmed_at"
-    t.string   "picture_url"
+    t.string   "picture_url",  limit: 255
     t.text     "how"
-    t.integer  "kind",         default: 0
+    t.integer  "kind",                     default: 0
     t.integer  "game_id"
     t.integer  "killer_id"
     t.datetime "appear_at"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20140711162300) do
   end
 
   create_table "neutralizations", force: :cascade do |t|
-    t.boolean  "confirmed",   default: false
+    t.boolean  "confirmed",               default: false
     t.datetime "start"
     t.integer  "killer_id"
     t.integer  "target_id"
@@ -68,16 +68,16 @@ ActiveRecord::Schema.define(version: 20140711162300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "how"
-    t.string   "picture_url"
+    t.string   "picture_url", limit: 255
   end
 
   create_table "pages", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sort_index"
-    t.string   "link"
+    t.string   "link",       limit: 255
   end
 
   create_table "participations", force: :cascade do |t|
@@ -92,30 +92,30 @@ ActiveRecord::Schema.define(version: 20140711162300) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",        limit: 255
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "logo_url"
+    t.string   "logo_url",    limit: 255
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "phone_number"
-    t.boolean  "phone_number_public",   default: false
-    t.string   "address"
-    t.boolean  "address_public",        default: false
+    t.string   "name",                  limit: 255
+    t.string   "email",                 limit: 255
+    t.string   "password_digest",       limit: 255
+    t.string   "phone_number",          limit: 255
+    t.boolean  "phone_number_public",               default: false
+    t.string   "address",               limit: 255
+    t.boolean  "address_public",                    default: false
     t.integer  "graduation_year"
     t.text     "description"
-    t.string   "profile_picture_url"
-    t.boolean  "out_of_town",           default: false
+    t.string   "profile_picture_url",   limit: 255
+    t.boolean  "out_of_town",                       default: false
     t.float    "willing_to_pay_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "email_public",          default: false
-    t.integer  "role",                  default: 0
+    t.boolean  "email_public",                      default: false
+    t.integer  "role",                              default: 0
   end
 
 end
