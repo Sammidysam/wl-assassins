@@ -4,7 +4,7 @@ class Ability
 
 	def initialize(user)
 		logged_in = true if user
-		
+
 		# If user is not logged in, make them be a guest user.
 		user ||= User.new
 
@@ -49,7 +49,7 @@ class Ability
 			end
 
 			cannot :remove, Team if user.team && user.team.in_game?
-			
+
 			cannot :revive, Team
 
 			if user.team && user.team.contract && user.team.contract.target
@@ -63,7 +63,7 @@ class Ability
 					team.in_game? && user.team.participation.game_id == team.participation.game_id && !team.terminators? && precise_distance_of_time_in_words_to_now(team.participation.termination_at, interval: :day) == 0 && user.team.participation.game.remaining_teams.count > 2
 				end
 			end
-			
+
 			can :create, Team unless user.team
 			can :index, Team if user.team
 
@@ -86,7 +86,7 @@ class Ability
 			end
 
 			can :index, User
-			
+
 			can :manage, user
 
 			cannot :revive, user
@@ -99,6 +99,10 @@ class Ability
 
 			can :update, Kill.all do |kill|
 				kill.killer.members.map { |member| member.id }.include?(user.id) && kill.confirmed if kill.killer
+			end
+
+			can :respond, Membership.all do |membership|
+				membership.started_at.nil? && membership.user_id == user.id
 			end
 
 			can :create, Neutralization if user.alive? && !user.neutralized?

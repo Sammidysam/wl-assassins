@@ -10,7 +10,7 @@ WlAssassins::Application.routes.draw do
 
 	patch "switch_user" => "dashboard#switch_user"
 
-	patch "memberships/respond"
+	patch "memberships/:id/respond" => "memberships#respond", as: :membership_respond
 
 	resources :pages
 

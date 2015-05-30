@@ -3,6 +3,11 @@
 		<% list.each do |m| %>
 			<li>
 				You have been invited to join the team <%= link_to_if_can_read m.team.name, m.team %>.
+
+				<div class="btn-group btn-group-xs">
+					<%= link_to "Accept", membership_respond_path(m, response: :accept), method: :patch, class: "btn btn-success btn-xs" %>
+					<%= link_to "Deny", membership_respond_path(m, response: :deny), method: :patch, class: "btn btn-danger btn-xs" %>
+				</div>
 			</li>
 		<% end %>
 	</ul>
