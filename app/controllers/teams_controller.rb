@@ -82,7 +82,7 @@ class TeamsController < ApplicationController
 			membership.user_id = user.id
 			membership.team_id = @team.id
 
-			redirect_to @team, alert: (membership.save ? nil : "Could not join team!")
+			redirect_to @team, alert: (membership.save ? "Invitation successfully sent!" : "Could not join team!")
 		end
 	end
 
