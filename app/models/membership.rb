@@ -23,10 +23,10 @@ class Membership < ActiveRecord::Base
 	# Retrieves all of the active memberships that are the same as this one sans id,
 	# and ensures that none exist.
 	def user_cannot_be_on_team_twice
-		errors.add :user_id, "cannot be on team twice" unless Membership.where(ended_at: nil, user_id: self.user_id, team_id: self.team_id).empty?
+		errors.add :user_id, "cannot be on team twice" unless Membership.where(ended_at: nil, user_id: self.user_id, team_id: self.team_id).where.not(started_at: nil).empty?
 	end
 
 	def active?
-		!self.ended_at
+		self.started_at && !self.ended_at
 	end
 end

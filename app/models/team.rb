@@ -36,10 +36,10 @@ class Team < ActiveRecord::Base
 			game = Game.find(game_id)
 			created_before_game = self.memberships.where("created_at < ?", game.started_at)
 
-			retrieval_memberships = created_before_game.where(ended_at: nil) + created_before_game.where.not(ended_at: nil).where("ended_at > ?", game.ended_at)
+			retrieval_memberships = created_before_game.where(ended_at: nil).where.not(started_at: nil) + created_before_game.where.not(ended_at: nil).where("ended_at > ?", game.ended_at)
 		else
 			# Return active members of the team.
-			retrieval_memberships = self.memberships.where(ended_at: nil)
+			retrieval_memberships = self.memberships.where(ended_at: nil).where.not(started_at: nil)
 		end
 
 		User.where(id: retrieval_memberships.map { |membership| membership.user_id })
@@ -98,7 +98,7 @@ class Team < ActiveRecord::Base
 
 	# A team is disbanded if it has no active members.
 	def disbanded?
-		self.memberships.where(ended_at: nil).empty?
+		self.memberships.where(ended_at: nil).where.not(started_at: nil).empty?
 	end
 
 	# Returns the current contract for the team.
