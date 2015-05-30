@@ -4,12 +4,14 @@ WlAssassins::Application.routes.draw do
 	get "log_in" => "session#new"
 	get "log_out" => "session#destroy"
 	get "welcome/index"
-	
+
 	post "session/create" => "session#create"
 	post "session/new"
-	
+
 	patch "switch_user" => "dashboard#switch_user"
-	
+
+	patch "memberships/respond"
+
 	resources :pages
 
 	resources :neutralizations do
@@ -19,11 +21,11 @@ WlAssassins::Application.routes.draw do
 	resources :kills do
 		post "confirm", on: :member
 	end
-	
+
 	resources :games do
 		get "events", on: :member
 		get "team_fees", on: :member
-		
+
 		post "add", on: :member
 		post "remove", on: :member
 		post "add_all", on: :member
@@ -40,12 +42,12 @@ WlAssassins::Application.routes.draw do
 		post "reset_out_of_town_hours", on: :member
 		post "paid_amount", on: :member
 	end
-	
+
 	resources :users do
 		post "out_of_town", on: :member
 		post "revive", on: :member
 	end
-	
+
 	# The priority is based upon order of creation: first created -> highest priority.
 	# See how all your routes lay out with "rake routes".
 
