@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "2.2.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "4.2.0"
+gem "rails", "4.2.1"
 
 # Use postgresql as the database for Active Record
 gem "pg"
@@ -35,7 +35,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-gem "bcrypt-ruby", "~> 3.1"
+gem "bcrypt", "~> 3.1"
 
 # Use unicorn as the app server
 # gem "unicorn"
@@ -66,7 +66,7 @@ gem "rails_12factor", group: :production
 gem "humanize_boolean", "~> 0.0"
 
 # Nilify blank strings easily.
-gem "nilify_blanks", "~> 1.0"
+gem "nilify_blanks", "~> 1.2"
 
 # Use pry for the console.
 gem "pry-rails", "~> 0.3"
