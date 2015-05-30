@@ -7,14 +7,14 @@
 <% if current_user.admin? %>
 	<h5>
 		<b>View</b>
-		
+
 		<%= link_to "Pages", pages_path %>
 		<%= link_to "Neutralizations", neutralizations_path %>
 		<%= link_to "Kills", kills_path %>
 		<%= link_to "Teams", teams_path %>
 		<%= link_to "Users", users_path %>
 	</h5>
-	
+
 	<% if @pregames.count > 0 %>
 		<h2>Games To Be Started</h2>
 
@@ -32,7 +32,7 @@
 
 			<% if Kill.where(game_id: game.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.count > 0 %>
 				<h5>Reported Kills</h5>
-				
+
 				<ul>
 					<% Kill.where(game_id: game.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.sort_by { |kill| kill.appear_at || kill.created_at }.each do |kill| %>
 						<li>
@@ -60,7 +60,7 @@
 
 			<% if Neutralization.where(game_id: game.id, confirmed: false).order(:created_at).count > 0 %>
 				<h5>Reported Neutralizations</h5>
-				
+
 				<ul>
 					<% Neutralization.where(game_id: game.id, confirmed: false).order(:created_at).each do |neutralization| %>
 						<li>
@@ -81,7 +81,7 @@
 
 	<% if !@unpaid_games.empty? %>
 		<h2>Unpaid Fees</h2>
-		
+
 		<p>
 			Some team fees from games that have ended have <i>still</i> not been paid.
 			They are listed below.
@@ -100,7 +100,7 @@
 	<% if current_user.in_game? && !current_user.terminator? %>
 		<p>
 			You have <%= precise_distance_of_time_in_words_to_now @team.participation.termination_at, no_time: true %> left to complete an assassination before autotermination.
-			
+
 			<% if precise_distance_of_time_in_words_to_now(@team.participation.termination_at, interval: :day) == 0 && @team.participation.game.remaining_teams.count > 2 %>
 				<% if @team.participation.termination_at > DateTime.now %>
 					Watch out!
@@ -111,7 +111,7 @@
 			<% end %>
 		</p>
 	<% end %>
-	
+
 	<p>
 		You are currently <%= current_user.out_of_town ? "out-of-town" : "in town" %>.
 
@@ -128,8 +128,10 @@
 			You are a member of <%= link_to @team.name, @team %>.
 		<% else %>
 			You are not a member of any team.
-			A friend may add you to their team; they simply need to know your email address.
+			A friend may add you to their team; you will receive an invitation that will be shown below.
 			Otherwise, you should create your own team.
+
+			<%= render "invitations", list: @invitations %>
 
 			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
 		<% end %>
@@ -155,7 +157,7 @@
 					<% else %>
 						Good job paying your team fee!
 					<% end %>
-				</p>					
+				</p>
 
 				<% if current_user.dead? %>
 					<p>
@@ -200,13 +202,13 @@
 						<%= link_to "Confirm", confirm_neutralization_path(neutralization), method: :post, class: "btn btn-danger btn-xs" %>
 					</p>
 				<% end %>
-				
+
 				<p>
 					<% unless @team.completed_contracts.empty? %>
 						Your team has successfully completed <%= pluralize @team.completed_contracts.count, "contract" %>:
 						to assassinate <%= @team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 					<% end %>
-					
+
 					Your team is currently contracted to assassinate <%= link_to @team.target.name, @team.target %>.
 				</p>
 			<% else %>

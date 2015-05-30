@@ -1,0 +1,9 @@
+<% unless list.empty? %>
+	<ul>
+		<% list.each do |m| %>
+			<li>
+				You have been invited to join the team <%= link_to_if_can_read m.team.name, m.team %>.
+			</li>
+		<% end %>
+	</ul>
+<% end %>

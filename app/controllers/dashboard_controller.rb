@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
 
 			# Normal user variables.
 			@team = current_user.team
+			@invitations = current_user.memberships.where(started_at: nil)
 
 			# Variables passed to the switch_user_select partial.
 			if Rails.env.development? && current_user
