@@ -1,14 +1,14 @@
 class Team < ActiveRecord::Base
 	include ActionView::Helpers::TextHelper
 	include DistanceOfTimeInWords
-	
+
 	has_many :games, through: :participations
 	has_many :kills, foreign_key: "killer_id"
 	has_many :memberships, dependent: :destroy
 	has_many :participations, dependent: :destroy
 	has_many :target_contracts, class_name: "Contract", foreign_key: "target_id", dependent: :destroy
 	has_many :users, through: :memberships
-	
+
 	validates :name, presence: true, uniqueness: true
 
 	nilify_blanks
@@ -35,13 +35,13 @@ class Team < ActiveRecord::Base
 			# Return members of the team during this game.
 			game = Game.find(game_id)
 			created_before_game = self.memberships.where("created_at < ?", game.started_at)
-			
-			retrieval_memberships = created_before_game.where(active: true) + created_before_game.where(active: false).where("ended_at > ?", game.ended_at)
+
+			retrieval_memberships = created_before_game.where(ended_at: nil) + created_before_game.where.not(ended_at: nil).where("ended_at > ?", game.ended_at)
 		else
 			# Return active members of the team.
-			retrieval_memberships = self.memberships.where(active: true)
+			retrieval_memberships = self.memberships.where(ended_at: nil)
 		end
-		
+
 		User.where(id: retrieval_memberships.map { |membership| membership.user_id })
 	end
 
@@ -98,7 +98,7 @@ class Team < ActiveRecord::Base
 
 	# A team is disbanded if it has no active members.
 	def disbanded?
-		self.memberships.where(active: true).empty?
+		self.memberships.where(ended_at: nil).empty?
 	end
 
 	# Returns the current contract for the team.

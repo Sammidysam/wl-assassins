@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
 	include Revival
 	include TerminationAt
-	
+
 	before_action :set_team, only: [:show, :edit, :update, :destroy, :add, :remove, :terminators, :revive, :reset_termination_at, :reset_out_of_town_hours, :paid_amount]
 
 	load_and_authorize_resource
@@ -36,10 +36,9 @@ class TeamsController < ApplicationController
 				format.html do
 					# Add current user to team.
 					membership = Membership.new
-					membership.active = true
 					membership.user_id = current_user.id
 					membership.team_id = @team.id
-					
+
 					redirect_to @team, notice: "Team was successfully created.", alert: (membership.save ? nil : "Could not join created team.")
 				end
 				format.json { render action: "show", status: :created, location: @team }
@@ -80,7 +79,6 @@ class TeamsController < ApplicationController
 			redirect_to @team, alert: "#{params[:email]} does not have an account!"
 		else
 			membership = Membership.new
-			membership.active = true
 			membership.user_id = user.id
 			membership.team_id = @team.id
 
@@ -90,8 +88,7 @@ class TeamsController < ApplicationController
 
 	# POST /teams/1/remove
 	def remove
-		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active }
-		membership.active = false
+		membership = @team.memberships.find { |inner_membership| inner_membership.user.email == params[:email] && inner_membership.active? }
 		membership.ended_at = DateTime.now
 
 		redirect_to (current_user.email == params[:email] ? root_path : @team), alert: (membership.save ? nil : "Could not remove from team!")
@@ -100,7 +97,7 @@ class TeamsController < ApplicationController
 	# POST /teams/1/terminators
 	def terminators
 		participation = @team.participations.find_by(game_id: params[:game_id])
-		
+
 		participation.toggle :terminators
 
 		redirect_to game_path(params[:game_id]), alert: (participation.save ? nil : "Could not toggle terminator status!")

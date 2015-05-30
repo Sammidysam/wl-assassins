@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
 	include ActionView::Helpers::TextHelper
-	
+
 	enum role: [ :normal, :public_admin, :private_admin ]
-	
+
 	has_many :kills, foreign_key: "target_id", dependent: :destroy
 	has_many :memberships, dependent: :destroy
 	has_many :target_neutralizations, class_name: "Neutralization", foreign_key: "target_id", dependent: :destroy
@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 	has_many :teams, through: :memberships
 
 	has_secure_password
-	
+
 	validates :password, confirmation: true, presence: true, on: :create
 	validates :email, :name, :phone_number, :address, :graduation_year, :profile_picture_url, :willing_to_pay_amount, :description, presence: true
 	validates :email, uniqueness: { case_sensitive: false }, email_format: { message: "is not valid" }
@@ -53,7 +53,8 @@ class User < ActiveRecord::Base
 
 	# Returns the current team for the user.
 	def team
-		membership = self.memberships.find_by active: true
+		memberships = self.memberships
+		membership = memberships.find { |m| m.active? }
 
 		membership.team if membership
 	end
