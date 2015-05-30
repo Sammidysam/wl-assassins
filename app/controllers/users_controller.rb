@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	include Revival
-	
+
 	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town, :revive]
 
 	load_and_authorize_resource
@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 	# GET /users
 	# GET /users.json
 	def index
-		@users = User.all.select { |user| can? :read, user }
+		@users = User.order(:name).select { |user| can? :read, user }
 	end
 
 	# GET /users/1
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 				format.html do
 					# Log in.
 					session[:user_id] = @user.id
-					
+
 					redirect_to dashboard_path, notice: "User was successfully created."
 				end
 				format.json { render action: "show", status: :created, location: @user }
@@ -65,9 +65,9 @@ class UsersController < ApplicationController
 	def destroy
 		# Log out before destroying the user if the user is logged in.
 		session[:user_id] = nil if session[:user_id] == @user.id
-		
+
 		@user.destroy
-		
+
 		respond_to do |format|
 			format.html { redirect_to users_url }
 			format.json { head :no_content }
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
 	# Toggles the out_of_town boolean in @user.
 	def out_of_town
 		all_out_of_town = @user.team.alive_members.all? { |member| member.out_of_town } if @user.team && @user.team.in_game?
-		
+
 		@user.toggle :out_of_town
 
 		if @user.save
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
 			elsif all_out_of_town
 				# Get old kills.
 				kills = Kill.out_of_town.where(target_id: @user.team.members.map { |member| member.id }, game_id: @user.team.participation.game_id).where.not(appear_at: nil)
-				
+
 				# Adjust out_of_town_hours.
 				participation = @user.team.participation
 
@@ -108,7 +108,7 @@ class UsersController < ApplicationController
 				# Delete old kills if out_of_town_hours is less than 24.
 				kills.destroy_all if participation.out_of_town_hours < 24
 			end
-			
+
 			redirect_to dashboard_path
 		else
 			redirect_to dashboard_path, alert: "Could not toggle out-of-town!"
