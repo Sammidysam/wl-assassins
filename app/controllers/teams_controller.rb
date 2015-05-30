@@ -15,6 +15,8 @@ class TeamsController < ApplicationController
 	# GET /teams/1
 	# GET /teams/1.json
 	def show
+		normal_users = User.normal.order(:name)
+		@users = normal_users.select { |u| !u.team }
 	end
 
 	# GET /teams/new
@@ -75,14 +77,15 @@ class TeamsController < ApplicationController
 
 	# POST /teams/1/add
 	def add
-		unless user = User.find_by("lower(email) = ?", params[:email].downcase)
-			redirect_to @team, alert: "#{params[:email]} does not have an account!"
+		unless user = User.find_by(id: params[:user_id])
+			redirect_to @team, alert: "#{params[:user_id]} does not have an account!"
 		else
 			membership = Membership.new
 			membership.user_id = user.id
 			membership.team_id = @team.id
 
-			redirect_to @team, alert: (membership.save ? "Invitation successfully sent!" : "Could not join team!")
+			membership.save ? flash[:notice] = "Invitation successfully sent!" : flash[:alert] = "Could not send an invitation to this person!"
+			redirect_to @team
 		end
 	end
 

@@ -14,7 +14,7 @@
 			<% if can? :remove, @team %>
 				<%= form_tag remove_team_path(@team) do %>
 					<%= hidden_field_tag :email, member.email %>
-					
+
 					<%= submit_tag "Remove", class: "btn btn-danger" %>
 				<% end %>
 			<% end %>
@@ -52,9 +52,9 @@
 			<% if can? :add, @team %>
 				<%= form_tag add_team_path(@team) do %>
 					<h3>Add Member</h3>
-					
-					<%= text_field_tag :email, nil, placeholder: "Email", class: "form-control" %>
-					
+
+					<%= select_tag :user_id, options_from_collection_for_select(@users, "id", "name"), prompt: "Name", class: "form-control" %>
+
 					<%= submit_tag "Go", class: "btn btn-success" %>
 				<% end %>
 			<% else %>
