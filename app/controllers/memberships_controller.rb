@@ -7,7 +7,7 @@ class MembershipsController < ApplicationController
 	def respond
 		if params[:response] == "accept"
 			@membership.started_at = DateTime.now
-			flash[:alert] = "Could not accept invitation!" unless @membership.save
+			flash[:alert] = "Could not accept invitation!  #{@membership.errors.full_messages.first}." unless @membership.save
 		else
             @membership.destroy ? flash[:notice] = "Denied invitation!" : flash[:alert] = "Could not deny invitation!"
 		end

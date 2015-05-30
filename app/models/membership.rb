@@ -3,7 +3,7 @@ class Membership < ActiveRecord::Base
 	belongs_to :user
 
 	validate :admin_cannot_be_on_team
-	validate :team_cannot_have_more_than_four_members, on: :create
+	validate :team_cannot_have_more_than_four_members
 	validate :user_cannot_be_on_team_twice, on: :create
 	validate :cannot_send_multiple_invitations, on: :create
 
