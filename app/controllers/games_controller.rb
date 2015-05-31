@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
 	include TerminationAt
-	
+
 	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start]
 
 	load_and_authorize_resource
@@ -14,9 +14,19 @@ class GamesController < ApplicationController
 	# GET /games/1
 	# GET /games/1.json
 	def show
-		@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
-		@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
-		@placement = @game.placement if @game.completed?
+		if @game.completed?
+			@winner = @game.participations.find_by(place: 1).team
+			participations = @game.participations.where.not(place: 1).order(:place)
+			teams = @game.teams.where.not(id: @winner.id)
+			@places = participations.map { |p| p.place }
+			@ordered_teams = []
+			participations.each do |p|
+				@ordered_teams << teams.find { |t| t.id == p.team_id }
+			end
+		else
+			@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
+            @eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
+		end
 	end
 
 	# GET /games/new
@@ -78,12 +88,12 @@ class GamesController < ApplicationController
 	# GET /games/1/team_fees
 	def team_fees
 		@participations = @game.participations.where(terminators: false)
-		
+
 		unpaid_participations = @participations.where("paid_amount < ?", @game.team_fee).order(:team_id)
 		unpaid_teams = Team.where(id: unpaid_participations.map { |participation| participation.team_id }).order(:id)
-		
+
 		@unpaid = unpaid_participations.zip(unpaid_teams)
-		
+
 		paid_participations = @participations.where("paid_amount >= ?", @game.team_fee).order(:team_id)
 		paid_teams = Team.where(id: paid_participations.map { |participation| participation.team_id }).order(:id)
 
@@ -175,7 +185,7 @@ class GamesController < ApplicationController
 
 				# Create jobs for team auto-termination.
 				contract_teams.each { |team| team.autoterminate }
-				
+
 				redirect_to @game, alert: (errors ? "Could not set up game!" : nil)
 			else
 				redirect_to @game, alert: "Could not start game!"

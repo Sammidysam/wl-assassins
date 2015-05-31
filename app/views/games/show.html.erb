@@ -5,28 +5,28 @@
 <%# Admin view for game management. %>
 <% if !@game.completed? && !@game.in_progress %>
 	<p>This game has yet to be started.</p>
-	
+
 	<%= form_tag start_game_path(@game) do %>
 		<strong>Team Fee</strong>
 		<div class="input-group">
 			<span class="input-group-addon">$</span>
 			<%= text_field_tag :team_fee, nil, value: number_with_precision(@game.suggested_team_fee, precision: 2), class: "form-control" %>
 		</div>
-		
+
 		<%= submit_tag "Start", class: "btn btn-success btn-large" %>
 	<% end %>
-	
+
 	<h2>Teams</h2>
-	
+
 	<% if @game.teams.count == 0 %>
 		<p>This game does not have any teams yet.</p>
 	<% else %>
 		<p>
 			The following teams are in this game.
-			
+
 			<%= link_to "Remove All Teams", remove_all_game_path(@game), method: :post, class: "btn btn-danger" %>
 		</p>
-		
+
 		<% @game.teams.each_slice(6) do |team_block| %>
 			<div class="row">
 				<% team_block.each do |team| %>
@@ -75,7 +75,7 @@
 					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
 					<h4><%= link_to team.name, team %></h4>
-					
+
 					<%= form_tag add_game_path(@game) do %>
 						<%= hidden_field_tag :name, team.name %>
 
@@ -110,7 +110,7 @@
 						<% end %>
 					</p>
 					<p><%= link_to "Reset Out-Of-Town Hours", reset_out_of_town_hours_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
-					
+
 					<p><%= precise_distance_of_time_in_words_to_now(team.participation.termination_at, no_time: true) %> left before autotermination.</p>
 					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 				</div>
@@ -120,7 +120,7 @@
 
 	<% if @eliminated_teams.count > 0 %>
 		<h3>Eliminated</h3>
-		
+
 		<% @eliminated_teams.each_slice(6) do |team_block| %>
 			<div class="row">
 				<% team_block.each do |team| %>
@@ -153,13 +153,13 @@
 	<% end %>
 <% elsif @game.completed? %>
 	<p>This game lasted <%= precise_distance_of_time_in_words @game.started_at, @game.ended_at %>.</p>
-	
+
 	<h2>
 		Winner:
-		<%= link_to_if_can_read @game.winner.name, @game.winner %>
-		
+		<%= link_to_if_can_read @winner.name, @winner %>
+
 		<ul>
-			<% @game.winner.members(@game.id).each do |member| %>
+			<% @winner.members(@game.id).each do |member| %>
 				<li><%= link_to_if_can_read member.name, member %></li>
 			<% end %>
 		</ul>
@@ -167,20 +167,18 @@
 
 	<p>
 		The other teams were placed:
-		
-		<ol start="2">
-			<% @placement.keys.sort.each do |key| %>
-				<% @placement[key].each do |team| %>
-					<li value="<%= key %>">
-						<%= link_to_if_can_read team.name, team %>
 
-						<ul>
-							<% team.members(@game.id).each do |member| %>
-								<li><%= link_to_if_can_read member.name, member %></li>
-							<% end %>
-						</ul>
-					</li>
-				<% end %>
+		<ol>
+			<% @ordered_teams.each_with_index do |team, index| %>
+				<li value="<%= @places[index] %>">
+					<%= link_to_if_can_read team.name, team %>
+
+					<ul>
+						<% team.members(@game.id).each do |member| %>
+							<li><%= link_to_if_can_read member.name, member %></li>
+						<% end %>
+					</ul>
+				</li>
 			<% end %>
 		</ol>
 	</p>

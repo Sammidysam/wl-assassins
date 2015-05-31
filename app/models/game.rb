@@ -2,7 +2,7 @@ class Game < ActiveRecord::Base
 	has_many :kills, dependent: :destroy
 	has_many :neutralizations, dependent: :destroy
 	has_many :participations, dependent: :destroy
-	
+
 	has_many :contracts, through: :participations
 	has_many :teams, through: :participations
 
@@ -29,14 +29,6 @@ class Game < ActiveRecord::Base
 		self.teams.select { |team| team.eliminated?(self.id) && !team.terminators?(self.id) }
 	end
 
-	def winner
-		self.teams.find do |team|
-			!team.participations.find_by(game_id: self.id).terminators && !team.members.all? do |member|
-				member.kills.find_by(game_id: self.id, confirmed: true)
-			end
-		end
-	end
-
 	def prize_money
 		self.participations.where(terminators: false).sum(:paid_amount)
 	end
@@ -55,7 +47,15 @@ class Game < ActiveRecord::Base
 	end
 
 	# Returns the teams in order of their place.
-	def placement
+	def place_teams
+		failed = false
+
+		winner = self.teams.find do |team|
+            !team.participations.find_by(game_id: self.id).terminators && !team.members.all? do |member|
+                member.kills.find_by(game_id: self.id, confirmed: true)
+            end
+        end
+
 		teams_to_sort = self.teams.select { |team| !team.terminators?(self.id) && team.id != winner.id }
 
 		sorting_comparison = case self.ended_at.year
@@ -73,10 +73,10 @@ class Game < ActiveRecord::Base
 		# For example:
 		#   { 2 => [team id 5], 3 => [team id 7, team id 15] }
 		order_hash = {}
-		
+
 		sorted_teams.each_with_index do |team, index|
 			next if order_hash.values.flatten.map { |inner_team| inner_team.id }.include?(team.id)
-			
+
 			teams = [team]
 
 			# Check if this team is tied with any of the next teams.
@@ -86,7 +86,7 @@ class Game < ActiveRecord::Base
 				else
 					break
 				end
-				
+
 				index += 1
 			end
 
@@ -96,7 +96,19 @@ class Game < ActiveRecord::Base
 			order_hash.merge! new_item
 		end
 
-		order_hash
+		winner_participation = self.participations.find_by(team_id: winner.id)
+		winner_participation.place = 1
+		failed ||= !winner_participation.save
+
+		order_hash.each do |key, value|
+			value.each do |team|
+				participation = self.participations.find_by(team_id: team.id)
+				participation.place = key
+				failed ||= !participation.save
+			end
+		end
+
+		!failed
 	end
 
 	# All of the users sans terminators in the game.
