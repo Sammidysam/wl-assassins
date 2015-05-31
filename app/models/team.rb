@@ -1,6 +1,5 @@
 class Team < ActiveRecord::Base
 	include ActionView::Helpers::TextHelper
-	include DistanceOfTimeInWords
 
 	has_many :games, through: :participations
 	has_many :kills, foreign_key: "killer_id"
@@ -17,15 +16,6 @@ class Team < ActiveRecord::Base
 	def self.not_in_game(game)
 		all.select do |team|
 			!game.teams.map { |inner_team| inner_team.id }.include? team.id
-		end
-	end
-
-	# Returns the teams that are to be terminated.
-	def self.to_be_terminated(game)
-		game.teams.select do |team|
-			!team.terminators? && !team.eliminated? && precise_distance_of_time_in_words_to_now(team.participation.termination_at, interval: :day) == 0 && team.participation.termination_at > DateTime.now
-		end.sort_by do |inner_team|
-			inner_team.participation.termination_at
 		end
 	end
 

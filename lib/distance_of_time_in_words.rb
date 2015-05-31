@@ -1,7 +1,7 @@
 module DistanceOfTimeInWords
-	def precise_distance_of_time_in_words(from_time, to_time, options = {})
+    def precise_distance_of_time_in_words(from_time, to_time, options = {})
 		return "no time" if options[:no_time] && from_time < to_time
-		
+
 		from_time = from_time.to_time if from_time.respond_to?(:to_time)
 		to_time = to_time.to_time if to_time.respond_to?(:to_time)
 		distance_in_seconds = ((to_time - from_time).abs).round
@@ -13,7 +13,7 @@ module DistanceOfTimeInWords
 			if distance_in_seconds >= 1.send(interval)
 				delta = (distance_in_seconds / 1.send(interval)).floor
 				distance_in_seconds -= delta.send(interval)
-				
+
 				if options[:interval]
 					components = delta if options[:interval].to_s == interval
 				else
@@ -23,7 +23,7 @@ module DistanceOfTimeInWords
 		end
 
 		components = 0 if options[:interval] && !components.is_a?(Fixnum)
-		
+
 		components.is_a?(Array) ? components.to_sentence : components
 	end
 

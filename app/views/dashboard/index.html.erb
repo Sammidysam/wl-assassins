@@ -216,9 +216,9 @@
 			<% else %>
 				<h2>Hit List</h2>
 
-				<% if !Team.to_be_terminated(@team.participation.game).empty? && @team.participation.game.remaining_teams.count > 2 %>
+				<% if !@team.participation.game.to_be_terminated.empty? && @team.participation.game.remaining_teams.count > 2 %>
 					<ul>
-						<% Team.to_be_terminated(@team.participation.game).each do |team| %>
+						<% @team.participation.to_be_terminated.each do |team| %>
 							<li>
 								<%= link_to team.name, team %>
 								(<%= precise_distance_of_time_in_words_to_now team.participation.termination_at, no_time: true %> remaining before auto-termination)

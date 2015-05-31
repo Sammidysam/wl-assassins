@@ -1,4 +1,6 @@
 class Game < ActiveRecord::Base
+	include DistanceOfTimeInWords
+
 	has_many :kills, dependent: :destroy
 	has_many :neutralizations, dependent: :destroy
 	has_many :participations, dependent: :destroy
@@ -120,5 +122,14 @@ class Game < ActiveRecord::Base
 
 	def suggested_team_fee
 		participants.empty? ? 0.0 : (participants.map { |participant| participant.willing_to_pay_amount }.sum / participants.size.to_f * 4.0)
+	end
+
+	# The teams that are to be terminated.
+	def to_be_terminated
+		self.teams.select do |team|
+            !team.terminators? && !team.eliminated? && precise_distance_of_time_in_words_to_now(team.participation.termination_at, interval: :day) == 0 && team.participation.termination_at > DateTime.now
+        end.sort_by do |inner_team|
+            inner_team.participation.termination_at
+        end
 	end
 end
