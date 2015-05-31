@@ -1,0 +1,44 @@
+<% team.members.each do |member| %>
+	<div class="col-md-<%= width %>">
+		<%= image_tag member.profile_picture_url, width: "100%", alt: "Invalid Image URL" %>
+
+		<h3><%= link_to_if_can_read (member.alive? ? member.name : content_tag(:del, member.name)), member %></h3>
+
+		<% if can? :remove, team %>
+			<%= form_tag remove_team_path(team) do %>
+				<%= hidden_field_tag :email, member.email %>
+
+				<%= submit_tag "Remove", class: "btn btn-danger" %>
+			<% end %>
+		<% end %>
+
+		<% if team.in_game? %>
+			<% if member.alive? %>
+				<div class="btn-group btn-group-sm">
+					<% if current_user.team && current_user.team.target && member.on_team?(current_user.team.target) %>
+						<%= link_to "Kill", new_kill_path(email: member.email), class: "btn btn-danger btn-sm" if can?(:create, Kill) %>
+						<%= link_to "Neutralized Me", new_neutralization_path(email: member.email), class: "btn btn-danger btn-sm" if can?(:create, Neutralization) %>
+					<% end %>
+
+					<% if !team.terminators? && (current_user.admin? || current_user.terminator?) && precise_distance_of_time_in_words_to_now(team.participation.termination_at, interval: :day) == 0 && team.participation.game.remaining_teams.count > 2 %>
+						<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+					<% end %>
+
+					<% if current_user.admin? %>
+						<%= link_to "Kill", new_kill_path(email: member.email), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Neutralize", new_neutralization_path(email: member.email), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Disqualify", new_kill_path(email: member.email, kind: "disqualification"), class: "btn btn-danger btn-sm" %>
+						<%= link_to "Person Quit", new_kill_path(email: member.email, kind: "quitting"), class: "btn btn-danger btn-sm" %>
+					<% end %>
+				</div>
+			<% else %>
+				<p>Died via <%= member.kill.readable_kind %></p>
+
+				<% if can?(:revive, User) %>
+					<p><%= link_to "Revive", revive_user_path(member), method: :post, class: "btn btn-default" %></p>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>

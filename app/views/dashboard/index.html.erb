@@ -211,6 +211,8 @@
 
 					Your team is currently contracted to assassinate <%= link_to @team.target.name, @team.target %>.
 				</p>
+
+				<%= render "teams/members", width: 3, team: @team.target %>
 			<% else %>
 				<h2>Hit List</h2>
 
