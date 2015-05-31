@@ -3,15 +3,15 @@ class DashboardController < ApplicationController
 		unless current_user
 			redirect_to log_in_path, alert: "You must log in to view your dashboard!"
 		else
-			# Admin variables.
-			games = Game.all
-			@unpaid_games = games.select { |game| game.started_at && game.prize_money < game.expected_money }
-			@pregames = games.select { |game| !game.in_progress && !game.completed? }
-			@ongoing_games = games.where in_progress: true
-
-			# Normal user variables.
-			@team = current_user.team
-			@invitations = current_user.memberships.where(started_at: nil)
+			if current_user.admin?
+				games = Game.all
+				@unpaid_games = games.select { |game| game.started_at && game.prize_money < game.expected_money }
+				@pregames = games.select { |game| !game.in_progress && !game.completed? }
+				@ongoing_games = games.where in_progress: true
+			else
+				@team = current_user.team
+				@invitations = current_user.memberships.where(started_at: nil)
+			end
 
 			# Variables passed to the switch_user_select partial.
 			if Rails.env.development? && current_user
