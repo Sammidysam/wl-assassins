@@ -32,6 +32,8 @@
 						<% end %>
 
 						<% if current_user.admin? %>
+							<%= link_to "Kill", new_kill_path(email: member.email), class: "btn btn-danger btn-sm" %>
+							<%= link_to "Terminate", new_kill_path(email: member.email, kind: "termination"), class: "btn btn-danger btn-sm" %>
 							<%= link_to "Disqualify", new_kill_path(email: member.email, kind: "disqualification"), class: "btn btn-danger btn-sm" %>
 							<%= link_to "Person Quit", new_kill_path(email: member.email, kind: "quitting"), class: "btn btn-danger btn-sm" %>
 						<% end %>

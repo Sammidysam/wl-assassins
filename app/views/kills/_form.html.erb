@@ -22,11 +22,20 @@
 		<br>
 		<%= f.text_area :how, class: "form-control" %>
 	</div>
-	
+
+	<% if current_user.admin? && @kill.kind && @kill.kind == "termination" %>
+		<div class="form-group">
+			<%= f.label :killer_id, "Who made this kill?" %>
+			<br>
+			<%= f.select :killer_id, options_from_collection_for_select(terminators, "id", "name"), {}, class: "form-control" %>
+		</div>
+	<% else %>
+		<%= f.hidden_field :killer_id, value: @kill.killer_id unless @kill.killer_id.nil? %>
+	<% end %>
+
 	<%= f.hidden_field :target_id, value: @kill.target_id unless @kill.target_id.nil? %>
 	<%= f.hidden_field :kind, value: @kill.kind unless @kill.kind.nil? %>
 	<%= f.hidden_field :game_id, value: @kill.game_id unless @kill.game_id.nil? %>
-	<%= f.hidden_field :killer_id, value: @kill.killer_id unless @kill.killer_id.nil? %>
 
 	<div class="actions">
 		<%= f.submit class: "btn btn-success" %>

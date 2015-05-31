@@ -33,10 +33,13 @@ class KillsController < ApplicationController
 		end
 
 		unless performed?
+			target_team_participation_game = @target.team.participation.game
 			@kill.target_id = @target.id
 			@kill.kind = @kind if @kind
-			@kill.game_id = @target.team.participation.game_id
-			@kill.killer_id = view_context.default_killer_id(@kind, @target.team.participation.game_id)
+			@kill.game_id = target_team_participation_game.id
+			@kill.killer_id = view_context.default_killer_id(@kind, target_team_participation_game, @target.team.id)
+
+			@terminators = Team.where(id: target_team_participation_game.participations.where(terminators: true).map(&:team_id))
 		end
 	end
 
@@ -59,7 +62,7 @@ class KillsController < ApplicationController
 				redirect_to root_path, notice: "Successfully reported kill!"
 			end
 		else
-			redirect_to root_path, alert: "Could not create kill!"
+			redirect_to root_path, alert: "Could not create kill!  #{@kill.errors.full_messages.first}."
 		end
 	end
 
