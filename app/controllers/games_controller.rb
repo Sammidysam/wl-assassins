@@ -24,7 +24,7 @@ class GamesController < ApplicationController
 				@ordered_teams << teams.find { |t| t.id == p.team_id }
 			end
 		else
-			@contract_order_teams = view_context.contract_order_teams(@game) if @game.in_progress
+			@contract_order_teams = view_context.contract_order_teams(@game)
             @eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
 		end
 	end
