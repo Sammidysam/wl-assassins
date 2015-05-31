@@ -70,3 +70,6 @@ gem "nilify_blanks", "~> 1.2"
 
 # Use pry for the console.
 gem "pry-rails", "~> 0.3"
+
+# A production web server that Heroku recommends.
+gem "puma"

@@ -93,6 +93,8 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
+    puma (2.11.3)
+      rack (>= 1.1, < 2.0)
     rack (1.6.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -175,6 +177,7 @@ DEPENDENCIES
   nilify_blanks (~> 1.2)
   pg
   pry-rails (~> 0.3)
+  puma
   rails (= 4.2.1)
   rails_12factor
   rails_bootstrap_navbar (~> 2.0)
