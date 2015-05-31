@@ -2,7 +2,7 @@
 
 <p>
 	<% case @kill.kind when "assassination", "termination" %>
-		Congratulations on <%= (current_user.admin? && @kill.kind == "assassination") ? @kill.killer.name : "someone" %> <%= @kill.assassination? ? "killing" : "terminating" %> <%= @target.name %>!
+		Congratulations on <%= (@kill.kind == "assassination" ? @kill.killer.name : "someone") if current_user.admin? %> <%= @kill.assassination? ? "killing" : "terminating" %> <%= @target.name %>!
 	<% when "disqualification" %>
 		It is a shame that <%= @target.name %> has to be disqualified.
 	<% when "quitting" %>
