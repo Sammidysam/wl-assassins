@@ -1,6 +1,4 @@
 class Team < ActiveRecord::Base
-	include ActionView::Helpers::TextHelper
-
 	has_many :games, through: :participations
 	has_many :kills, foreign_key: "killer_id"
 	has_many :memberships, dependent: :destroy
