@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<%= f.label :killer_id, "Who made this kill?" %>
 			<br>
-			<%= f.select :killer_id, options_from_collection_for_select(terminators, "id", "name"), {}, class: "form-control" %>
+			<%= f.select :killer_id, options_from_collection_for_select(@terminators, "id", "name"), {}, class: "form-control" %>
 		</div>
 	<% else %>
 		<%= f.hidden_field :killer_id, value: @kill.killer_id unless @kill.killer_id.nil? %>
