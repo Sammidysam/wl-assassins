@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531014531) do
+ActiveRecord::Schema.define(version: 20150531125944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 20150531014531) do
     t.datetime "start"
     t.datetime "end"
   end
+
+  add_index "contracts", ["participation_id"], name: "contract_participation_index", using: :btree
+  add_index "contracts", ["target_id"], name: "contract_target_index", using: :btree
 
   create_table "games", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -50,6 +53,10 @@ ActiveRecord::Schema.define(version: 20150531014531) do
     t.datetime "appear_at"
   end
 
+  add_index "kills", ["game_id"], name: "kill_game_index", using: :btree
+  add_index "kills", ["killer_id"], name: "kill_killer_index", using: :btree
+  add_index "kills", ["target_id"], name: "kill_target_index", using: :btree
+
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
@@ -58,6 +65,9 @@ ActiveRecord::Schema.define(version: 20150531014531) do
     t.datetime "ended_at"
     t.datetime "started_at"
   end
+
+  add_index "memberships", ["team_id"], name: "membership_team_index", using: :btree
+  add_index "memberships", ["user_id"], name: "membership_user_index", using: :btree
 
   create_table "neutralizations", force: :cascade do |t|
     t.boolean  "confirmed",               default: false
@@ -70,6 +80,10 @@ ActiveRecord::Schema.define(version: 20150531014531) do
     t.text     "how"
     t.string   "picture_url", limit: 255
   end
+
+  add_index "neutralizations", ["game_id"], name: "neutralization_game_index", using: :btree
+  add_index "neutralizations", ["killer_id"], name: "neutralization_killer_index", using: :btree
+  add_index "neutralizations", ["target_id"], name: "neutralization_target_index", using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -91,6 +105,9 @@ ActiveRecord::Schema.define(version: 20150531014531) do
     t.float    "out_of_town_hours", default: 0.0
     t.integer  "place"
   end
+
+  add_index "participations", ["game_id"], name: "participation_game_index", using: :btree
+  add_index "participations", ["team_id"], name: "participation_team_index", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "name",        limit: 255
