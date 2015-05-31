@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150530014724) do
+ActiveRecord::Schema.define(version: 20150531014531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20150530014724) do
     t.float    "paid_amount"
     t.boolean  "terminators",       default: false
     t.float    "out_of_town_hours", default: 0.0
+    t.integer  "place"
   end
 
   create_table "teams", force: :cascade do |t|
