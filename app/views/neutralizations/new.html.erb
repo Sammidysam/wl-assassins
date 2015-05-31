@@ -1,8 +1,12 @@
 <h1>Report Neutralization</h1>
 
 <p>
-	Sorry about being neutralized!
-	It will need to be confirmed by <%= @neutralizer.name %> or an admin before it becomes official, though.
+	<% if current_user.admin? %>
+		Oh no, <%= @neutralizer.name %> got neutralized by someone!
+	<% else %>
+		Sorry about being neutralized!
+        It will need to be confirmed by <%= @neutralizer.name %> or an admin before it becomes official, though.
+	<% end %>
 	Please fill out the information below about the neutralization.
 	It is optional, but it is greatly appreciated if it is filled out.
 </p>

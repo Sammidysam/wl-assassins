@@ -1,6 +1,6 @@
 class NeutralizationsController < ApplicationController
 	before_action :set_neutralization, only: [:show, :edit, :update, :destroy, :confirm]
-	
+
 	load_and_authorize_resource
 
 	# GET /neutralizations
@@ -25,9 +25,11 @@ class NeutralizationsController < ApplicationController
 		end
 
 		unless performed?
-			@neutralization.killer_id = current_user.id
-			@neutralization.target_id = @neutralizer.id
+			@neutralization.killer_id = current_user.admin? ? @neutralizer.id : current_user.id
+			@neutralization.target_id = @neutralizer.id unless current_user.admin?
 			@neutralization.game_id = @neutralizer.team.participation.game_id
+
+			@possible_targets = @neutralizer.team.target.alive_members if current_user.admin?
 		end
 	end
 
@@ -77,7 +79,7 @@ class NeutralizationsController < ApplicationController
 	def set_neutralization
 		@neutralization = Neutralization.find(params[:id])
 	end
-	
+
 	def neutralization_params
 		params.require(:neutralization).permit(:killer_id, :target_id, :game_id, :how, :picture_url)
 	end

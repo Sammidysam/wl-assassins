@@ -23,8 +23,17 @@
 		<%= f.text_area :how, class: "form-control" %>
 	</div>
 
+	<% if current_user.admin? %>
+		<div class="form-group">
+			<%= f.label :target_id, "Who neutralized this person?" %>
+			<br>
+			<%= f.select :target_id, options_from_collection_for_select(@possible_targets, "id", "name"), {}, class: "form-control" %>
+		</div>
+	<% else %>
+		<%= f.hidden_field :target_id, value: @neutralization.target_id unless @neutralization.target_id.nil? %>
+	<% end %>
+
 	<%= f.hidden_field :killer_id, value: @neutralization.killer_id unless @neutralization.killer_id.nil? %>
-	<%= f.hidden_field :target_id, value: @neutralization.target_id unless @neutralization.target_id.nil? %>
 	<%= f.hidden_field :game_id, value: @neutralization.game_id unless @neutralization.game_id.nil? %>
 
 	<div class="actions">
