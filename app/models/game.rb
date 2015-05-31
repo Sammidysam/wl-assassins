@@ -50,13 +50,15 @@ class Game < ActiveRecord::Base
 	def place_teams
 		failed = false
 
-		winner = self.teams.find do |team|
+		teams = self.teams
+		winner = teams.find do |team|
             !team.participations.find_by(game_id: self.id).terminators && !team.members.all? do |member|
                 member.kills.find_by(game_id: self.id, confirmed: true)
             end
         end
 
-		teams_to_sort = self.teams.select { |team| !team.terminators?(self.id) && team.id != winner.id }
+		team_ids_to_sort = self.participations.where(terminators: false).where.not(team_id: winner.id).collect(&:team_id)
+		teams_to_sort = Team.where(id: team_ids_to_sort)
 
 		sorting_comparison = case self.ended_at.year
 		                     when 2014
