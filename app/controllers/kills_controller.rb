@@ -1,8 +1,8 @@
 class KillsController < ApplicationController
 	include TerminationAt
-	
+
 	before_action :set_kill, only: [:show, :edit, :update, :destroy, :confirm]
-	
+
 	load_and_authorize_resource
 
 	# GET /kills
@@ -95,7 +95,7 @@ class KillsController < ApplicationController
 	def set_kill
 		@kill = Kill.find(params[:id])
 	end
-	
+
 	def kill_params
 		params.require(:kill).permit(:target_id, :picture_url, :how, :kind, :game_id, :killer_id)
 	end
@@ -108,7 +108,7 @@ class KillsController < ApplicationController
 			target_contract = kill.target.team.contract
 		end
 		already_out_of_town = kill.target.team.out_of_town?
-		
+
 		kill.confirmed = true
 		kill.confirmed_at = DateTime.now
 
@@ -118,16 +118,16 @@ class KillsController < ApplicationController
 
 			# Remove out-of-town kills for dead user.
 			kill.target.remove_out_of_town_kills
-			
+
 			# Reset termination_at for killing team.
 			if kill.assassination?
 				participation = kill.killer.participation
 
 				# First remove old autotermination kills.
 				participation.team.remove_autotermination
-				
+
 				participation.termination_at = next_termination_at(kill.game.remaining_teams.count)
-				
+
 				participation.save
 
 				# Create new autotermination job.
@@ -166,7 +166,7 @@ class KillsController < ApplicationController
 				else
 					# Delete autotermination job for winner team.
 					killer_team.remove_autotermination
-					
+
 					# Close up game.
 					game = kill.game
 
@@ -174,6 +174,9 @@ class KillsController < ApplicationController
 					game.ended_at = kill.confirmed_at
 
 					game.save
+
+					# Now place the teams.
+					game.place_teams
 				end
 			end
 
