@@ -1,6 +1,6 @@
 module ApplicationHelper
 	include DistanceOfTimeInWords
-	
+
 	def current_user
 		if @current_user
 			if @current_user.id == session[:user_id]
@@ -28,11 +28,11 @@ module ApplicationHelper
 	def link_to_if_can_read(name, link)
 		can?(:read, link) ? link_to(name, link) : name
 	end
-	
+
 	# Returns the non-eliminated teams in the game game in order of contracts.
 	def contract_order_teams(game, starter_team = nil)
 		teams = []
-		starter_team ||= game.teams.select { |team| !team.terminators? && !team.eliminated? }.first
+		starter_team ||= game.remaining_teams.first
 
 		if starter_team
 			teams << starter_team
