@@ -4,7 +4,7 @@
 
 <% if can?(:update, @page) %>
     <p><i>
-        <% if @page.sort_index > SortIndex::WELCOME %>
+        <% if @page.sort_index && @page.sort_index > SortIndex::WELCOME %>
             Sort index is <%= @page.sort_index %>.
         <% else %>
             Page has no sort index.
