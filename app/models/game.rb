@@ -48,6 +48,11 @@ class Game < ActiveRecord::Base
 		end
 	end
 
+	def comparison_2015(x, y)
+		# Need to sort top 4 by eliminated_at
+		x.points(self.id) <=> y.points(self.id)
+	end
+
 	# Returns the teams in order of their place.
 	def place_teams
 		failed = false
