@@ -224,7 +224,7 @@
 			<% else %>
 				<h2>Hit List</h2>
 
-				<% if !@team.participation.game.to_be_terminated.empty? && @team.participation.game.remaining_teams.count > 2 %>
+				<% if !@team.participation.game.to_be_terminated.empty? && @team.participation.game.remaining_teams.count > 4 %>
 					<ul>
 						<% @team.participation.to_be_terminated.each do |team| %>
 							<li>
