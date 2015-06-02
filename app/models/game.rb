@@ -49,7 +49,6 @@ class Game < ActiveRecord::Base
 	end
 
 	def comparison_2015(x, y)
-		# Need to sort top 4 by eliminated_at.
 		x.points(self.id) <=> y.points(self.id)
 	end
 
@@ -70,11 +69,17 @@ class Game < ActiveRecord::Base
 		sorting_comparison = case self.ended_at.year
 		                     when 2014
 			                     :comparison_2014
+							 when 2015
+								 :comparison_2015
 		                     else
-			                     :comparison_2014
+			                     :comparison_2015
 		                     end
 
 		sorted_teams = teams_to_sort.sort { |x, y| send sorting_comparison, x, y }
+		# Special case of sorting in comparison 2015.
+		if sorting_comparison == :comparison_2015
+			sorted_teams[1, 3] = sorted_teams[1, 3].sort_by { |t| t.eliminated_at(self.id) }
+		end
 
 		# The hash will be of format:
 		#   key: place (e.g. 3)
