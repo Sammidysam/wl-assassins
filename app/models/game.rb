@@ -72,7 +72,7 @@ class Game < ActiveRecord::Base
 							 when 2015
 								 :comparison_2015
 		                     else
-			                     :comparison_2015
+			                     :comparison_2014
 		                     end
 
 		sorted_teams = teams_to_sort.sort { |x, y| send sorting_comparison, x, y }
