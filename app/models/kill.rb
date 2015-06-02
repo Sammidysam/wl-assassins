@@ -5,7 +5,7 @@ class Kill < ActiveRecord::Base
 
 	belongs_to :killer, class_name: "Team"
 	belongs_to :target, class_name: "User"
-	
+
 	validate :target_must_be_alive, on: :create
 	validate :target_must_be_on_target_team, on: :create
 
@@ -44,7 +44,7 @@ class Kill < ActiveRecord::Base
 			"quitting"
 		end
 	end
-	
+
 	def readable_kind
 		case self.kind
 		when "out_of_town"
@@ -54,5 +54,9 @@ class Kill < ActiveRecord::Base
 		else
 			self.kind
 		end
+	end
+
+	# How many points in comparison 2015 this kill yields.
+	def points(game_id)
 	end
 end

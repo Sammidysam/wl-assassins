@@ -49,7 +49,7 @@ class Game < ActiveRecord::Base
 	end
 
 	def comparison_2015(x, y)
-		# Need to sort top 4 by eliminated_at
+		# Need to sort top 4 by eliminated_at.
 		x.points(self.id) <=> y.points(self.id)
 	end
 

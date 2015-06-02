@@ -144,4 +144,8 @@ class Team < ActiveRecord::Base
 	def remove_out_of_town_kills
 		out_of_town_kills.destroy_all
 	end
+
+	# The points this team has for comparison 2015.
+	def points(game_id)
+	end
 end
