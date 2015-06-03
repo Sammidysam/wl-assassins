@@ -7,9 +7,9 @@
 </p>
 
 <p>
-	This neutralization was reported on <%= @neutralization.created_at.strftime "%b %-d %Y at %l:%M %p" %> and
+	This neutralization was reported on <%= @neutralization.created_at.strftime "%b %-d, %Y at %l:%M %p" %> and
 	<% if @neutralization.start %>
-		was confirmed and started on <%= @neutralization.start.strftime "%b %-d %Y at %l:%M %p" %>, lasting until <%= @neutralization.end_time.strftime "%b %-d %Y at %l:%M %p" %>.
+		was confirmed and started on <%= @neutralization.start.strftime "%b %-d, %Y at %l:%M %p" %>, lasting until <%= @neutralization.end_time.strftime "%b %-d, %Y at %l:%M %p" %>.
 	<% else %>
 		has not yet been confirmed.
 	<% end %>

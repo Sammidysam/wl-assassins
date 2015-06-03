@@ -129,7 +129,7 @@
 
 						<h4><%= link_to team.name, team %></h4>
 
-						<p>Eliminated on <%= team.eliminated_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></p>
+						<p>Eliminated on <%= team.eliminated_at.in_time_zone.strftime "%b %-d, at %l:%M %p" %></p>
 
 						<p><%= link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default", data: { confirm: "Are you sure?  This will revive ALL members on this team." } %></p>
 					</div>

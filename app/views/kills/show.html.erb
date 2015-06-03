@@ -11,9 +11,9 @@
 </p>
 
 <p>
-	This kill was reported on <%= @kill.created_at.strftime "%b %-d %Y at %l:%M %p" %> and
+	This kill was reported on <%= @kill.created_at.strftime "%b %-d, %Y at %l:%M %p" %> and
 	<% if @kill.confirmed %>
-		confirmed on <%= @kill.confirmed_at.strftime "%b %-d %Y at %l:%M %p" %>.
+		confirmed on <%= @kill.confirmed_at.strftime "%b %-d, %Y at %l:%M %p" %>.
 	<% else %>
 		has not yet been confirmed.
 	<% end %>
