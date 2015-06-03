@@ -5,6 +5,7 @@ class Team < ActiveRecord::Base
 	has_many :participations, dependent: :destroy
 	has_many :target_contracts, class_name: "Contract", foreign_key: "target_id", dependent: :destroy
 	has_many :users, through: :memberships
+	has_many :name_changes
 
 	validates :name, presence: true, uniqueness: true
 
