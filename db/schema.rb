@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531125944) do
+ActiveRecord::Schema.define(version: 20150603164115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 20150531125944) do
 
   add_index "memberships", ["team_id"], name: "membership_team_index", using: :btree
   add_index "memberships", ["user_id"], name: "membership_user_index", using: :btree
+
+  create_table "name_changes", force: :cascade do |t|
+    t.string   "from"
+    t.string   "to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "team_id"
+  end
+
+  add_index "name_changes", ["team_id"], name: "index_name_changes_on_team_id", using: :btree
 
   create_table "neutralizations", force: :cascade do |t|
     t.boolean  "confirmed",               default: false
@@ -136,4 +146,5 @@ ActiveRecord::Schema.define(version: 20150531125944) do
     t.integer  "role",                              default: 0
   end
 
+  add_foreign_key "name_changes", "teams"
 end
