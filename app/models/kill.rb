@@ -11,6 +11,7 @@ class Kill < ActiveRecord::Base
 
 	validates :killer_id, presence: true, if: Proc.new { |kill| kill.kind == "assassination" }
 	validates :game_id, :target_id, presence: true
+	validates :picture_url, length: { maximum: 255 }
 
 	nilify_blanks
 

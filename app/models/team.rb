@@ -7,7 +7,8 @@ class Team < ActiveRecord::Base
 	has_many :users, through: :memberships
 	has_many :name_changes
 
-	validates :name, presence: true, uniqueness: true
+	validates :name, presence: true, uniqueness: true, length: { maximum: 255 }
+	validates :logo_url, length: { maximum: 255 }
 
 	nilify_blanks
 

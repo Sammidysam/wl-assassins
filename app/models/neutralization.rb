@@ -1,10 +1,11 @@
 class Neutralization < ActiveRecord::Base
 	belongs_to :game
-	
+
 	belongs_to :killer, class_name: "User"
 	belongs_to :target, class_name: "User"
 
 	validates :killer_id, :target_id, :game_id, presence: true
+	validates :picture_url, length: { maximum: 255 }
 
 	nilify_blanks
 

@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 	validates :email, uniqueness: { case_sensitive: false }, email_format: { message: "is not valid" }
 	validates :graduation_year, numericality: { greater_than_or_equal_to: Date.today.year, less_than_or_equal_to: Date.today.year + 3 }
 	validates :phone_number, format: { with: /\d{3}-\d{3}-\d{4}|\d{3}-\d{4}/, message: "has an incorrect format" }
+	validates :name, :email, :password_digest, :phone_number, :address, :profile_picture_url, length: { maximum: 255 }
 
 	# Returns if the user is an admin.
 	def admin?
