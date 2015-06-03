@@ -22,6 +22,8 @@ class TeamsController < ApplicationController
 		# Members of this team.
 		@members = @team.members.order(:name)
 		@members.to_a.sort_by! { |m| m.alive? ? 0 : 1 }
+
+		@changes = @team.name_changes
 	end
 
 	# GET /teams/new
@@ -66,6 +68,7 @@ class TeamsController < ApplicationController
 				error = false
 				if @team.name != old_name
 					change = NameChange.new
+					change.team_id = @team.id
 					change.from = old_name
 					change.to = @team.name
 

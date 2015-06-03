@@ -31,6 +31,15 @@
 	</p>
 <% end %>
 
+<% unless @changes.empty? %>
+	<h4>Name Changes</h4>
+	<ol>
+		<% @changes.each do |change| %>
+			<li><%= change.from %> <%= glyphicon "arrow-right" %> <%= change.to %> on <%= change.created_at.strftime "%b %-d, %Y %l:%M %p" %>.</li>
+		<% end %>
+	</ol>
+<% end %>
+
 <% if @team.description %>
 	<p><%= simple_format @team.description %></p>
 <% end %>
