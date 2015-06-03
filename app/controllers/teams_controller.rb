@@ -59,9 +59,20 @@ class TeamsController < ApplicationController
 	# PATCH/PUT /teams/1
 	# PATCH/PUT /teams/1.json
 	def update
+		old_name = @team.name
+
 		respond_to do |format|
 			if @team.update(team_params)
-				format.html { redirect_to @team, notice: "Team was successfully updated." }
+				error = false
+				if @team.name != old_name
+					change = NameChange.new
+					change.from = old_name
+					change.to = @team.name
+
+					error = !change.save
+				end
+
+				format.html { redirect_to @team, notice: "Team was successfully updated.#{"  Could not make a name change." if error}" }
 				format.json { head :no_content }
 			else
 				format.html { render action: "edit" }
