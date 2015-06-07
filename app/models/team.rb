@@ -15,7 +15,7 @@ class Team < ActiveRecord::Base
 	# Returns the teams that are not in game.
 	def self.not_in_game(game)
 		all.select do |team|
-			!game.teams.map { |inner_team| inner_team.id }.include? team.id
+			!team.disbanded? && !game.teams.map { |inner_team| inner_team.id }.include?(team.id)
 		end
 	end
 
