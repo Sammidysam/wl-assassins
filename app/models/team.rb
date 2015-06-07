@@ -93,7 +93,10 @@ class Team < ActiveRecord::Base
 
 	# Returns the current contract for the team.
 	def contract
-		participation.contracts.find { |contract| !contract.completed } if participation
+		if participation
+			contracts = participation.contracts.where(completed: false)
+			contracts.size < 2 ? contracts.first : contracts
+		end
 	end
 
 	def completed_contracts
