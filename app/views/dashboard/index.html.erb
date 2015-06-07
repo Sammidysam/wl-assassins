@@ -225,7 +225,13 @@
 					<% end %>
 				</p>
 
-				<%= render "teams/members", width: 3, team: @team.target %>
+				<% if @team.target.is_a?(Team) %>
+					<%= render "teams/members", width: 3, team: @team.target %>
+				<% else %>
+					<% @team.target.each do |t| %>
+						<%= render "teams/members", width: 3, team: t %>
+					<% end %>
+				<% end %>
 			<% else %>
 				<h2>Hit List</h2>
 

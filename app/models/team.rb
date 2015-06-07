@@ -105,7 +105,13 @@ class Team < ActiveRecord::Base
 
 	# Returns the current target for the team.
 	def target
-		contract.target if contract
+		if contract
+			if contract.is_a?(Contract)
+				contract.target
+			else
+				contract.map(&:target)
+			end
+		end
 	end
 
 	# Returns all of the neutralizations that the team conducted.
