@@ -64,7 +64,7 @@ class Ability
 				end
 			end
 
-			can :create, Team unless user.team
+			can :create, Team if !user.team && user.eligible?
 			can :index, Team if user.team
 
 			if user.team
@@ -102,7 +102,7 @@ class Ability
 			end
 
 			can :respond, Membership.all do |membership|
-				membership.started_at.nil? && membership.user_id == user.id
+				membership.started_at.nil? && membership.user_id == user.id && user.eligible?
 			end
 
 			can :create, Neutralization if user.alive? && !user.neutralized?
