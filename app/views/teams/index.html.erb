@@ -1,9 +1,11 @@
 <h1>Teams</h1>
 
-<p>
-	An asterisk (*) by a team name designates that it has been updated this year.
-    Being updated this year <i>most likely</i> means that it will be willing to participate in this year's game.
-</p>
+<% if current_user.admin? %>
+	<p>
+		An asterisk (*) by a team name designates that it has been updated this year.
+		Being updated this year <i>most likely</i> means that it will be willing to participate in this year's game.
+	</p>
+<% end %>
 
 <table>
 	<thead>
