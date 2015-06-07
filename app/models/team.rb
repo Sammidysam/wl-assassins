@@ -152,7 +152,7 @@ class Team < ActiveRecord::Base
 		now = DateTime.now
 		memberships = self.memberships
 
-		self.updated_at.year == now.year || memberships.find { |m| m.started_at.year == now.year }
+		self.updated_at.year == now.year || memberships.find { |m| m.started_at && m.started_at.year == now.year }
 	end
 
 	# The points this team has for comparison 2015.
