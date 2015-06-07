@@ -31,17 +31,23 @@ module ApplicationHelper
 
 	# Returns the non-eliminated teams in the game game in order of contracts.
 	def contract_order_teams(game, starter_team = nil)
-		teams = []
-		starter_team ||= game.remaining_teams.first
+		remaining_teams = game.remaining_teams
 
-		if starter_team
-			teams << starter_team
+		if remaining_teams.count <= 4
+			remaining_teams
+		else
+			teams = []
+            starter_team ||= remaining_teams.first
 
-			while (next_team = next_team ? (next_team.contract.is_a?(Contract) ? next_team.contract.target : next_team.contract.first.target) : (starter_team.contract.is_a?(Contract) ? starter_team.contract.target : starter_team.contract.first.target)).id != starter_team.id
-				teams << next_team
+            if starter_team
+                teams << starter_team
+
+                while (next_team = next_team ? next_team.contract.target : starter_team.contract.target).id != starter_team.id
+                    teams << next_team
+                end
+
+                teams
 			end
-
-			teams
 		end
 	end
 end

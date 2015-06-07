@@ -215,9 +215,15 @@
 						to assassinate <%= @team.completed_contracts.map { |contract| contract.target.name }.to_sentence %>.
 					<% end %>
 
-					Your team is currently contracted to assassinate <%= link_to @team.target.name, @team.target %>.
+					Your team is currently contracted to assassinate
+					<% if @team.target.is_a?(Team) %>
+						<%= link_to @team.target.name, @team.target %>.
+					<% else %>
+						<% @team.target.map { |t| link_to(t.name, t) }.to_sentence %>
+					<% end %>
+					.
 
-					<% if precise_distance_of_time_in_words_to_now(@team.target.autoterminations.first.appear_at, interval: :day) == 0 %>
+	<% if precise_distance_of_time_in_words_to_now(@team.target.autoterminations.first.appear_at, interval: :day) == 0 %>
 						<b style="color: red">
 							The team you are hunting is slated to be terminated soon!
 							Be warned that your contracted team may change soon.

@@ -170,7 +170,7 @@ class KillsController < ApplicationController
 					elsif kill.game.remaining_teams.count == 4
 						# Everybody needs to now be contracted to kill everyone else.
 						kill.game.remaining_teams.each do |team|
-							current_target = team.contract.target_id
+							current_target = team.contract.target_id if team.contract
 							kill.game.remaining_teams.each do |inner_team|
 								next if team.id == inner_team.id || current_target == inner_team.id
 
