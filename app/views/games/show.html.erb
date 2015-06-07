@@ -4,7 +4,11 @@
 
 <%# Admin view for game management. %>
 <% if !@game.completed? && !@game.in_progress %>
-	<p>This game has yet to be started.</p>
+	<p>
+		This game has yet to be started.
+		An asterisk (*) by a team name designates that it has been updated this year.
+		Being updated this year <i>most likely</i> means that it will be willing to participate in this year's game.
+	</p>
 
 	<%= form_tag start_game_path(@game) do %>
 		<strong>Team Fee</strong>
@@ -35,7 +39,7 @@
 					<div class="col-md-2">
 						<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
-						<h4><%= link_to team.name, team %></h4>
+						<h4><%= "* " if team.updated_this_year? %><%= link_to team.name, team %></h4>
 
 						<%= form_tag remove_game_path(@game) do %>
 							<%= hidden_field_tag :name, team.name %>
@@ -76,7 +80,7 @@
 				<div class="col-md-2">
 					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
 
-					<h4><%= link_to team.name, team %></h4>
+					<h4><%= "* " if team.updated_this_year? %><%= link_to team.name, team %></h4>
 
 					<%= form_tag add_game_path(@game) do %>
 						<%= hidden_field_tag :name, team.name %>

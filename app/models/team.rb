@@ -147,6 +147,14 @@ class Team < ActiveRecord::Base
 		out_of_town_kills.destroy_all
 	end
 
+	# If the team has been modified this year.
+	def updated_this_year?
+		now = DateTime.now
+		memberships = self.memberships
+
+		self.updated_at.year == now.year || memberships.find { |m| m.started_at.year == now.year }
+	end
+
 	# The points this team has for comparison 2015.
 	def points(game_id)
 	end
