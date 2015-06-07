@@ -25,6 +25,7 @@ WlAssassins::Application.routes.draw do
 	resources :games do
 		get "events", on: :member
 		get "team_fees", on: :member
+		get "eligibility", on: :member
 
 		post "add", on: :member
 		post "remove", on: :member

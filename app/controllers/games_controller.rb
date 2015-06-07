@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 	include TerminationAt
 
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start, :eligibility]
 
 	load_and_authorize_resource
 
@@ -190,6 +190,22 @@ class GamesController < ApplicationController
 			else
 				redirect_to @game, alert: "Could not start game!"
 			end
+		end
+	end
+
+	# GET /games/1/eligibility
+	# this would be good to utilize Ajax instead of server-side
+	def eligibility
+		users = @game.users
+		invalid_users = users.select { |u| !u.valid? }
+		invalid_users.map! { |u| "#{u.name} on team #{u.team.name}" }
+		ineligible_users = users.select { |u| !u.eligible? }
+		ineligible_users.map! { |u| "#{u.name} on team #{u.team.name}" }
+
+		if !invalid_users.empty? || !ineligible_users.empty?
+			redirect_to @game, alert: "Invalid users: #{invalid_users.empty? ? "None" : invalid_users.to_sentence}<br />Ineligible users: #{ineligible_users.empty? ? "None" : ineligible_users.to_sentence}".html_safe
+		else
+			redirect_to @game, notice: "All users can play this year!"
 		end
 	end
 

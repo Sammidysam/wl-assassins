@@ -16,6 +16,8 @@
 		<%= submit_tag "Start", class: "btn btn-success btn-large" %>
 	<% end %>
 
+	<%= link_to "Check Validity and Eligibility of Players", eligibility_game_path(@game), class: "btn btn-default btn-sm" %>
+
 	<h2>Teams</h2>
 
 	<% if @game.teams.count == 0 %>
