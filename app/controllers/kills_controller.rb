@@ -117,14 +117,14 @@ class KillsController < ApplicationController
 		kill.confirmed_at = DateTime.now
 
 		if kill.save
-			# Remove autotermination for dead user.
+			# Remove autotermination for dead team.
 			kill.target.remove_autotermination
 
-			# Remove out-of-town kills for dead user.
+			# Remove out-of-town kills for dead team.
 			kill.target.remove_out_of_town_kills
 
 			# Reset termination_at for killing team.
-			if kill.assassination?
+			if kill.assassination? && kill.game.remaining_teams.count > 4
 				participation = kill.killer.participation
 
 				# First remove old autotermination kills.
@@ -143,7 +143,7 @@ class KillsController < ApplicationController
 				# Give the team an extra day to make the kill if they are low on time.
 				participation = killer_team.participation
 
-				if precise_distance_of_time_in_words_to_now(participation.termination_at, interval: :day) == 0
+				if precise_distance_of_time_in_words_to_now(participation.termination_at, interval: :day) == 0 && kill.game.remaining_teams.count > 4
 					participation.team.remove_autotermination
 					participation.termination_at += 1.day
 					participation.save
@@ -160,12 +160,29 @@ class KillsController < ApplicationController
 
 				unless kill.game.remaining_teams.count == 1
 					# Create and assign new contract.
-					new_contract = Contract.new
-					new_contract.participation_id = killer_team.participation.id
-					new_contract.target_id = target_contract.target_id
-					new_contract.start = kill.confirmed_at
+					if kill.game.remaining_teams.count > 4
+						new_contract = Contract.new
+						new_contract.participation_id = killer_team.participation.id
+						new_contract.target_id = target_contract.target_id
+						new_contract.start = kill.confirmed_at
 
-					new_contract.save
+						new_contract.save
+					elsif kill.game.remaining_teams.count == 4
+						# Everybody needs to now be contracted to kill everyone else.
+						kill.game.remaining_teams.each do |team|
+							current_target = team.contract.target_id
+							kill.game.remaining_teams.each do |inner_team|
+								next if team.id == inner_team.id || current_target == inner_team.id
+
+								contract = Contract.new
+								contract.participation_id = team.participation
+								contract.target_id = inner_team.id
+								contract.start = kill.confirmed_at
+
+								contract.save
+							end
+						end
+					end
 
 					# Reset termination times when necessary.
 					if [2, 4].include?(kill.game.remaining_teams.count)

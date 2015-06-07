@@ -10,6 +10,7 @@ class Contract < ActiveRecord::Base
 
 		while contract.target.eliminated?
 			contract = contract.target.contract
+			contract = contract.first unless contract.is_a?(Contract)
 		end
 
 		contract.target

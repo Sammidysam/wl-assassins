@@ -91,7 +91,7 @@ class Team < ActiveRecord::Base
 		self.memberships.where(ended_at: nil).where.not(started_at: nil).empty?
 	end
 
-	# Returns the current contract for the team.
+	# Returns the current contract(s) for the team.
 	def contract
 		if participation
 			contracts = participation.contracts.where(completed: false)

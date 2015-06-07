@@ -37,7 +37,7 @@ module ApplicationHelper
 		if starter_team
 			teams << starter_team
 
-			while (next_team = next_team ? next_team.contract.target : starter_team.contract.target).id != starter_team.id
+			while (next_team = next_team ? (next_team.contract.is_a?(Contract) ? next_team.contract.target : next_team.contract.first.target) : (starter_team.contract.is_a?(Contract) ? starter_team.contract.target : starter_team.contract.first.target)).id != starter_team.id
 				teams << next_team
 			end
 
