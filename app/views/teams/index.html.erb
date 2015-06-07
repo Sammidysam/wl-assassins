@@ -1,11 +1,14 @@
 <h1>Teams</h1>
 
-<% if current_user.admin? %>
-	<p>
+<p>
+	<% if current_user.admin? %>
 		An asterisk (*) by a team name designates that it has been updated this year.
 		Being updated this year <i>most likely</i> means that it will be willing to participate in this year's game.
-	</p>
-<% end %>
+	<% else %>
+		Shown are the disbanded teams and the team that you are on, if you are on a team.
+		Reviving disbanded teams is allowed if you are not on a team.
+	<% end %>
+</p>
 
 <table>
 	<thead>
