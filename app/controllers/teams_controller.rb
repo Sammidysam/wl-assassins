@@ -47,6 +47,7 @@ class TeamsController < ApplicationController
 					membership = Membership.new
 					membership.user_id = current_user.id
 					membership.team_id = @team.id
+					membership.started_at = DateTime.now
 
 					redirect_to @team, notice: "Team was successfully created.", alert: (membership.save ? nil : "Could not join created team.")
 				end
