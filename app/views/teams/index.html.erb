@@ -18,7 +18,7 @@
 	<tbody>
 		<% @teams.each do |team| %>
 			<tr>
-				<td><%= "* " if team.updated_this_year? %><%= team.name %></td>
+				<td><%= "* " if current_user.admin? && team.updated_this_year? %><%= team.name %></td>
 				<td>
 					<div class="btn-group btn-group-xs">
 						<%= link_to "Show", team, class: "btn btn-default btn-xs" if can?(:read, team) %>
