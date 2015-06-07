@@ -130,11 +130,12 @@
 		<% else %>
 			You are not a member of any team.
 			A friend may add you to their team; you will receive an invitation that will be shown below.
-			Otherwise, you should create your own team.
+			Otherwise, you can create your own team or revive a disbanded team.
+			The list of disbanded teams is <%= link_to "here", teams_path %>.
 
 			<%= render "invitations", list: @invitations %>
 
-			<%= link_to "Create Team", new_team_path, class: "btn btn-default" %>
+			<%= link_to "Create Team", new_team_path, class: "btn btn-default btn-sm" %>
 		<% end %>
 	</p>
 
