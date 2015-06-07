@@ -1,4 +1,5 @@
 class KillsController < ApplicationController
+	include DistanceOfTimeInWords
 	include TerminationAt
 
 	before_action :set_kill, only: [:show, :edit, :update, :destroy, :confirm]
@@ -139,6 +140,16 @@ class KillsController < ApplicationController
 
 			# Account for if the team is now eliminated.
 			if kill.target.team.eliminated? && !already_eliminated
+				# Give the team an extra day to make the kill if they are low on time.
+				participation = killer_team.participation
+
+				if precise_distance_of_time_in_words_to_now(participation.termination_at, interval: :day) == 0
+					participation.team.remove_autotermination
+					participation.termination_at += 1.day
+					participation.save
+					participation.team.autoterminate
+				end
+
 				# Close current contract.
 				old_contract = killer_team_contract
 
