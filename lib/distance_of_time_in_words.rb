@@ -7,7 +7,12 @@ module DistanceOfTimeInWords
 		distance_in_seconds = ((to_time - from_time).abs).round
 		components = []
 
-		%w(year month week day hour minute).each do |interval|
+		split = %w(year month week day hour minute)
+		if options[:interval]
+			split = split[split.index(options[:interval].to_s)..split.length]
+		end
+
+		split.each do |interval|
 			# For each interval type, if the amount of time remaining is greater than
 			# one unit, calculate how many units fit into the remaining time.
 			if distance_in_seconds >= 1.send(interval)

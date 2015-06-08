@@ -1,4 +1,6 @@
 class Team < ActiveRecord::Base
+	include DistanceOfTimeInWords
+
 	has_many :games, through: :participations
 	has_many :kills, foreign_key: "killer_id"
 	has_many :memberships, dependent: :destroy
@@ -166,5 +168,14 @@ class Team < ActiveRecord::Base
 
 	# The points this team has for comparison 2015.
 	def points(game_id)
+		kill_points = self.kills.where(game_id: game_id).map(&:points).inject(:+) || 0
+		member_ids = self.members(game_id).ids
+		neutralization_points = Neutralization.where(game_id: game_id, target_id: member_ids).count - Neutralization.where(game_id: game_id, killer_id: member_ids).count
+		game = Game.find(game_id)
+		alive_points = self.members(game_id).map do |m|
+			precise_distance_of_time_in_words(game.started_at, m.kill(game_id) ? m.kill(game_id).confirmed_at : game.ended_at, interval: :day)
+		end.inject(:+) || 0
+
+		kill_points + neutralization_points + alive_points
 	end
 end
