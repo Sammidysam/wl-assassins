@@ -16,7 +16,7 @@ module WlAssassins
 		# Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
 		# config.time_zone = 'Central Time (US & Canada)'
 		config.time_zone = "Indiana (East)"
-		
+
 
 		# The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
 		# config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -24,5 +24,10 @@ module WlAssassins
 
 		# Automatically load lib/ modules, so that I can Include them.
 		config.autoload_paths << Rails.root.join("lib")
+
+		# SQL logging is usually annoying; I know how awfully slow my app is.
+		config.after_initialize do
+            ActiveRecord::Base.logger = nil
+        end
 	end
 end
