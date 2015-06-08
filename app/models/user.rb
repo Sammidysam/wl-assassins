@@ -58,11 +58,19 @@ class User < ActiveRecord::Base
 	end
 
 	# Returns the current team for the user.
-	def team
+	# game_id being present returns the team this user was on during that game.
+	def team(game_id = nil)
 		memberships = self.memberships
-		membership = memberships.find { |m| m.active? }
 
-		membership.team if membership
+		if game_id
+			game = Game.find(game_id)
+			created_before = memberships.where("started_at < ?", game.started_at)
+			(created_before.where(ended_at: nil) + created_before.where("ended_at > ?", game.ended_at)).first.team
+		else
+			membership = memberships.find { |m| m.active? }
+
+			membership.team if membership
+		end
 	end
 
 	# Returns true if the user is on the given team.

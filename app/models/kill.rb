@@ -1,4 +1,6 @@
 class Kill < ActiveRecord::Base
+	include DistanceOfTimeInWords
+
 	enum kind: [ :assassination, :termination, :out_of_town, :out_of_time, :disqualification, :quitting ]
 
 	belongs_to :game
@@ -58,6 +60,15 @@ class Kill < ActiveRecord::Base
 	end
 
 	# How many points in comparison 2015 this kill yields.
-	def points(game_id)
+	def points
+		return 0 if self.kind != "assassination" || !self.killer_id
+
+		participation = Participation.find_by(game_id: self.game_id, team_id: self.killer_id)
+		puts self.target.name
+		contract = Contract.find_by(participation_id: participation.id, target_id: self.target.team(self.game_id))
+
+		penalty = contract ? (2 * precise_distance_of_time_in_words(contract.start, self.confirmed_at, interval: :day)) : 0
+
+		10 - penalty
 	end
 end
