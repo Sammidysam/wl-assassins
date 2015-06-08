@@ -67,6 +67,7 @@ class Kill < ActiveRecord::Base
 		contract = Contract.find_by(participation_id: participation.id, target_id: self.target.team(self.game_id))
 
 		penalty = contract ? (2 * precise_distance_of_time_in_words(contract.start, self.confirmed_at, interval: :day)) : 0
+		penalty = 8 if penalty > 8
 
 		10 - penalty
 	end
