@@ -3,7 +3,7 @@ module KillsHelper
 		case kind
 		when "assassination"
 			if current_user.admin?
-				game.remaining_teams.find { |t| t.target.id == target_team_id }.id
+				game.remaining_teams.count > 4 ? game.remaining_teams.find { |t| t.target.id == target_team_id }.id : nil
 			else
 				current_user.team.id
 			end

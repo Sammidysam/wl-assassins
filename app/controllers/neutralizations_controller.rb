@@ -29,7 +29,7 @@ class NeutralizationsController < ApplicationController
 			@neutralization.target_id = @neutralizer.id unless current_user.admin?
 			@neutralization.game_id = @neutralizer.team.participation.game_id
 
-			@possible_targets = @neutralizer.team.target.alive_members if current_user.admin?
+			@possible_targets = (@neutralizer.team.target.is_a?(Team) ? @neutralizer.team.target.alive_members : @neutralizer.team.target.map(&:alive_members).flatten) if current_user.admin?
 		end
 	end
 
@@ -42,7 +42,15 @@ class NeutralizationsController < ApplicationController
 		@neutralization = Neutralization.new(neutralization_params)
 
 		if @neutralization.save
-			redirect_to root_path, notice: "Successfully reported neutralization!"
+			if current_user.admin?
+				if confirm_neutralization(@neutralization)
+                    redirect_to root_path, notice: "Successfully reported and confirmed neutralization!"
+                else
+                    redirect_to root_path, alert: "The neutralization was created, but it could not be confirmed."
+				end
+			else
+				redirect_to root_path, notice: "Successfully reported neutralization!"
+			end
 		else
 			redirect_to root_path, alert: "Could not create neutralization!"
 		end
@@ -69,10 +77,7 @@ class NeutralizationsController < ApplicationController
 
 	# POST /neutralizations/1/confirm
 	def confirm
-		@neutralization.confirmed = true
-		@neutralization.start = DateTime.now
-
-		redirect_to root_path, alert: (@neutralization.save ? nil : "Could not confirm neutralization!")
+		redirect_to root_path, alert: (confirm_neutralization(@neutralization) ? nil : "Could not confirm neutralization!")
 	end
 
 	private
@@ -82,5 +87,12 @@ class NeutralizationsController < ApplicationController
 
 	def neutralization_params
 		params.require(:neutralization).permit(:killer_id, :target_id, :game_id, :how, :picture_url)
+	end
+
+	def confirm_neutralization(n)
+		n.confirmed = true
+        n.start = DateTime.now
+
+		n.save
 	end
 end

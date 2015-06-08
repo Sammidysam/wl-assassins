@@ -40,7 +40,7 @@ class KillsController < ApplicationController
 			@kill.game_id = target_team_participation_game.id
 			@kill.killer_id = view_context.default_killer_id(@kind, target_team_participation_game, @target.team.id)
 
-			@terminators = Team.where(id: target_team_participation_game.participations.where(terminators: true).map(&:team_id))
+			@killer_options = @kill.kind == "termination" ? Team.where(id: target_team_participation_game.participations.where(terminators: true).map(&:team_id)) : Contract.where(completed: false, target_id: @target.team.id).map { |c| c.participation.team unless c.participation.team.eliminated? || c.participation.game_id != @kill.game_id }.compact
 		end
 	end
 
@@ -107,8 +107,13 @@ class KillsController < ApplicationController
 	def confirm_kill(kill)
 		already_eliminated = kill.target.team.eliminated?
 		unless already_eliminated
-			killer_team = kill.assassination? ? kill.killer : kill.game.remaining_teams.find { |team| team.contract.target_id == kill.target.team.id }
-			killer_team_contract = killer_team.contract
+			killer_team = kill.assassination? ? kill.killer : kill.game.remaining_teams.find { |team| team.contract.target_id == kill.target.team.id if team.contract.is_a?(Contract) }
+			if killer_team
+				killer_team_contract = killer_team.contract
+				unless killer_team.contract.is_a?(Contract)
+					killer_team_contract = killer_team_contract.find { |c| c.target_id == kill.target.team.id }
+				end
+			end
 			target_contract = kill.target.team.contract
 		end
 		already_out_of_town = kill.target.team.out_of_town?
@@ -124,7 +129,7 @@ class KillsController < ApplicationController
 			kill.target.remove_out_of_town_kills
 
 			# Reset termination_at for killing team.
-			if kill.assassination? && kill.game.remaining_teams.count > 4
+			if kill.assassination?
 				participation = kill.killer.participation
 
 				# First remove old autotermination kills.
@@ -141,9 +146,9 @@ class KillsController < ApplicationController
 			# Account for if the team is now eliminated.
 			if kill.target.team.eliminated? && !already_eliminated
 				# Give the team an extra day to make the kill if they are low on time.
-				participation = killer_team.participation
+				participation = killer_team.participation if killer_team
 
-				if precise_distance_of_time_in_words_to_now(participation.termination_at, interval: :day) == 0 && kill.game.remaining_teams.count > 4
+				if participation && precise_distance_of_time_in_words_to_now(participation.termination_at, interval: :day) == 0 && kill.game.remaining_teams.count > 4
 					participation.team.remove_autotermination
 					participation.termination_at += 1.day
 					participation.save
@@ -151,12 +156,25 @@ class KillsController < ApplicationController
 				end
 
 				# Close current contract.
-				old_contract = killer_team_contract
+				if kill.game.remaining_teams.count < 4
+					old_contracts = Contract.where(target_id: kill.target.team.id, completed: false)
 
-				old_contract.completed = true
-				old_contract.end = kill.confirmed_at
+					old_contracts.each do |oc|
+						next if oc.participation.game_id != kill.game_id
 
-				old_contract.save
+						oc.completed = true
+						oc.end = kill.confirmed_at
+
+						oc.save
+					end
+				else
+					old_contract = killer_team_contract
+
+					old_contract.completed = true
+					old_contract.end = kill.confirmed_at
+
+					old_contract.save
+				end
 
 				unless kill.game.remaining_teams.count == 1
 					# Create and assign new contract.
@@ -175,7 +193,7 @@ class KillsController < ApplicationController
 								next if team.id == inner_team.id || current_target == inner_team.id
 
 								contract = Contract.new
-								contract.participation_id = team.participation
+								contract.participation_id = team.participation.id
 								contract.target_id = inner_team.id
 								contract.start = kill.confirmed_at
 

@@ -2,7 +2,7 @@
 
 <p>
 	<% case @kill.kind when "assassination", "termination" %>
-		Congratulations on <%= (@kill.kind == "assassination" ? @kill.killer.name : "someone") if current_user.admin? %> <%= @kill.assassination? ? "killing" : "terminating" %> <%= @target.name %>!
+		Congratulations on <%= (@kill.kind == "assassination" && @kill.killer ? @kill.killer.name : "someone") if current_user.admin? %> <%= @kill.assassination? ? "killing" : "terminating" %> <%= @target.name %>!
 	<% when "disqualification" %>
 		It is a shame that <%= @target.name %> has to be disqualified.
 	<% when "quitting" %>
@@ -19,4 +19,4 @@
 	It is optional, but it is greatly appreciated if it is filled out.
 </p>
 
-<%= render "form" %>
+<%= render "form", killer_options: @killer_options %>

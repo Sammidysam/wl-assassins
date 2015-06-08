@@ -67,7 +67,11 @@ class User < ActiveRecord::Base
 
 	# Returns true if the user is on the given team.
 	def on_team?(team)
-		self.team.id == team.id
+		if team.is_a?(Team)
+			self.team.id == team.id
+		else
+			team.map(&:id).include?(self.team.id)
+		end
 	end
 
 	def autoterminate

@@ -219,11 +219,10 @@
 					<% if @team.target.is_a?(Team) %>
 						<%= link_to @team.target.name, @team.target %>.
 					<% else %>
-						<% @team.target.map { |t| link_to(t.name, t) }.to_sentence %>
+						<%= @team.target.map { |t| link_to(t.name, t) }.to_sentence.html_safe %>.
 					<% end %>
-					.
 
-	<% if precise_distance_of_time_in_words_to_now(@team.target.autoterminations.first.appear_at, interval: :day) == 0 %>
+					<% if @team.participation.game.remaining_teams.count > 4 && precise_distance_of_time_in_words_to_now(@team.target.autoterminations.first.appear_at, interval: :day) == 0 %>
 						<b style="color: red">
 							The team you are hunting is slated to be terminated soon!
 							Be warned that your contracted team may change soon.

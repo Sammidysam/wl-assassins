@@ -137,7 +137,7 @@
 
 						<p>Eliminated on <%= team.eliminated_at.in_time_zone.strftime "%b %-d, at %l:%M %p" %></p>
 
-						<p><%= link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default", data: { confirm: "Are you sure?  This will revive ALL members on this team." } %></p>
+						<p><%= (link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default", data: { confirm: "Are you sure?  This will revive ALL members on this team." }) if @game.remaining_teams.count > 4 %></p>
 					</div>
 				<% end %>
 			</div>
@@ -189,23 +189,25 @@
 		</ol>
 	</p>
 
-	<p>
-		The terminators in this game were:
+	<% if @terminators.count > 0 %>
+		<p>
+			The terminators in this game were:
 
-		<ul>
-			<% @game.teams.select { |team| team.terminators?(@game.id) }.each do |team| %>
-				<li>
-					<%= link_to_if_can_read team.name, team %>
+			<ul>
+				<% @terminators.each do |team| %>
+					<li>
+						<%= link_to_if_can_read team.name, team %>
 
-					<ul>
-						<% team.members(@game.id).each do |member| %>
-							<li><%= link_to_if_can_read member.name, member %></li>
-						<% end %>
-					</ul>
-				</li>
-			<% end %>
-		</ul>
-	</p>
+						<ul>
+							<% team.members(@game.id).each do |member| %>
+								<li><%= link_to_if_can_read member.name, member %></li>
+							<% end %>
+						</ul>
+					</li>
+				<% end %>
+			</ul>
+		</p>
+	<% end %>
 <% end %>
 
 <p>

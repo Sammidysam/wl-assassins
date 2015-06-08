@@ -20,7 +20,7 @@ class Kill < ActiveRecord::Base
 	end
 
 	def target_must_be_on_target_team
-		errors.add :target_id, "must be on target team" if self.assassination? && (!target.team || killer.target.id != target.team.id)
+		errors.add :target_id, "must be on target team" if self.kind == "assassination" && (!target.team || (killer.target.is_a?(Team) ? killer.target.id != target.team.id : !killer.target.map(&:id).include?(target.team.id)))
 	end
 
 	# Returns when this is an event.
