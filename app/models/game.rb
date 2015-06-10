@@ -49,7 +49,7 @@ class Game < ActiveRecord::Base
 	end
 
 	def comparison_2015(x, y)
-		x.points(self.id) <=> y.points(self.id)
+		y.points(self.id) <=> x.points(self.id)
 	end
 
 	# Returns the teams in order of their place.
@@ -75,11 +75,14 @@ class Game < ActiveRecord::Base
 			                     :comparison_2014
 		                     end
 
-		sorted_teams = teams_to_sort.sort { |x, y| send sorting_comparison, x, y }
 		# Special case of sorting in comparison 2015.
 		if sorting_comparison == :comparison_2015
-			sorted_teams[1, 3] = sorted_teams[1, 3].sort_by { |t| t.eliminated_at(self.id) }
+			top_four_finding = teams_to_sort.sort { |x, y| y.eliminated_at(self.id) <=> x.eliminated_at(self.id) }
+			top_four = top_four_finding[0, 3]
+			top_four_ids = top_four.map(&:id)
+			teams_to_sort = teams_to_sort.reject { |t| top_four_ids.include?(t.id) }
 		end
+		sorted_teams = teams_to_sort.sort { |x, y| send sorting_comparison, x, y }
 
 		# The hash will be of format:
 		#   key: place (e.g. 3)
@@ -106,8 +109,15 @@ class Game < ActiveRecord::Base
 
 			# Add to the hash.
 			last_key = order_hash.keys.sort.last
-			new_item = { (last_key ? last_key + order_hash[last_key].count : 2) => teams }
+			new_item = { (last_key ? last_key + order_hash[last_key].count : 5) => teams }
 			order_hash.merge! new_item
+		end
+
+		# Because we take the top four out of the tie logic.
+		if sorting_comparison == :comparison_2015
+			top_four.each_with_index do |tf, i|
+				order_hash[i + 2] = [tf]
+			end
 		end
 
 		winner_participation = self.participations.find_by(team_id: winner.id)
