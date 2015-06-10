@@ -54,14 +54,12 @@ class Game < ActiveRecord::Base
 
 	# Returns the teams in order of their place.
 	def place_teams
+		return "Cannot place teams yet!" unless self.completed?
+
 		failed = false
 
 		teams = self.teams
-		winner = teams.find do |team|
-            !team.participations.find_by(game_id: self.id).terminators && !team.members.all? do |member|
-                member.kills.find_by(game_id: self.id, confirmed: true)
-            end
-        end
+		winner = teams.find { |t| !t.terminators?(self.id) && !t.eliminated?(self.id) }
 
 		team_ids_to_sort = self.participations.where(terminators: false).where.not(team_id: winner.id).collect(&:team_id)
 		teams_to_sort = Team.where(id: team_ids_to_sort)
@@ -109,7 +107,7 @@ class Game < ActiveRecord::Base
 
 			# Add to the hash.
 			last_key = order_hash.keys.sort.last
-			new_item = { (last_key ? last_key + order_hash[last_key].count : 5) => teams }
+			new_item = { (last_key ? last_key + order_hash[last_key].count : (sorting_comparison == :comparison_2015 ? 5 : 2)) => teams }
 			order_hash.merge! new_item
 		end
 

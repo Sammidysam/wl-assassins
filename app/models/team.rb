@@ -70,7 +70,7 @@ class Team < ActiveRecord::Base
 
 	# Returns time of the confirmation of the last kill for this team.
 	def eliminated_at(game_id = (participation ? participation.game_id : nil))
-		last_confirmed_kill(game_id) ? (last_confirmed_kill(game_id).appear_at || last_confirmed_kill(game_id).created_at) : nil
+		eliminated?(game_id) && last_confirmed_kill(game_id) ? (last_confirmed_kill(game_id).appear_at || last_confirmed_kill(game_id).created_at) : Game.find(game_id).ended_at
 	end
 
 	# Returns the team that killed this team.
