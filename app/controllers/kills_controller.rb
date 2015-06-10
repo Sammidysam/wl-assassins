@@ -40,7 +40,7 @@ class KillsController < ApplicationController
 			@kill.game_id = target_team_participation_game.id
 			@kill.killer_id = view_context.default_killer_id(@kind, target_team_participation_game, @target.team.id)
 
-			@killer_options = @kill.kind == "termination" ? Team.where(id: target_team_participation_game.participations.where(terminators: true).map(&:team_id)) : Contract.where(completed: false, target_id: @target.team.id).map { |c| c.participation.team unless c.participation.team.eliminated? || c.participation.game_id != @kill.game_id }.compact
+			@killer_options = @kill.kind == "termination" ? Team.where(id: target_team_participation_game.participations.where(terminators: true).map(&:team)) : Contract.where(completed: false, target_id: @target.team.id).map { |c| c.participation.team unless c.participation.team.eliminated? || c.participation.game_id != @kill.game_id }.compact
 		end
 	end
 
