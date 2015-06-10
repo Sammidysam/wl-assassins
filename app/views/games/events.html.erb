@@ -4,7 +4,7 @@
 
 <% if @confirmed_kills.count > 0 || @confirmed_neutralizations.count > 0 %>
 	<p>Occurring in this game have been <%= pluralize @confirmed_kills.count, "kill" %>, <%= pluralize @confirmed_neutralizations.count, "neutralization" %>, and <%= pluralize @eliminated_teams.count, "team elimination" %>.</p>
-	
+
 	<% if @confirmed_kills.count > 0 %>
 		<p>
 			Number of kills for each type of kill in this game:
@@ -16,7 +16,7 @@
 				<% end %>
 			</ul>
 		</p>
-		
+
 		<h2>Kills</h2>
 
 		<ol>
@@ -24,12 +24,15 @@
 				<li>
 					<% if kill.killer(@game.id) %>
 						<%= link_to_if_can_read kill.killer(@game.id).name, kill.killer(@game.id) %>
+						<% if kill.kind == "termination" %>
+							(terminators)
+						<% end %>
 					<% else %>
 						<%= kill.readable_kind.capitalize %>
 					<% end %>
 					<%= glyphicon "arrow-right" %>
 					<%= link_to_if_can_read kill.target.name, kill.target %>
-					
+
 					<ul>
 						<li>Reported on <%= (kill.appear_at || kill.created_at).in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
 						<li>Confirmed on <%= kill.confirmed_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
@@ -56,7 +59,7 @@
 					<%= link_to_if_can_read neutralization.target.name, neutralization.target %>
 					<%= glyphicon "arrow-right" %>
 					<%= link_to_if_can_read neutralization.killer.name, neutralization.killer %>
-					
+
 					<ul>
 						<li>Reported on <%= neutralization.created_at.in_time_zone.strftime "%b %-d at %l:%M %p" %></li>
 						<li>Confirmed on <%= neutralization.start.in_time_zone.strftime "%b %-d %l:%M %p" %></li>
@@ -91,7 +94,7 @@
 					<% end %>
 					<%= glyphicon "arrow-right" %>
 					<%= link_to_if_can_read team.name, team %>
-					
+
 					<ul>
 						<li>
 							<%= link_to_if_can_read team.name, team %>
