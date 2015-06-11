@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 	include TerminationAt
 
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start, :eligibility]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start, :eligibility, :manage]
 
 	load_and_authorize_resource
 
@@ -208,6 +208,10 @@ class GamesController < ApplicationController
 		else
 			redirect_to @game, notice: "All users can play this year!"
 		end
+	end
+
+	# GET /games/1/manage
+	def manage
 	end
 
 	private
