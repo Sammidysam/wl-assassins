@@ -92,71 +92,7 @@
 		</div>
 	<% end %>
 <% elsif @game.in_progress %>
-	<p>This game is currently in progress.</p>
-
-	<h2>Teams</h2>
-
-	<h3>Remaining</h3>
-
-	<% @game.remaining_teams.sort_by { |team| team.alive_members.count }.each_slice(6) do |team_block| %>
-		<div class="row">
-			<% team_block.each do |team| %>
-				<div class="col-md-2">
-					<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
-
-					<h4><%= link_to team.name, team %></h4>
-
-					<p><%= team.alive_members.count %> / <%= team.members.count %> members are still alive.</p>
-					<p>
-						This team is currently <%= team.out_of_town? ? "out-of-town" : "in town" %>.
-						<% if team.out_of_town? %>
-							<%= precise_distance_of_time_in_words_to_now(team.remaining_out_of_town_end, no_time: true).capitalize %> left until termination.
-						<% else %>
-							All members must collectively be out-of-town for <%= precise_distance_of_time_in_words_to_now team.remaining_out_of_town_end, no_time: true %> for termination to occur.
-						<% end %>
-					</p>
-					<p><%= link_to "Reset Out-Of-Town Hours", reset_out_of_town_hours_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
-
-					<p><%= precise_distance_of_time_in_words_to_now(team.participation.termination_at, no_time: true) %> left before autotermination.</p>
-					<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
-				</div>
-			<% end %>
-		</div>
-	<% end %>
-
-	<% if @eliminated_teams.count > 0 %>
-		<h3>Eliminated</h3>
-
-		<% @eliminated_teams.each_slice(6) do |team_block| %>
-			<div class="row">
-				<% team_block.each do |team| %>
-					<div class="col-md-2">
-						<%= image_tag team.logo_url, width: "100%" if team.logo_url %>
-
-						<h4><%= link_to team.name, team %></h4>
-
-						<p>Eliminated on <%= team.eliminated_at.in_time_zone.strftime "%b %-d, at %l:%M %p" %></p>
-
-						<p><%= (link_to "Revive", revive_team_path(team), method: :post, class: "btn btn-default", data: { confirm: "Are you sure?  This will revive ALL members on this team." }) if @game.remaining_teams.count > 4 %></p>
-					</div>
-				<% end %>
-			</div>
-		<% end %>
-	<% end %>
-
-	<h2>Contracts</h2>
-
-	<p>
-		<% if @contract_order_teams.count <= 4 %>
-			Each team is contracted to kill each other.
-		<% else %>
-			<% @contract_order_teams.each do |team| %>
-				<%= link_to team.name, team %>
-				<%= glyphicon "arrow-right" %>
-			<% end %>
-			<%= link_to @contract_order_teams.first.name, @contract_order_teams.first %>
-		<% end %>
-	</p>
+	<%# User view of current game progress. %>
 <% elsif @game.completed? %>
 	<p>This game lasted <%= precise_distance_of_time_in_words @game.started_at, @game.ended_at %>.</p>
 

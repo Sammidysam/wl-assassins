@@ -25,11 +25,13 @@ class Ability
 		can :read, Page
 
 		can :read, Game.all do |game|
-			game.completed?
+			game.in_progress? || game.completed?
 		end
 
 		can :index, Game
 		can :events, Game
+
+		cannot :monitor, Game
 
 		can :index, Kill
 

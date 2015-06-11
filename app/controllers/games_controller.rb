@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 	include TerminationAt
 
-	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start, :eligibility, :manage]
+	before_action :set_game, only: [:show, :edit, :update, :destroy, :events, :team_fees, :add, :remove, :add_all, :remove_all, :start, :eligibility, :monitor]
 
 	load_and_authorize_resource
 
@@ -25,8 +25,7 @@ class GamesController < ApplicationController
 			end
 			@terminators = @game.teams.select { |team| team.terminators?(@game.id) }
 		elsif @game.in_progress?
-			@contract_order_teams = view_context.contract_order_teams(@game)
-            @eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
+
 		end
 	end
 
@@ -211,8 +210,14 @@ class GamesController < ApplicationController
 	end
 
 	# GET /games/1/manage
-	def manage
-	end
+	def monitor
+		if @game.in_progress?
+			@contract_order_teams = view_context.contract_order_teams(@game)
+			@eliminated_teams = @game.eliminated_teams.sort_by { |team| team.eliminated_at }
+		else
+			redirect_to @game
+		end
+    end
 
 	private
 	# Use callbacks to share common setup or constraints between actions.
