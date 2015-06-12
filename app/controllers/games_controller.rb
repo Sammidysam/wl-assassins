@@ -15,17 +15,18 @@ class GamesController < ApplicationController
 	# GET /games/1.json
 	def show
 		if @game.completed?
+			@terminators = @game.teams.select { |team| team.terminators?(@game.id) }
+			non_query_ids = @terminators.map(&:id)
 			@winner = @game.participations.find_by(place: 1).team
 			participations = @game.participations.where.not(place: 1).order(:place)
-			teams = @game.teams.where.not(id: @winner.id)
+			non_query_ids << @winner.id
+			teams = @game.teams.where.not(id: non_query_ids)
 			@places = participations.map { |p| p.place }
 			@ordered_teams = []
 			participations.each do |p|
 				@ordered_teams << teams.find { |t| t.id == p.team_id }
 			end
-			@terminators = @game.teams.select { |team| team.terminators?(@game.id) }
 		elsif @game.in_progress?
-
 		end
 	end
 
