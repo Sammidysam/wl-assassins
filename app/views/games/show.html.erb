@@ -1,6 +1,13 @@
 <h1><%= @game.name %></h1>
 
-<%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
+<% if can?(:update, @game) || can?(:monitor, @game) %>
+	<p>
+		<div class="btn-group">
+			<%= link_to "Edit", edit_game_path(@game), class: "btn btn-default" if can?(:update, @game) %>
+			<%= link_to "Manage", monitor_game_path(@game), class: "btn btn-default" if can?(:monitor, @game) %>
+		</div>
+	</p>
+<% end %>
 
 <%# Admin view for game management. %>
 <% if !@game.completed? && !@game.in_progress %>
