@@ -28,7 +28,7 @@
 		<h2>Current Games</h2>
 
 		<% @ongoing_games.each do |game| %>
-			<h4><%= link_to game.name, game %></h4>
+			<h4><%= link_to game.name, monitor_game_path(game) %></h4>
 			<p><%= link_to "Manage Team Fees", team_fees_game_path(game), class: "btn btn-default btn-xs" %></p>
 
 			<% if Kill.where(game_id: game.id, confirmed: false).select { |kill| kill.appear_at.nil? || kill.appear_at < DateTime.now }.count > 0 %>
