@@ -61,7 +61,7 @@ class Game < ActiveRecord::Base
 		teams = self.teams
 		winner = teams.find { |t| !t.terminators?(self.id) && !t.eliminated?(self.id) }
 
-		team_ids_to_sort = self.participations.where(terminators: false).where.not(team_id: winner.id).collect(&:team_id)
+		team_ids_to_sort = self.participations.where(terminators: false).where.not(team_id: winner.id).map(&:team_id)
 		teams_to_sort = Team.where(id: team_ids_to_sort)
 
 		sorting_comparison = case self.ended_at.year
