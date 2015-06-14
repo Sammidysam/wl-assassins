@@ -153,7 +153,7 @@
 		<% unless @team.eliminated? %>
 			<% unless current_user.terminator? %>
 				<p>
-					Your team is participating in the game <%= @team.participation.game.name %>.
+					Your team is participating in the game <%= link_to @team.participation.game.name, @team.participation.game %>.
 				</p>
 
 				<p>

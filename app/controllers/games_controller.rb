@@ -27,6 +27,7 @@ class GamesController < ApplicationController
 				@ordered_teams << teams.find { |t| t.id == p.team_id }
 			end
 		elsif @game.in_progress?
+			@order_hash = placement_order_hash(@game)
 		end
 	end
 
@@ -229,5 +230,53 @@ class GamesController < ApplicationController
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def game_params
 		params.require(:game).permit(:name, :in_progress, :started_at, :ended_at, :team_fee)
+	end
+
+	def in_game_placement_sort(x, y, game_id)
+		x_alive = !x.eliminated?(game_id)
+        y_alive = !y.eliminated?(game_id)
+
+        if x_alive && y_alive
+            y.points(game_id) <=> x.points(game_id)
+        else
+           x_alive ? -1 : 1
+        end
+    end
+
+    # Returns an order hash for the game in-progress.
+	def placement_order_hash(game)
+		sortable_teams = Team.where(id: game.participations.where(terminators: false).map(&:team_id))
+		sortable_teams = sortable_teams.sort { |x, y| in_game_placement_sort(x, y, game.id) }
+
+		# The hash will be of format:
+        #   key: place (e.g. 3)
+        #   value: array of teams of that place
+        # For example:
+        #   { 2 => [team id 5], 3 => [team id 7, team id 15] }
+        order_hash = {}
+
+        sortable_teams.each_with_index do |team, index|
+            next if order_hash.values.flatten.map { |inner_team| inner_team.id }.include?(team.id)
+
+            teams = [team]
+
+            # Check if this team is tied with any of the next teams.
+            while sortable_teams[index + 1]
+                if in_game_placement_sort(team, sortable_teams[index + 1], game.id) == 0
+                    teams << sortable_teams[index + 1]
+                else
+                    break
+                end
+
+                index += 1
+            end
+
+            # Add to the hash.
+            last_key = order_hash.keys.sort.last
+            new_item = { (last_key ? last_key + order_hash[last_key].count : 1) => teams }
+            order_hash.merge! new_item
+        end
+
+		order_hash
 	end
 end

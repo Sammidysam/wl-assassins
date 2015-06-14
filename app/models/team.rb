@@ -173,7 +173,8 @@ class Team < ActiveRecord::Base
 		neutralization_points = Neutralization.where(game_id: game_id, target_id: member_ids).count - Neutralization.where(game_id: game_id, killer_id: member_ids).count
 		game = Game.find(game_id)
 		alive_points = self.members(game_id).map do |m|
-			precise_distance_of_time_in_words(game.started_at, m.kill(game_id) ? m.kill(game_id).confirmed_at : game.ended_at, interval: :day)
+			member_death_time = m.kill(game_id) ? m.kill(game_id).confirmed_at : (game.ended_at ? game.ended_at : DateTime.now)
+			precise_distance_of_time_in_words(game.started_at, member_death_time, interval: :day)
 		end.inject(:+) || 0
 
 		kill_points + neutralization_points + alive_points

@@ -100,6 +100,26 @@
 	<% end %>
 <% elsif @game.in_progress %>
 	<%# User view of current game progress. %>
+	<h2>Current Placing:</h2>
+
+	<ol>
+		<% @order_hash.each do |k, v| %>
+			<% v.each do |t| %>
+				<li value="<%= k %>">
+					<% if can?(:read, t) %>
+						<%= link_to(t.name, t) %>
+						<% if t.eliminated? %>
+							(eliminated)
+						<% end %>
+					<% end %>
+					<% if (current_user && current_user.admin?) || k > 4 %>
+						<%= t.points(@game.id) %>
+						points
+					<% end %>
+				</li>
+			<% end %>
+		<% end %>
+	</ol>
 <% elsif @game.completed? %>
 	<p>This game lasted <%= precise_distance_of_time_in_words @game.started_at, @game.ended_at %>.</p>
 
@@ -121,6 +141,12 @@
 			<% @ordered_teams.each_with_index do |team, index| %>
 				<li value="<%= @places[index] %>">
 					<%= link_to_if_can_read team.name, team %>
+					<%# Probably shouldn't check for year like that. %>
+					<%# Points should be loaded from participation probably. %>
+					<% if ((current_user && current_user.admin?) || @places[index] > 4) && DateTime.now.year >= 2015 %>
+						-
+						<%= team.points(@game.id) %> points
+					<% end %>
 
 					<ul>
 						<% team.members(@game.id).each do |member| %>
