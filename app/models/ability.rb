@@ -123,7 +123,7 @@ class Ability
 			end
 
 			can :respond, Membership.all do |membership|
-				membership.started_at.nil? && membership.user_id == user.id && user.eligible?
+				membership.started_at.nil? && membership.user_id == user.id && user.eligible? && !membership.team.in_game?
 			end
 
 			can :create, Neutralization if user.alive? && !user.neutralized?
