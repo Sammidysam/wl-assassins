@@ -44,15 +44,15 @@
 		<% @participations.each_with_index do |p, i| %>
 			<li>
 				Participated in game <%= link_to @games[i].name, @games[i] %>.
-
+				<br />
 				Place: <%= p.place %>
-
+				<br />
 				<% if p.place > 4 && @games[i].ended_at.year >= 2015 %>
 					Points: <%= @team.points(@games[i].id) %>
+					<br />
 				<% end %>
-
 				Kills: <%= @team.kills.where(game_id: @games[i].id, confirmed: true).count %>
-
+				<br />
 				Neutralizations: <%= @team.target_neutralizations(@games[i].id).count %>
 			</li>
 		<% end %>
