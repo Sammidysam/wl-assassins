@@ -43,7 +43,7 @@
 	</div>
 <% end %>
 
-<% (4 - @members.count).times do %>
+<% (4 - team.members.count).times do %>
 	<div class="col-md-2">
 		<% if can? :add, team %>
 			<%= form_tag add_team_path(team) do %>

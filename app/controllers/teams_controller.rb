@@ -19,10 +19,6 @@ class TeamsController < ApplicationController
 		normal_users = User.normal.order(:name)
 		@users = normal_users.select { |u| !u.team }
 
-		# Members of this team.
-		@members = @team.members.order(:name)
-		@members.to_a.sort_by! { |m| m.alive? ? 0 : 1 }
-
 		@changes = @team.name_changes
 	end
 
