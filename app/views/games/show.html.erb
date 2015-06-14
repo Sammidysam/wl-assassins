@@ -143,7 +143,7 @@
 					<%= link_to_if_can_read team.name, team %>
 					<%# Probably shouldn't check for year like that. %>
 					<%# Points should be loaded from participation probably. %>
-					<% if ((current_user && current_user.admin?) || @places[index] > 4) && game.ended_at.year >= 2015 %>
+					<% if ((current_user && current_user.admin?) || @places[index] > 4) && @game.ended_at.year >= 2015 %>
 						-
 						<%= team.points(@game.id) %> points
 					<% end %>
