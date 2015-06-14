@@ -34,7 +34,7 @@
 
 <ul>
 	<li>Total Kills: <%= @team.kills.where(confirmed: true).count %></li>
-	<li>Best Place: <%= @max_participation ? @max_participation.place : "?" %></li>
+	<li>Best Place: <%= @max_participation ? @max_participation.place + " (#{@max_participation.game.name})" : "?" %></li>
 </ul>
 
 <% if @participations.count > 0 %>
@@ -45,7 +45,7 @@
 			<li>
 				Participated in game <%= link_to @games[i].name, @games[i] %>.
 				<br />
-				Place: <%= p.place %>
+				Place: <%= p.place %> / <%= @games[i].participations.where(terminators: false).count %>
 				<br />
 				<% if p.place > 4 && @games[i].ended_at.year >= 2015 %>
 					Points: <%= @team.points(@games[i].id) %>
