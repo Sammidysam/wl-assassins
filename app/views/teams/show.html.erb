@@ -34,7 +34,7 @@
 
 <ul>
 	<li>Total Kills: <%= @team.kills.where(confirmed: true).count %></li>
-	<li>Best Place: <%= @max_participation ? @max_participation.place + " (#{@max_participation.game.name})" : "?" %></li>
+	<li>Best Place: <%= @max_participation ? @max_participation.place.to_s + " (#{@max_participation.game.name})" : "?" %></li>
 </ul>
 
 <% if @participations.count > 0 %>
