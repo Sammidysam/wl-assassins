@@ -20,6 +20,10 @@ class TeamsController < ApplicationController
 		@users = normal_users.select { |u| !u.team }
 
 		@changes = @team.name_changes
+
+		# n+1
+		@participations = @team.participations.order(:created_at).select { |p| p.game.completed? }
+		@games = Game.where(id: @participations.map(&:game_id))
 	end
 
 	# GET /teams/new

@@ -30,4 +30,22 @@
 	<p><%= simple_format @team.description %></p>
 <% end %>
 
+<% if @participations.count > 0 %>
+	<h4>Past Games</h4>
+
+	<ul>
+		<% @participations.each_with_index do |p, i| %>
+			<li>
+				Participated in game <%= link_to @games[i].name, @games[i] %>.
+
+				Place: <%= p.place %>
+
+				<% if p.place > 4 && @games[i].ended_at.year >= 2015 %>
+					Points: <%= @team.points(@games[i].id) %>
+				<% end %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
 <%= link_to "Edit", edit_team_path(@team), class: "btn btn-default" if can?(:update, @team) %>
