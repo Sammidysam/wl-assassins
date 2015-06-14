@@ -42,3 +42,19 @@
 		<% end %>
 	</div>
 <% end %>
+
+<% (4 - @members.count).times do %>
+	<div class="col-md-2">
+		<% if can? :add, team %>
+			<%= form_tag add_team_path(team) do %>
+				<h3>Invite Member</h3>
+
+				<%= select_tag :user_id, options_from_collection_for_select(users, "id", "name"), prompt: "Name", class: "form-control" %>
+
+				<%= submit_tag "Invite", class: "btn btn-success" %>
+			<% end %>
+		<% else %>
+			<h3>No Member</h3>
+		<% end %>
+	</div>
+<% end %>
