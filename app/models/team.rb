@@ -117,8 +117,8 @@ class Team < ActiveRecord::Base
 	end
 
 	# Returns all of the neutralizations that the team conducted.
-	def target_neutralizations
-		Neutralization.where(target_id: members.ids)
+	def target_neutralizations(game_id = nil)
+		Neutralization.where(target_id: members(game_id).ids)
 	end
 
 	def remaining_out_of_town_end
