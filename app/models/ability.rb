@@ -50,6 +50,7 @@ class Ability
 				team.members.include? user
 			end
 
+			cannot :add, Team if user.team && user.team.in_game?
 			cannot :remove, Team if user.team && user.team.in_game?
 
 			cannot :revive, Team
