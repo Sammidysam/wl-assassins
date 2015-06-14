@@ -5,7 +5,7 @@
 		<h1><%= @team.name %></h1>
 	</div>
 
-	<% if (current_user && current_user.admin?) || @team.in_game? %>
+	<% if (current_user && (current_user.admin? || (current_user.team && current_user.team.id == @team.id))) || @team.in_game? %>
 		<%= render "members", width: 2, team: @team, users: @users %>
 	<% end %>
 </div>
