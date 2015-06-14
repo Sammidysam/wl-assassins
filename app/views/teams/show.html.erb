@@ -30,6 +30,14 @@
 	<p><%= simple_format @team.description %></p>
 <% end %>
 
+<h4>Stats</h4>
+
+<ul>
+	<li>Total Kills: <%= @team.kills.where(confirmed: true).count %></li>
+	<li>Total Neutralizations: <%= @team.target_neutralizations.where(confirmed: true).count %></li>
+	<li>Highest Place: <%= @participations.maximum(:place) %></li>
+</ul>
+
 <% if @participations.count > 0 %>
 	<h4>Past Games</h4>
 
