@@ -102,24 +102,42 @@
 	<%# User view of current game progress. %>
 	<h2>Current Placing:</h2>
 
-	<ol>
-		<% @order_hash.each do |k, v| %>
-			<% v.each do |t| %>
-				<li value="<%= k %>">
-					<% if can?(:read, t) %>
-						<%= link_to(t.name, t) %>
-						<% if t.eliminated? %>
-							(eliminated)
-						<% end %>
-					<% end %>
-					<% if (current_user && current_user.admin?) || k > 4 %>
-						<%= t.points(@game.id) %>
-						points
-					<% end %>
-				</li>
+	<table>
+		<thead>
+			<tr>
+				<th>Place</th>
+				<th>Team</th>
+				<th>Points</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% @order_hash.each do |k, v| %>
+                <% v.each do |t| %>
+					<tr>
+						<td><%= k %></td>
+						<td>
+							<% if can?(:read, t) %>
+								<%= link_to(t.name, t) %>
+								<% if t.eliminated? %>
+									(eliminated)
+								<% end %>
+							<% else %>
+								?
+							<% end %>
+						</td>
+						<td>
+							<% if (current_user && current_user.admin?) || k > 4 %>
+								<%= t.points(@game.id) %>
+							<% else %>
+								?
+							<% end %>
+						</td>
+					</tr>
+                <% end %>
 			<% end %>
-		<% end %>
-	</ol>
+		</tbody>
+	</table>
 <% elsif @game.completed? %>
 	<p>This game lasted <%= precise_distance_of_time_in_words @game.started_at, @game.ended_at %>.</p>
 
