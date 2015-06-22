@@ -4,12 +4,12 @@
 
 		<h1><%= @user.name %></h1>
 	</div>
-	
+
 	<div class="col-md-8">
 		<% if @user.admin? %>
 			<h3>Administrator</h3>
 		<% end %>
-		
+
 		<% if @user.email_public || (current_user && (@user.id == current_user.id || current_user.admin? || (@user.team && @user.team.members.include?(current_user)))) %>
 			<p>
 				<strong>Email:</strong>
@@ -46,6 +46,13 @@
 
 		<% if @user.description %>
 			<p><%= simple_format @user.description %></p>
+		<% end %>
+
+		<% if current_user && current_user.admin? %>
+			<p>
+				User is <%= "not" unless @user.duplicate %> a duplicate.
+				<%= link_to "Toggle", duplicate_user_path(@user), method: :patch, class: "btn btn-primary btn-xs" %>
+			</p>
 		<% end %>
 	</div>
 </div>

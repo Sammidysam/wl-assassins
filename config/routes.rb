@@ -47,6 +47,7 @@ WlAssassins::Application.routes.draw do
 
 	resources :users do
 		post "out_of_town", on: :member
+		patch "duplicate", on: :member
 		post "revive", on: :member
 	end
 

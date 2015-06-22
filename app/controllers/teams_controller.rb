@@ -16,7 +16,7 @@ class TeamsController < ApplicationController
 	# GET /teams/1.json
 	def show
 		# People available to add to a team.
-		normal_users = User.normal.order(:name)
+		normal_users = User.normal.where(duplicate: false).order(:name)
 		@users = normal_users.select { |u| !u.team }
 
 		@changes = @team.name_changes

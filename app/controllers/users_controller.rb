@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	include Revival
 
-	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town, :revive]
+	before_action :set_user, only: [:show, :edit, :update, :destroy, :out_of_town, :revive, :duplicate]
 
 	load_and_authorize_resource
 
@@ -120,6 +120,23 @@ class UsersController < ApplicationController
 		revive_user @user
 
 		redirect_to @user.team
+	end
+
+    # PATCH /users/1/duplicate
+    def duplicate
+		failed = false
+
+		@user.duplicate = true
+
+		active_memberships = @user.memberships.select { |m| m.active? }
+		active_memberships.each do |m|
+			m.ended_at = DateTime.now
+			failed ||= !m.save
+		end
+
+		failed ||= !@user.save
+
+		redirect_to @user, notice: ("Successfully marked #{@user.name} as a duplicate!" unless failed), alert: ("Could not mark #{@user.name} as a duplicate!" if failed)
 	end
 
 	private
