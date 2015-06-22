@@ -124,19 +124,25 @@ class UsersController < ApplicationController
 
     # PATCH /users/1/duplicate
     def duplicate
-		failed = false
+		if !@user.duplicate
+			failed = false
 
-		@user.duplicate = true
+			@user.duplicate = true
 
-		active_memberships = @user.memberships.select { |m| m.active? }
-		active_memberships.each do |m|
-			m.ended_at = DateTime.now
-			failed ||= !m.save
+			active_memberships = @user.memberships.select { |m| m.active? }
+			active_memberships.each do |m|
+				m.ended_at = DateTime.now
+				failed ||= !m.save
+			end
+
+			failed ||= !@user.save
+
+			redirect_to @user, notice: ("Successfully marked #{@user.name} as a duplicate!" unless failed), alert: ("Could not mark #{@user.name} as a duplicate!" if failed)
+		else
+			@user.duplicate = false
+
+			@user.save
 		end
-
-		failed ||= !@user.save
-
-		redirect_to @user, notice: ("Successfully marked #{@user.name} as a duplicate!" unless failed), alert: ("Could not mark #{@user.name} as a duplicate!" if failed)
 	end
 
 	private
