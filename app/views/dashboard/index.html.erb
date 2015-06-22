@@ -145,7 +145,7 @@
 
 	<% if @team && !@team.participations.select { |participation| participation.game.pregame? }.empty? %>
 		<p>
-			Your team is scheduled to participate in <%= pluralize @team.participations.select { |participation| participation.game.pregame? }.count, "game" %>: <%= @team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to participation.game.name, participation.game }.to_sentence %>.
+			Your team is scheduled to participate in <%= pluralize @team.participations.select { |participation| participation.game.pregame? }.count, "game" %>: <%= @team.participations.select { |participation| participation.game.pregame? }.map { |participation| link_to_if_can_read participation.game.name, participation.game }.to_sentence %>.
 		</p>
 	<% end %>
 
