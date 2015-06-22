@@ -131,8 +131,7 @@ class UsersController < ApplicationController
 
 			active_memberships = @user.memberships.select { |m| m.active? }
 			active_memberships.each do |m|
-				m.ended_at = DateTime.now
-				failed ||= !m.save
+				failed ||= !m.update_attribute(:ended_at, DateTime.now)
 			end
 
 			failed ||= !@user.save
