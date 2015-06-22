@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
 	validates :password, confirmation: true, presence: true, on: :create
 	validates :email, :name, :phone_number, :address, :graduation_year, :profile_picture_url, :willing_to_pay_amount, :description, presence: true
-	validates :email, email_format: { message: "is not valid" }
+	validates :email, email_format: { message: "is not a real email" }
 	validates :phone_number, format: { with: /\d{3}-\d{3}-\d{4}|\d{3}-\d{4}/, message: "has an incorrect format" }
 	validates :name, :email, :password_digest, :phone_number, :address, :profile_picture_url, length: { maximum: 255 }
 
