@@ -76,7 +76,7 @@ class Ability
 				end
 			end
 
-			can :create, Team if !user.team && user.eligible?
+			can :create, Team if !user.team && user.eligible? && !user.duplicate
 			can :index, Team if user.team
 
 			if user.team

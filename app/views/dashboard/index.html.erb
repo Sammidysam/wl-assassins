@@ -128,7 +128,7 @@
 		<% if @team %>
 			You are a member of <%= link_to @team.name, @team %>.
 		<% else %>
-			<% if current_user.eligible? %>
+			<% if current_user.eligible? && !current_user.duplicate %>
 				You are not a member of any team.
 				A friend may add you to their team; you will receive an invitation that will be shown below.
 				Otherwise, you can create your own team or revive a disbanded team.
@@ -138,7 +138,12 @@
 
 				<%= link_to "Create Team", new_team_path, class: "btn btn-default btn-sm" %>
 			<% else %>
-				You are not eligible to play the game anymore, but you are free to view the history of what has happened in the game.
+				<% unless current_user.eligible? %>
+					You are not eligible to play the game anymore, but you are free to view the history of what has happened in the game.
+				<% else %>
+					This account is marked as a duplicate and thus cannot play the game.
+					Contact an admin to remedy this issue.
+				<% end %>
 			<% end %>
 		<% end %>
 	</p>
