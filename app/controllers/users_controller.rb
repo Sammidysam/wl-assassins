@@ -142,6 +142,8 @@ class UsersController < ApplicationController
 			@user.duplicate = false
 
 			@user.save
+
+			redirect_to @user
 		end
 	end
 
