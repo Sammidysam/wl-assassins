@@ -3,9 +3,9 @@
 <%= form_tag switch_user_path, method: :patch do %>
 	<% unless session[:previous_user_id] %>
 		<div class="form-group">
-			<%= label_tag :user_name %>
+			<%= label_tag :user_id %>
 			<br>
-			<%= select_tag :user_name, options_for_select(user_names), class: "form-control" %>
+			<%= select_tag :user_id, options_from_collection_for_select(select_users, "id", "name"), class: "form-control" %>
 		</div>
 
 		<%= submit_tag "Go", class: "btn btn-success" %>

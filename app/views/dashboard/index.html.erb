@@ -1,7 +1,7 @@
 <h1>Dashboard</h1>
 
 <% if Rails.env.development? && (current_user.admin? || session[:previous_user_id]) %>
-	<%= render "switch_user_select", user_names: @user_names %>
+	<%= render "switch_user_select", select_users: @select_users %>
 <% end %>
 
 <% if current_user.admin? %>

@@ -15,8 +15,7 @@ class DashboardController < ApplicationController
 
 			# Variables passed to the switch_user_select partial.
 			if Rails.env.development? && current_user
-				select_users = User.where.not(id: current_user.id).order(:name)
-				@user_names = select_users.map(&:name)
+				@select_users = User.where.not(id: current_user.id).order(:name)
 			end
 		end
 	end
@@ -25,7 +24,7 @@ class DashboardController < ApplicationController
 		# First ensure the right people are doing this.
 		if current_user && (current_user.admin? || session[:previous_user_id]) && Rails.env.development?
 			unless session[:previous_user_id]
-				user = User.find_by name: params[:user_name]
+				user = User.find_by id: params[:user_id]
 
 				session[:previous_user_id] = session[:user_id]
 				session[:user_id] = user.id
