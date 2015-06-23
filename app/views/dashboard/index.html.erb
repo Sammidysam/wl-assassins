@@ -127,6 +127,13 @@
 	<p>
 		<% if @team %>
 			You are a member of <%= link_to @team.name, @team %>.
+			<% if !@team.in_game? %>
+				<%= form_tag remove_team_path(@team) do %>
+					<%= hidden_field_tag :email, current_user.email %>
+
+					<%= submit_tag "Leave Team", class: "btn btn-danger btn-sm" %>
+				<% end %>
+			<% end %>
 		<% else %>
 			<% if current_user.eligible? && !current_user.duplicate %>
 				You are not a member of any team.
