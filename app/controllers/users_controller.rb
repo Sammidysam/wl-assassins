@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 	# GET /users
 	# GET /users.json
 	def index
-		@users = User.order(:name).select { |user| can? :read, user }
+		@users = User.order(:name).select { |user| can?(:read, user) && !user.duplicate }
 	end
 
 	# GET /users/1
