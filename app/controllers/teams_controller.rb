@@ -17,7 +17,7 @@ class TeamsController < ApplicationController
 	def show
 		# People available to add to a team.
 		normal_users = User.normal.where(duplicate: false).order(:name)
-		@users = normal_users.select { |u| !u.team && u.eligible }
+		@users = normal_users.select { |u| !u.team && u.eligible? }
 
 		@changes = @team.name_changes
 
