@@ -21,7 +21,7 @@ class TeamsController < ApplicationController
 
 		@changes = @team.name_changes
 
-		# n+1
+		# n+1 :(
 		@participations = @team.participations.order(:created_at).select { |p| p.game.completed? }
 		@max_participation = @participations.max { |x, y| y.place <=> x.place }
 		@games = Game.where(id: @participations.map(&:game_id))
