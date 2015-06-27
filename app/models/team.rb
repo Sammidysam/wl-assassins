@@ -168,7 +168,7 @@ class Team < ActiveRecord::Base
 
 	# The points this team has for comparison 2015.
 	def points(game_id)
-		kill_points = self.kills.where(game_id: game_id).map(&:points).inject(:+) || 0
+		kill_points = self.kills.where(game_id: game_id, confirmed: true).map(&:points).inject(:+) || 0
 		member_ids = self.members(game_id).ids
 		neutralization_points = Neutralization.where(game_id: game_id, target_id: member_ids).count - Neutralization.where(game_id: game_id, killer_id: member_ids).count
 		game = Game.find(game_id)
