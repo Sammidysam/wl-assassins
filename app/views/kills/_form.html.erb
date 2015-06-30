@@ -23,7 +23,7 @@
 		<%= f.text_area :how, class: "form-control" %>
 	</div>
 
-	<% if edit.nil? && current_user.admin? && @kill.kind && (@kill.kind == "termination" || (@kill.kind == "assassination" && @kill.game.remaining_teams.count <= 4)) %>
+	<% if killer_options && current_user.admin? && @kill.kind && (@kill.kind == "termination" || (@kill.kind == "assassination" && @kill.game.remaining_teams.count <= 4)) %>
 		<div class="form-group">
 			<%= f.label :killer_id, "Who made this kill?" %>
 			<br>
