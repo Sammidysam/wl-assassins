@@ -234,9 +234,9 @@ class GamesController < ApplicationController
 
 	def in_game_placement_sort(x, y, game_id)
 		x_alive = !x.eliminated?(game_id)
-        y_alive = !y.eliminated?(game_id)
+		y_alive = !y.eliminated?(game_id)
 
-        if x_alive && y_alive
+        if x_alive == y_alive
             y.points(game_id) <=> x.points(game_id)
         else
            x_alive ? -1 : 1
