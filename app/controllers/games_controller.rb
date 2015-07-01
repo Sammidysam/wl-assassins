@@ -245,6 +245,7 @@ class GamesController < ApplicationController
 
     # Returns an order hash for the game in-progress.
 	def placement_order_hash(game)
+		# Top four teams are not sorted specially here, which could cause problems later.
 		sortable_teams = Team.where(id: game.participations.where(terminators: false).map(&:team_id))
 		sortable_teams = sortable_teams.sort { |x, y| in_game_placement_sort(x, y, game.id) }
 
