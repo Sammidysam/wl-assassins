@@ -210,6 +210,9 @@ class KillsController < ApplicationController
 							participation.termination_at = next_termination_at(kill.game.remaining_teams.count)
 
 							participation.save
+
+							team.remove_autotermination
+							team.autoterminate
 						end
 					end
 				else
