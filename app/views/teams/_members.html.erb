@@ -38,7 +38,7 @@
 			<% else %>
 				<p>Died via <%= member.kill.readable_kind %></p>
 
-				<% if can?(:revive, User) %>
+				<% if !(team.eliminated? && team.participation.game.remaining_teams.count == 4) && can?(:revive, User) %>
 					<p><%= link_to "Revive", revive_user_path(member), method: :post, class: "btn btn-default" %></p>
 				<% end %>
 			<% end %>
