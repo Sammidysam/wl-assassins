@@ -98,7 +98,7 @@
 
 	<%= link_to "Create Game", new_game_path, class: "btn btn-default" %>
 <% else %>
-	<% if current_user.in_game? && !current_user.terminator? %>
+	<% if current_user.in_game? && !current_user.terminator? && !@team.eliminated? %>
 		<p>
 			You have <%= precise_distance_of_time_in_words_to_now @team.participation.termination_at, no_time: true %> left to complete an assassination before autotermination.
 
