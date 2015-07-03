@@ -35,7 +35,7 @@
 				</p>
 				<p><%= link_to "Reset Out-Of-Town Hours", reset_out_of_town_hours_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 
-				<p><%= precise_distance_of_time_in_words_to_now(team.participation.termination_at, no_time: true) %> left before autotermination.</p>
+				<p><%= precise_distance_of_time_in_words_to_now(team.participation.termination_at, no_time: true).capitalize %> left before autotermination.</p>
 				<p><%= link_to "Reset Autotermination Time", reset_termination_at_team_path(team), method: :post, class: "btn btn-default btn-sm", style: "white-space: normal", data: { confirm: "Are you sure?" } %></p>
 			</div>
 		<% end %>
