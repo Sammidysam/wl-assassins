@@ -122,10 +122,10 @@ class KillsController < ApplicationController
 		kill.confirmed_at = DateTime.now
 
 		if kill.save
-			# Remove autotermination for dead team.
+			# Remove autotermination for dead member.
 			kill.target.remove_autotermination
 
-			# Remove out-of-town kills for dead team.
+			# Remove out-of-town kills for dead member.
 			kill.target.remove_out_of_town_kills
 
 			# Reset termination_at for killing team.
