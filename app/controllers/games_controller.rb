@@ -232,12 +232,16 @@ class GamesController < ApplicationController
 		params.require(:game).permit(:name, :in_progress, :started_at, :ended_at, :team_fee)
 	end
 
-	def in_game_placement_sort(x, y, game_id)
+	def in_game_placement_sort(x, y, game_id, top_four = false)
 		x_alive = !x.eliminated?(game_id)
 		y_alive = !y.eliminated?(game_id)
 
         if x_alive == y_alive
-            y.points(game_id) <=> x.points(game_id)
+			if top_four && !x_alive && !y_alive
+				y.eliminated_at(game_id) <=> x.eliminated_at(game_id)
+			else
+				y.points(game_id) <=> x.points(game_id)
+			end
         else
            x_alive ? -1 : 1
         end
@@ -248,6 +252,7 @@ class GamesController < ApplicationController
 		# Top four teams are not sorted specially here, which could cause problems later.
 		sortable_teams = Team.where(id: game.participations.where(terminators: false).map(&:team_id))
 		sortable_teams = sortable_teams.sort { |x, y| in_game_placement_sort(x, y, game.id) }
+		sortable_teams[0, 4] = sortable_teams[0, 4].sort { |x, y| in_game_placement_sort(x, y, game.id, true) }
 
 		# The hash will be of format:
         #   key: place (e.g. 3)
@@ -259,22 +264,25 @@ class GamesController < ApplicationController
         sortable_teams.each_with_index do |team, index|
             next if order_hash.values.flatten.map { |inner_team| inner_team.id }.include?(team.id)
 
+			last_key = order_hash.keys.sort.last
+			current_place = last_key ? last_key + order_hash[last_key].count : 1
             teams = [team]
 
             # Check if this team is tied with any of the next teams.
-            while sortable_teams[index + 1]
-                if in_game_placement_sort(team, sortable_teams[index + 1], game.id) == 0
-                    teams << sortable_teams[index + 1]
-                else
-                    break
-                end
+			if current_place > 4
+				while sortable_teams[index + 1]
+					if in_game_placement_sort(team, sortable_teams[index + 1], game.id) == 0
+						teams << sortable_teams[index + 1]
+					else
+						break
+					end
 
-                index += 1
-            end
+					index += 1
+				end
+			end
 
             # Add to the hash.
-            last_key = order_hash.keys.sort.last
-            new_item = { (last_key ? last_key + order_hash[last_key].count : 1) => teams }
+            new_item = { current_place => teams }
             order_hash.merge! new_item
         end
 
